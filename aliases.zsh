@@ -29,7 +29,6 @@ case `uname` in
         alias pbpaste='xsel --clipboard --output'
         alias tf9='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
         alias tf11='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
-        alias kubeme='minikube start --vm-driver kvm2 --loglevel 0 --logtostderr && eval $(minikube docker-env) && kubectl config use-context minikube'
     ;;
     Darwin)
         alias tf9='rm /usr/local/bin/terraform && ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'

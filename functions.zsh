@@ -74,6 +74,15 @@ function ff() { find . -type f -iname '*'$*'*' -ls ; }
 # Find a file with pattern $1 in name and Execute $2 on it:
 function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 
+function kubeme(){
+    minikube status >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        minikube start --vm-driver kvm2 --loglevel 0 --logtostderr
+    fi
+    eval $(minikube docker-env)
+    kubectl config use-context minikube >/dev/null 2>&1
+}
+
 ### These functions are for prompt customization
 zsh_wifi_signal(){
 	local signal=$(nmcli -t device wifi 2>/dev/null | grep '^*' | awk -F':' '{print $6}')

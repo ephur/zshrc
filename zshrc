@@ -1,5 +1,5 @@
 # Set the base path
-export PATH=/home/ephur/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
+export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
 
 # ZSH Profile; Now with more oh-my-zsh per gallon
 ZSH=${HOME}/.zsh
@@ -76,6 +76,13 @@ zstyle ":completion:*" matcher-list \
   "l:|=* r:|=*"
 
 zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
+
+# Add kubectl/minikube completion
+for i in kubectl minikube; do
+    if [ -f "${HOME}/bin/${i}" ]; then
+        source <(${HOME}/bin/${i} completion zsh)
+    fi
+done
 
 # Source all of the other things
 for filename in aliases.zsh environment.zsh functions.zsh secrets.zsh do;
