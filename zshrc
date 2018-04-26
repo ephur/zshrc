@@ -6,6 +6,7 @@ ZSH=${HOME}/.zsh
 
 # Settings for zplug plugins
 ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOCONNECT=false
 _Z_DATA=~/.zsh_dir_history
 
 # Bootstrap .oh-my-zsh settings
@@ -58,6 +59,7 @@ setopt hist_find_no_dups        # Dont display duplicates during searches.
 setopt hist_ignore_dups         # Ignore consecutive duplicates.
 setopt hist_reduce_blanks       # Remove superfluous blanks.
 setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
+# bindkey -s "\C-r" "\eqhh\n"     # Use hstr for history searches
 
 # Misc Options
 setopt extended_glob
@@ -77,8 +79,8 @@ zstyle ":completion:*" matcher-list \
 
 zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
-# Add kubectl/minikube completion
-for i in kubectl minikube; do
+# Add kubectl/minikube/helm completion
+for i in kubectl minikube helm; do
     if [ -f "${HOME}/bin/${i}" ]; then
         source <(${HOME}/bin/${i} completion zsh)
     fi
@@ -106,7 +108,7 @@ fi
 # Setup goenv
 if [ "-d ${HOME}/.goenv" ]; then
     export GOENV_ROOT="${HOME}/.goenv"
-    export PATH="${HOME}/.goenv/bin:${PATH}"
+    export PATH="${HOME}/.goenv/bin:${PATH}:${GOPATH}/bin"
     eval "$(goenv init -)"
 fi
 

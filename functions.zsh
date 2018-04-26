@@ -77,10 +77,20 @@ function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 function kubeme(){
     minikube status >/dev/null 2>&1
     if [ $? -ne 0 ]; then
-        minikube start --vm-driver kvm2 --loglevel 0 --logtostderr
+        minikube start --vm-driver kvm2 --loglevel 0 --logtostderr \
+          --cpus 6 \
+          --memory 24576 \
+          --extra-config=kubelet.authentication-token-webhook=true \
+          --extra-config=kubelet.authorization-mode=Webhook \
+          --extra-config=scheduler.address=0.0.0.0 \
+          --extra-config=controller-manager.address=0.0.0.0 
     fi
-    eval $(minikube docker-env)
+    # eval $(minikube docker-env)
     kubectl config use-context minikube >/dev/null 2>&1
+}
+
+function docker_kube(){
+    eval $(minikube docker-env)
 }
 
 ### These functions are for prompt customization

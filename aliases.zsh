@@ -10,7 +10,10 @@ alias more='less'
 alias h='history'
 alias j='jobs -l'
 alias which='type -a'
+alias history='history 0'
 alias grep='grep --color=auto'
+alias neofetch='neofetch --config ~/.nf.conf'
+alias neofetchu='neofetch --config ~/.nf.conf -su'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
