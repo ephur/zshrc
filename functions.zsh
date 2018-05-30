@@ -11,6 +11,14 @@ function kssh(){
   fi
 }
 
+function kc(){
+  if [ -n "${1}" ]; then
+    echo 'kc "context"'
+  fi 
+
+  kubectl config use-context ${1}
+}
+
 function retag(){
   git tag -d ${1}
   git tag ${1}
@@ -79,7 +87,7 @@ function kubeme(){
     if [ $? -ne 0 ]; then
         minikube start --vm-driver kvm2 --loglevel 0 --logtostderr \
           --cpus 6 \
-          --memory 24576 \
+          --memory 8192 \
           --extra-config=kubelet.authentication-token-webhook=true \
           --extra-config=kubelet.authorization-mode=Webhook \
           --extra-config=scheduler.address=0.0.0.0 \
@@ -123,3 +131,8 @@ zsh_kube_context() {
     fi
     echo -n "\uE7B2 k8s: ${context}/${namespace}"
 }
+
+wttr() {
+    curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-San%20Antonio,TX}"
+}
+

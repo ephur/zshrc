@@ -14,16 +14,30 @@ if [ -f "${ZSH}/powerline9k.zsh" ]; then
   . ${ZSH}/powerline9k.zsh
 fi
 
+# Setup pyenv/before plugins that require python
+if [ "-d ${HOME}/.pyenv" ]; then
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+    export PYENV_ROOT="${HOME}/.pyenv"
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+    eval "$(pyenv init -)"
+fi
+
+# Setup goenv/before plugins that require go
+if [ "-d ${HOME}/.goenv" ]; then
+    export GOENV_ROOT="${HOME}/.goenv"
+    export PATH="${HOME}/.goenv/bin:${PATH}:${GOPATH}/bin"
+    eval "$(goenv init -)"
+    if [ "-f ${HOME}/.goenv/completions/goenv.zsh" ]; then
+        . ${HOME}/.goenv/completions/goenv.zsh
+    fi
+fi
+
 # ZSH Plugins
 if [ -f "${ZSH}/zplug.zsh" ]; then
     . ${ZSH}/zplug.zsh
 fi
 
-
-
-#######################################################################
-### Oh MY Zsh is not _MY_ zsh, so it still needs a little more work ###
-#######################################################################
+# Finish setting ZSH options that are not handled by zplug
 # Include other parts of the zsh profile
 
 # Set key binds
@@ -32,7 +46,6 @@ bindkey '^[^[[C' forward-word
 bindkey '^[^[[D' backward-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
-
 bindkey "^a" beginning-of-line
 bindkey "^e" end-of-line
 bindkey "^f" forward-word
@@ -42,21 +55,23 @@ bindkey "^d" delete-char
 bindkey "^y" accept-and-hold
 bindkey "^w" backward-kill-word
 bindkey "^u" backward-kill-line
-#bindkey "^R" history-incremental-pattern-search-backward
+# Using custom history
+# bindkey "^R" history-incremental-pattern-search-backward
 bindkey "^F" history-incremental-pattern-search-forward
 bindkey "^i" expand-or-complete-prefix
 bindkey '^[^?' backward-kill-word
 
 # Set history behavior
 HISTFILE=~/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
+export HISTSIZE=100000
+export SAVEHIST=${HISTSIZE}
 setopt append_history           # Dont overwrite history
 setopt extended_history         # Also record time and duration of commands.
 setopt share_history            # Share history between multiple shells
 setopt hist_expire_dups_first   # Clear duplicates when trimming internal hist.
 setopt hist_find_no_dups        # Dont display duplicates during searches.
 setopt hist_ignore_dups         # Ignore consecutive duplicates.
+setopt hist_ignore_space        # Ignore items that start with a space
 setopt hist_reduce_blanks       # Remove superfluous blanks.
 setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
 # bindkey -s "\C-r" "\eqhh\n"     # Use hstr for history searches
@@ -95,21 +110,6 @@ fi
 # Bring in dir colors
 if [ -f ${ZSH}/dircolors ]; then
     eval `dircolors ${ZSH}/dircolors`
-fi
-
-# Setup pyenv
-if [ "-d ${HOME}/.pyenv" ]; then
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-    eval "$(pyenv init -)"
-fi
-
-# Setup goenv
-if [ "-d ${HOME}/.goenv" ]; then
-    export GOENV_ROOT="${HOME}/.goenv"
-    export PATH="${HOME}/.goenv/bin:${PATH}:${GOPATH}/bin"
-    eval "$(goenv init -)"
 fi
 
 # Misc stuff
