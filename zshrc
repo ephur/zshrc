@@ -23,6 +23,7 @@ if [ "-d ${HOME}/.pyenv" ]; then
 fi
 
 # Setup goenv/before plugins that require go
+export GOPATH=~/Projects/go
 if [ "-d ${HOME}/.goenv" ]; then
     export GOENV_ROOT="${HOME}/.goenv"
     export PATH="${HOME}/.goenv/bin:${PATH}:${GOPATH}/bin"
