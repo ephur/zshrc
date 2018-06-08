@@ -25,17 +25,21 @@ zplug "plugins/git",                   from:oh-my-zsh, if:"which git"
 zplug "plugins/go",                    from:oh-my-zsh, if:"which go"
 zplug "plugins/nmap",                  from:oh-my-zsh, if:"which nmap"
 zplug "plugins/sudo",                  from:oh-my-zsh, if:"which sudo"
-zplug "plugins/tmux",                  from:oh-my-zsh, if:"which tmux"
 zplug "plugins/urltools",              from:oh-my-zsh
 zplug "plugins/web-search",            from:oh-my-zsh
 zplug "plugins/z",                     from:oh-my-zsh
 
-if [[ $OSTYPE = (darwin)* ]]; then
+case ${OSTYPE} in
+  darwin*)
     zplug "plugins/osx",               from:oh-my-zsh
-	zplug "plugins/brew",              from:oh-my-zsh, if:"which brew"
-	zplug "plugins/macports",          from:oh-my-zsh, if:"which port"
-fi
-
+    zplug "plugins/brew",              from:oh-my-zsh, if:"which brew"
+    # zplug "plugins/macports",          from:oh-my-zsh, if:"which port"
+    # zplug "plugins/tmux",                  from:oh-my-zsh, if:"which tmux"
+  ;;
+  linux*)
+    zplug "plugins/tmux",                  from:oh-my-zsh, if:"which tmux"
+  ;;
+esac
 
 # Other plugins
 # Need to do some extra stuff for this, nbeed to check it out

@@ -10,8 +10,8 @@ ZSH_TMUX_AUTOCONNECT=false
 _Z_DATA=~/.zsh_dir_history
 
 # Bootstrap .oh-my-zsh settings
-if [ -f "${ZSH}/powerline9k.zsh" ]; then
-  . ${ZSH}/powerline9k.zsh
+if [ -f "${ZSH}/powerlevel9k.zsh" ]; then
+  . ${ZSH}/powerlevel9k.zsh
 fi
 
 # Setup pyenv/before plugins that require python
@@ -108,9 +108,17 @@ for filename in aliases.zsh environment.zsh functions.zsh secrets.zsh do;
 fi
 
 # Bring in dir colors
-if [ -f ${ZSH}/dircolors ]; then
-    eval `dircolors ${ZSH}/dircolors`
-fi
+case $OSTYPE in
+  darwin*)
+    export CLICOLOR=1
+    export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+  ;;
+  linux*)
+    if [ -f ${ZSH}/dircolors ]; then
+          eval `dircolors ${ZSH}/dircolors`
+    fi
+  ;;
+esac
 
 # Misc stuff
 awsregion us-east-1
