@@ -1,5 +1,5 @@
 # Set the base path
-export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
+export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
 
 # ZSH Profile; Now with more oh-my-zsh per gallon
 ZSH=${HOME}/.zsh
@@ -21,6 +21,13 @@ if [ "-d ${HOME}/.pyenv" ]; then
     export PATH="${PYENV_ROOT}/bin:${PATH}"
     eval "$(pyenv init -)"
 fi
+
+# Setup rbenv/before plugins that require python
+#if [ "-d ${HOME}/.rbenv" ]; then
+#    export RBENV_ROOT="${HOME}/.rbenv"
+#    export PATH="${RBENV_ROOT}/bin:${PATH}"
+#    eval "$(rbenv init -)"
+#fi
 
 # Setup goenv/before plugins that require go
 export GOPATH=~/Projects/go
@@ -115,3 +122,6 @@ fi
 
 # Misc stuff
 awsregion us-east-1
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
