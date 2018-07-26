@@ -14,6 +14,7 @@ alias history='history 0'
 alias grep='grep --color=auto'
 alias neofetch='neofetch --config ~/.nf.conf'
 alias neofetchu='neofetch --config ~/.nf.conf -su'
+alias i='or-infra'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"

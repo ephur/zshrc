@@ -133,6 +133,6 @@ zsh_kube_context() {
 }
 
 wttr() {
-    curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-San%20Antonio,TX}"
+    curl -H "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-San%20Antonio,TX}"
 }
 
