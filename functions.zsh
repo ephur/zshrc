@@ -34,48 +34,6 @@ function awsregion() {
     fi
 }
 
-function getRoles() {
-    local kind="${1}"
-    local name="${2}"
-    local namespace="${3:-}"
-
-    kubectl get clusterrolebinding -o json | jq -r "
-      .items[]
-      |
-      select(
-        .subjects[]?
-        |
-        select(
-            .kind == \"${kind}\"
-            and
-            .name == \"${name}\"
-            and
-            (if .namespace then .namespace else \"\" end) == \"${namespace}\"
-        )
-      )
-      |
-      (.roleRef.kind + \"/\" + .roleRef.name)
-    "
-
-    kubectl get rolebinding -o json | jq -r "
-      .items[]
-      |
-      select(
-        .subjects[]?
-        |
-        select(
-            .kind == \"${kind}\"
-            and
-            .name == \"${name}\"
-            and
-            (if .namespace then .namespace else \"\" end) == \"${namespace}\"
-        )
-      )
-      |
-      (.roleRef.kind + \"/\" + .roleRef.name)
-    "
-}
-
 # Find a file with a pattern in name:
 function ff() { find . -type f -iname '*'$*'*' -ls ; }
 
