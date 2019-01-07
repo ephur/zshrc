@@ -28,7 +28,7 @@ function retag(){
 
 function awsregion() {
     if [ -z ${1} ]; then
-        echo 'awsregion region_to_set_as_default'
+        echo "awsregion is ${AWS_DEFAULT_REGION}"
     else
         export AWS_DEFAULT_REGION=${1}
     fi

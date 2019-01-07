@@ -22,6 +22,7 @@ alias platdev0='kubectl --context platdev0'
 alias infradev='kubectl --context infradev'
 alias alphaprd='kubectl --context alphaprd'
 alias infraprd='kubectl --context infraprd'
+alias braze000='kubectl --context braze000'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
