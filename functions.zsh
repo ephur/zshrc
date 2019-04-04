@@ -45,7 +45,9 @@ function kubeme(){
     if [ $? -ne 0 ]; then
       case ${OSTYPE} in
         linux*)
-          minikube start --vm-driver kvm2 --loglevel 0 --logtostderr \
+          minikube start --kubernetes-version v1.13.1 --vm-driver kvm2 \
+            --logtostderr \
+            --stderrthreshold 0 \
             --cpus 6 \
             --memory 8192 \
             --extra-config=kubelet.authentication-token-webhook=true \
@@ -54,7 +56,7 @@ function kubeme(){
             --extra-config=controller-manager.address=0.0.0.0 
         ;;
         darwin*)
-          minikube start --loglevel 0 --logtostderr
+          minikube --kubernetes-version v1.13.1 start
         ;;
       esac
     fi
@@ -107,6 +109,27 @@ zsh_kube_context() {
         namespace='default'
     fi
     echo -n "\uE7B2 k8s: ${context}/${namespace}"
+}
+
+joblog() {
+  if [ -z "${1}" ]; then
+    echo "usage: joblog search-string [context]"
+  else
+    if [ ! -z "${2}" ]; then
+      export CONTEXT="--context ${2}"
+    else
+      export CONTEXT=""
+    fi
+    COUNT=$(kubectl `eval echo ${CONTEXT}` -n jobs get pods | grep Running | grep ${1} | awk '{ print $1 }' | wc -l)
+    if [ $COUNT -lt 1 ]; then
+      echo "no Running pods matching ${1}"
+    elif [ $COUNT -gt 1 ]; then
+      echo "multiple matching running jobs found, be more specific with your search string" 
+      kubectl `eval echo ${CONTEXT}` -n jobs get pods | grep Running | grep ${1} 
+    else
+      kubectl `eval echo ${CONTEXT}` -n jobs get pods | grep Running | grep ${1} | awk '{ print $1 }' | head -1 | xargs kubectl `eval echo ${CONTEXT}` -n jobs logs -fc main
+    fi
+  fi
 }
 
 wttr() {

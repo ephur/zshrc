@@ -130,5 +130,16 @@ case $OSTYPE in
   ;;
 esac
 
+# KREW
+if which kubectl-krew >/dev/null 2>&1; then
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+fi
+
+# PYenv 
+if which pyenv > /dev/null 2>&1; then 
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
