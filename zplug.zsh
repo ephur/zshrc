@@ -48,6 +48,7 @@ zplug "arzzen/calc.plugin.zsh"
 zplug "jimeh/zsh-peco-history"
 zplug "supercrabtree/k"
 zplug "MichaelAquilina/zsh-you-should-use"
+zplug "johanhaleby/kubetail"
 
 # The whole prompt system
 zplug "bhilburn/powerlevel9k",          use:powerlevel9k.zsh-theme

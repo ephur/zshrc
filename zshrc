@@ -120,6 +120,8 @@ case $OSTYPE in
   darwin*)
     export CLICOLOR=1
     export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+    export TERM="xterm-256color"
+    alias z=_z
   ;;
   linux*)
     if [ -f ${ZSH}/dircolors ]; then
