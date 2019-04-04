@@ -14,7 +14,7 @@ function kssh(){
 function kc(){
   if [ -n "${1}" ]; then
     echo 'kc "context"'
-  fi 
+  fi
 
   kubectl config use-context ${1}
 }
@@ -53,7 +53,7 @@ function kubeme(){
             --extra-config=kubelet.authentication-token-webhook=true \
             --extra-config=kubelet.authorization-mode=Webhook \
             --extra-config=scheduler.address=0.0.0.0 \
-            --extra-config=controller-manager.address=0.0.0.0 
+            --extra-config=controller-manager.address=0.0.0.0
         ;;
         darwin*)
           minikube --kubernetes-version v1.13.1 start
@@ -124,15 +124,23 @@ joblog() {
     if [ $COUNT -lt 1 ]; then
       echo "no Running pods matching ${1}"
     elif [ $COUNT -gt 1 ]; then
-      echo "multiple matching running jobs found, be more specific with your search string" 
-      kubectl `eval echo ${CONTEXT}` -n jobs get pods | grep Running | grep ${1} 
+      echo "multiple matching running jobs found, be more specific with your search string"
+      kubectl `eval echo ${CONTEXT}` -n jobs get pods | grep Running | grep ${1}
     else
       kubectl `eval echo ${CONTEXT}` -n jobs get pods | grep Running | grep ${1} | awk '{ print $1 }' | head -1 | xargs kubectl `eval echo ${CONTEXT}` -n jobs logs -fc main
     fi
   fi
 }
 
+docker_auth(){
+  # activates a docker auth, expects ~/.docker/config-<name>.json for auth to activate
+  if [ -f ${HOME}/.docker/config-${1}.json ]; then
+    cp ${HOME}/.docker/config-${1}.json ${HOME}/.docker/config.json
+  else
+    echo "Can't find expected docker auth config: ${HOME}/.docker/config-${1}.json"
+  fi
+}
+
 wttr() {
     curl -H "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-San%20Antonio,TX}"
 }
-
