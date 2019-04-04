@@ -36,7 +36,7 @@ alias rootme='sudo -E /bin/zsh'
 
 # Some platform specific items
 case ${OSTYPE} in
-    Linux*)
+    linux*)
         alias pbcopy='xsel --clipboard --input'
         alias pbpaste='xsel --clipboard --output'
         alias tf9='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
