@@ -1,7 +1,6 @@
 # Set the base path
 export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
 
-# ZSH Profile; Now with more oh-my-zsh per gallon
 ZSH=${HOME}/.zsh
 
 # Settings for zplug plugins
@@ -9,7 +8,7 @@ ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOCONNECT=false
 _Z_DATA=~/.zsh_dir_history
 
-# Bootstrap .oh-my-zsh settings
+# setup customized powerlevel 9k
 if [ -f "${ZSH}/powerlevel9k.zsh" ]; then
   . ${ZSH}/powerlevel9k.zsh
 fi
@@ -22,22 +21,17 @@ if [ "-d ${HOME}/.pyenv" ]; then
     eval "$(pyenv init -)"
 fi
 
-# Setup rbenv/before plugins that require python
-#if [ "-d ${HOME}/.rbenv" ]; then
-#    export RBENV_ROOT="${HOME}/.rbenv"
-#    export PATH="${RBENV_ROOT}/bin:${PATH}"
-#    eval "$(rbenv init -)"
-#fi
-
-# Setup goenv/before plugins that require go
-export GOPATH=~/Projects/go
+# setup for goenv (requires goenv 2+)
 if [ "-d ${HOME}/.goenv" ]; then
+    export GOENV_GOPATH_PREFIX="${HOME}/Projects/go"
     export GOENV_ROOT="${HOME}/.goenv"
-    export PATH="${HOME}/.goenv/bin:${PATH}:${GOPATH}/bin"
+    export PATH="${GOENV_ROOT}/bin:${PATH}"
     eval "$(goenv init -)"
     if [ "-f ${HOME}/.goenv/completions/goenv.zsh" ]; then
         . ${HOME}/.goenv/completions/goenv.zsh
     fi
+    export PATH="${GOROOT}/bin:$PATH"
+    export PATH="${GOPATH}/bin:$PATH"
 fi
 
 # ZSH Plugins
@@ -46,7 +40,6 @@ if [ -f "${ZSH}/zplug.zsh" ]; then
 fi
 
 # Finish setting ZSH options that are not handled by zplug
-# Include other parts of the zsh profile
 
 # Set key binds
 bindkey -e
@@ -63,6 +56,7 @@ bindkey "^d" delete-char
 bindkey "^y" accept-and-hold
 bindkey "^w" backward-kill-word
 bindkey "^u" backward-kill-line
+
 # Using custom history
 # bindkey "^R" history-incremental-pattern-search-backward
 bindkey "^F" history-incremental-pattern-search-forward
@@ -82,7 +76,6 @@ setopt hist_ignore_dups         # Ignore consecutive duplicates.
 setopt hist_ignore_space        # Ignore items that start with a space
 setopt hist_reduce_blanks       # Remove superfluous blanks.
 setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
-# bindkey -s "\C-r" "\eqhh\n"     # Use hstr for history searches
 
 # Misc Options
 setopt extended_glob
@@ -131,16 +124,13 @@ case $OSTYPE in
   ;;
 esac
 
-# KREW
+# KREW (kubectl plugin manager)
 if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
 
-# PYenv 
+# PYenv (python environment manager)
 if which pyenv > /dev/null 2>&1; then 
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
