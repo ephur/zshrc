@@ -7,6 +7,13 @@ ZSH=${HOME}/.zsh
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOCONNECT=false
 _Z_DATA=~/.zsh_dir_history
+case $OSTYPE in
+  linux*)
+  # Default color doesn't work well with my gnome-terminal settings
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bg=244'
+  ;;
+esac
+
 
 # setup customized powerlevel 9k
 if [ -f "${ZSH}/powerlevel9k.zsh" ]; then
