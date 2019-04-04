@@ -42,8 +42,6 @@ case ${OSTYPE} in
 esac
 
 # Other plugins
-# Need to do some extra stuff for this, nbeed to check it out
-# zplug "b4b4r07/enhancd",                use:enhancd.sh
 zplug "arzzen/calc.plugin.zsh"
 zplug "jimeh/zsh-peco-history"
 zplug "supercrabtree/k"
