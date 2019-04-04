@@ -104,8 +104,9 @@ zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
 # Add kubectl/minikube/helm completion
 for i in kubectl minikube helm; do
-    if [ -f "${HOME}/bin/${i}" ]; then
-        source <(${HOME}/bin/${i} completion zsh)
+    L=$(which ${i} | awk '{ print $NF }')
+    if ! [ -z "$L" ] && [ $L != "found" ]; then
+        source <(${L} completion zsh)
     fi
 done
 
