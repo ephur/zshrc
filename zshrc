@@ -10,7 +10,7 @@ _Z_DATA=~/.zsh_dir_history
 case $OSTYPE in
   linux*)
   # Default color doesn't work well with my gnome-terminal settings
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bg=244'
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
   ;;
 esac
 
