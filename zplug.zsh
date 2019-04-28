@@ -45,7 +45,8 @@ esac
 zplug "arzzen/calc.plugin.zsh"
 zplug "jimeh/zsh-peco-history"
 zplug "supercrabtree/k"
-zplug "MichaelAquilina/zsh-you-should-use"
+# turns out I find this annoying
+# zplug "MichaelAquilina/zsh-you-should-use"
 zplug "johanhaleby/kubetail"
 
 # The whole prompt system

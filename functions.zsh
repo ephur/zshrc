@@ -135,7 +135,7 @@ joblog() {
 docker_auth(){
   # activates a docker auth, expects ~/.docker/config-<name>.json for auth to activate
   if [ -f ${HOME}/.docker/config-${1}.json ]; then
-    cp ${HOME}/.docker/config-${1}.json ${HOME}/.docker/config.json
+    /bin/cp -bf ${HOME}/.docker/config-${1}.json ${HOME}/.docker/config.json
   else
     echo "Can't find expected docker auth config: ${HOME}/.docker/config-${1}.json"
   fi
