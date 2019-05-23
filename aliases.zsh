@@ -41,6 +41,7 @@ case ${OSTYPE} in
         alias pbpaste='xsel --clipboard --output'
         alias tf9='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
         alias tf11='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
+        alias tf12='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform12 /usr/local/bin/terraform'
         alias ls='ls -hF --color=auto'
     ;;
     darwin*)
