@@ -45,7 +45,8 @@ case ${OSTYPE} in
         alias ls='ls -hF --color=auto'
     ;;
     darwin*)
-        alias tf9='rm /usr/local/bin/terraform && ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
-        alias tf11='rm /usr/local/bin/terraform && ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
+        alias tf9='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
+        alias tf11='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
+        alias tf12='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform12 /usr/local/bin/terraform'
     ;;
 esac
