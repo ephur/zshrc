@@ -45,7 +45,7 @@ function kubeme(){
     if [ $? -ne 0 ]; then
       case ${OSTYPE} in
         linux*)
-          minikube start --kubernetes-version v1.13.1 --vm-driver kvm2 \
+          minikube start --kubernetes-version v1.14.4 --vm-driver kvm2 \
             --logtostderr \
             --stderrthreshold 0 \
             --cpus 6 \
@@ -56,7 +56,7 @@ function kubeme(){
             --extra-config=controller-manager.address=0.0.0.0
         ;;
         darwin*)
-          minikube --kubernetes-version v1.13.1 start
+          minikube --kubernetes-version v1.14.4 start
         ;;
       esac
     fi
@@ -143,4 +143,8 @@ docker_auth(){
 
 wttr() {
     curl -H "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-San%20Antonio,TX}"
+}
+
+function codec() {
+  ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
