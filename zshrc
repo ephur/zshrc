@@ -11,14 +11,14 @@ export ZSH_CACHE_DIR=${ZSH}/cache
 
 # Some tweaks if WSL (windows subsytem for linux) is in use
 if [ -f ${ZSH}/wsl ]; then
-  ZSH_TMUX_AUTOSTART=false
-  ZSH_TMUX_AUTOCONNECT=false
   IS_WINDOWS=1
 else
   IS_WINDOWS=0
-  ZSH_TMUX_AUTOSTART=true
-  ZSH_TMUX_AUTOCONNECT=false
 fi
+
+# Use a new tmux session for any new terminal
+ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOCONNECT=false
 
 # Settings for zplug plugins
 _Z_DATA=~/.zsh_dir_history
