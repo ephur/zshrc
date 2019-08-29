@@ -1,11 +1,26 @@
 # Set the base path
+
+# Load the ZSH profiler 
+zmodload zsh/zprof
+
 export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
+alias compinit='compinit -u'
 
 ZSH=${HOME}/.zsh
+export ZSH_CACHE_DIR=${ZSH}/cache
+
+# Some tweaks if WSL (windows subsytem for linux) is in use
+if [ -f ${ZSH}/wsl ]; then
+  ZSH_TMUX_AUTOSTART=false
+  ZSH_TMUX_AUTOCONNECT=false
+  IS_WINDOWS=1
+else
+  IS_WINDOWS=0
+  ZSH_TMUX_AUTOSTART=true
+  ZSH_TMUX_AUTOCONNECT=false
+fi
 
 # Settings for zplug plugins
-ZSH_TMUX_AUTOSTART=true
-ZSH_TMUX_AUTOCONNECT=false
 _Z_DATA=~/.zsh_dir_history
 case $OSTYPE in
   linux*)
@@ -16,8 +31,8 @@ esac
 
 
 # setup customized powerlevel 9k
-if [ -f "${ZSH}/powerlevel9k.zsh" ]; then
-  . ${ZSH}/powerlevel9k.zsh
+if [ -f "${ZSH}/powerlevel10k.zsh" ]; then
+  . ${ZSH}/powerlevel10k.zsh
 fi
 
 # Setup pyenv/before plugins that require python
@@ -41,10 +56,11 @@ if [ "-d ${HOME}/.goenv" ]; then
     export PATH="${GOPATH}/bin:$PATH"
 fi
 
-# ZSH Plugins
-if [ -f "${ZSH}/zplug.zsh" ]; then
-    . ${ZSH}/zplug.zsh
+# ZSH Plugins (via antibody: http://getantibody.github.io/)
+if [ -f "${ZSH}/antibody_plugins.zsh" ]; then
+    . ${ZSH}/antibody_plugins.zsh
 fi
+
 
 # Finish setting ZSH options that are not handled by zplug
 
@@ -104,7 +120,7 @@ zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
 # Add kubectl/minikube/helm completion
 for i in kubectl minikube helm; do
-    L=$(which ${i} | awk '{ print $NF }')
+    L=$(which ${i} | head -1 | awk '{ print $NF }')
     if ! [ -z "$L" ] && [ $L != "found" ]; then
         source <(${L} completion zsh)
     fi
@@ -130,6 +146,12 @@ case $OSTYPE in
     fi
   ;;
 esac
+
+# WSL specific checks, os type reports to be linux....
+if [ ${IS_WINDOWS} -eq 1 ]; then
+  alias z=_z
+fi
+ 
 
 # KREW (kubectl plugin manager)
 if which kubectl-krew >/dev/null 2>&1; then

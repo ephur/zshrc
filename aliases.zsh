@@ -15,15 +15,6 @@ alias neofetch='neofetch --config ~/.nf.conf'
 alias neofetchu='neofetch --config ~/.nf.conf -su'
 alias i='or-infra'
 
-alias devclus0='kubectl --context devclus0'
-alias staging0='kubectl --context staging0'
-alias infrastg='kubectl --context infrastg'
-alias platdev0='kubectl --context platdev0'
-alias infradev='kubectl --context infradev'
-alias alphaprd='kubectl --context alphaprd'
-alias infraprd='kubectl --context infraprd'
-alias braze000='kubectl --context braze000'
-
 # Extra handy things
 alias resrc="source ~/.zshrc"
 alias gpthis='git push origin HEAD:$(git_current_branch)'

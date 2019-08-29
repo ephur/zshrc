@@ -1,1 +1,5 @@
 secrets.zsh
+wsl
+fastprompt
+*.zwc
+cache/
