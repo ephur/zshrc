@@ -11,12 +11,7 @@ POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR_ICON="%F{$(( ${DEFAULT_BACKGROUND} - 2 )
 POWERLEVEL9K_PROMPT_ON_NEWLINE=false
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-if [ -f ${ZSH}/fastprompt ]; then
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time custom_go_version custom_python_version custom_kube_context newline status command_execution_time context dir root_indicator)
-else 
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time load custom_go_version custom_python_version custom_kube_context vcs newline status command_execution_time context dir_writable dir root_indicator)
-
-fi
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time load custom_go_version custom_python_version custom_kube_context vcs newline status command_execution_time context dir_writable dir root_indicator)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 
 POWERLEVEL9K_CONTEXT_TEMPLATE="\uF109 %m"

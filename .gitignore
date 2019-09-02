@@ -1,9 +1,8 @@
 # Don't commit anything sensitive
 secrets.zsh
 
-# Some settings to control things in WSL
+# Some settings to control things in WSL, if using a shell in WSL, `touch ${ZSH}/wsl`
 wsl
-fastprompt
 
 # cache directory and compiled zsh byte code
 cache/
