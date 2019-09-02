@@ -1,6 +1,6 @@
 # Set the base path
 
-# Load the ZSH profiler 
+# Load the ZSH profiler
 zmodload zsh/zprof
 
 export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
@@ -8,20 +8,19 @@ alias compinit='compinit -u'
 
 ZSH=${HOME}/.zsh
 export ZSH_CACHE_DIR=${ZSH}/cache
+_Z_DATA=~/.zsh_dir_history
 
 # Some tweaks if WSL (windows subsytem for linux) is in use
 if [ -f ${ZSH}/wsl ]; then
   IS_WINDOWS=1
+  ZSH_TMUX_AUTOSTART=false
+  ZSH_TMUX_AUTOCONNECT=false
 else
   IS_WINDOWS=0
+  ZSH_TMUX_AUTOSTART=true
+  ZSH_TMUX_AUTOCONNECT=false
 fi
 
-# Use a new tmux session for any new terminal
-ZSH_TMUX_AUTOSTART=true
-ZSH_TMUX_AUTOCONNECT=false
-
-# Settings for zplug plugins
-_Z_DATA=~/.zsh_dir_history
 case $OSTYPE in
   linux*)
   # Default color doesn't work well with my gnome-terminal settings
@@ -29,42 +28,10 @@ case $OSTYPE in
   ;;
 esac
 
-
-# setup customized powerlevel 9k
-if [ -f "${ZSH}/powerlevel10k.zsh" ]; then
-  . ${ZSH}/powerlevel10k.zsh
-fi
-
-# Setup pyenv/before plugins that require python
-if [ "-d ${HOME}/.pyenv" ]; then
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-    eval "$(pyenv init -)"
-fi
-
-# setup for goenv (requires goenv 2+)
-if [ "-d ${HOME}/.goenv" ]; then
-    export GOENV_GOPATH_PREFIX="${HOME}/Projects/go"
-    export GOENV_ROOT="${HOME}/.goenv"
-    export PATH="${GOENV_ROOT}/bin:${PATH}"
-    eval "$(goenv init -)"
-    if [ "-f ${HOME}/.goenv/completions/goenv.zsh" ]; then
-        . ${HOME}/.goenv/completions/goenv.zsh
-    fi
-    export PATH="${GOROOT}/bin:$PATH"
-    export PATH="${GOPATH}/bin:$PATH"
-fi
-
-# ZSH Plugins (via antibody: http://getantibody.github.io/)
-if which antibody >/dev/null 2>&1; then
-  if [ -f "${ZSH}/antibody_plugins.zsh" ]; then
-    . ${ZSH}/antibody_plugins.zsh
-  fi
-fi
-
-
-# Finish setting ZSH options that are not handled by zplug
+# load prompt, env tools, and antibody early
+. ${ZSH}/env_tools.zsh
+. ${ZSH}/powerlevel10k.zsh
+. ${ZSH}/antibody_setup.zsh
 
 # Set key binds
 bindkey -e
@@ -153,18 +120,9 @@ esac
 if [ ${IS_WINDOWS} -eq 1 ]; then
   alias z=_z
 fi
- 
+
 
 # KREW (kubectl plugin manager)
 if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
-
-# PYenv (python environment manager)
-if which pyenv > /dev/null 2>&1; then 
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && export PATH="$PATH:$HOME/.rvm/bin"
