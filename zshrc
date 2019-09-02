@@ -57,8 +57,10 @@ if [ "-d ${HOME}/.goenv" ]; then
 fi
 
 # ZSH Plugins (via antibody: http://getantibody.github.io/)
-if [ -f "${ZSH}/antibody_plugins.zsh" ]; then
+if which antibody >/dev/null 2>&1; then
+  if [ -f "${ZSH}/antibody_plugins.zsh" ]; then
     . ${ZSH}/antibody_plugins.zsh
+  fi
 fi
 
 
