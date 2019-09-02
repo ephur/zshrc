@@ -87,21 +87,13 @@ zstyle ":completion:*" matcher-list \
 
 zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
-# Add kubectl/minikube/helm completion
-for i in kubectl minikube helm; do
-    L=$(which ${i} | head -1 | awk '{ print $NF }')
-    if ! [ -z "$L" ] && [ $L != "found" ]; then
-        source <(${L} completion zsh)
-    fi
-done
-
 # Source all of the other things
 for filename in aliases.zsh environment.zsh functions.zsh secrets.zsh do;
     if [ -f "${ZSH}/${filename}" ]; then
         . ${ZSH}/${filename}
 fi
 
-# Bring in dir colors
+# Set OS specific options, WSL shell sets linux options + is_windows options
 case $OSTYPE in
   darwin*)
     export CLICOLOR=1
@@ -116,13 +108,6 @@ case $OSTYPE in
   ;;
 esac
 
-# WSL specific checks, os type reports to be linux....
 if [ ${IS_WINDOWS} -eq 1 ]; then
   alias z=_z
-fi
-
-
-# KREW (kubectl plugin manager)
-if which kubectl-krew >/dev/null 2>&1; then
-  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
