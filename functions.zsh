@@ -148,11 +148,3 @@ wttr() {
 function codec() {
   ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
-
-function update_zsh_plugins() {
-  antibody bundle < ~/.zsh/antibody_plugins.txt > ~/.zsh/antibody_plugins.zsh
-  for i in `find ~/.cache/antibody -name '*.zsh' -print`; do 
-    zcompile ${i}
-  done
-  source ~/.zsh/antibody_plugins.zsh; 
-}
