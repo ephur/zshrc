@@ -15,15 +15,6 @@ alias neofetch='neofetch --config ~/.nf.conf'
 alias neofetchu='neofetch --config ~/.nf.conf -su'
 alias i='or-infra'
 
-alias devclus0='kubectl --context devclus0'
-alias staging0='kubectl --context staging0'
-alias infrastg='kubectl --context infrastg'
-alias platdev0='kubectl --context platdev0'
-alias infradev='kubectl --context infradev'
-alias alphaprd='kubectl --context alphaprd'
-alias infraprd='kubectl --context infraprd'
-alias braze000='kubectl --context braze000'
-
 # Extra handy things
 alias resrc="source ~/.zshrc"
 alias gpthis='git push origin HEAD:$(git_current_branch)'
@@ -36,13 +27,15 @@ alias rootme='sudo -E /bin/zsh'
 
 # Some platform specific items
 case ${OSTYPE} in
-    linux*)
-        alias pbcopy='xsel --clipboard --input'
-        alias pbpaste='xsel --clipboard --output'
-        alias tf9='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
-        alias tf11='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
-        alias tf12='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform12 /usr/local/bin/terraform'
-        alias ls='ls -hF --color=auto'
+  linux*)
+    if [ ${IS_WINDOWS} -eq 0 ]; then
+      alias pbcopy='xsel --clipboard --input'
+      alias pbpaste='xsel --clipboard --output'
+    fi
+    alias tf9='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
+    alias tf11='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
+    alias tf12='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform12 /usr/local/bin/terraform'
+    alias ls='ls -hF --color=auto'
     ;;
     darwin*)
         alias tf9='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'

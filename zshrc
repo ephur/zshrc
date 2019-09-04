@@ -1,12 +1,32 @@
-# Set the base path
+# Set the base paths
 export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
-
 ZSH=${HOME}/.zsh
 
-# Settings for zplug plugins
-ZSH_TMUX_AUTOSTART=true
-ZSH_TMUX_AUTOCONNECT=false
+# Load the ZSH profiler
+zmodload zsh/zprof
+
+# initialize completions early
+autoload -Uz compinit
+compinit
+
+export ZSH_CACHE_DIR=${ZSH}/cache
+if [ ! -d ${ZSH_CACHE_DIR} ]; then
+  mkdir -p ${ZSH_CACHE_DIR}
+fi
+
+
 _Z_DATA=~/.zsh_dir_history
+# Some tweaks if WSL (windows subsytem for linux) is in use
+if [ -f ${ZSH}/wsl ]; then
+  IS_WINDOWS=1
+  ZSH_TMUX_AUTOSTART=false
+  ZSH_TMUX_AUTOCONNECT=false
+else
+  IS_WINDOWS=0
+  ZSH_TMUX_AUTOSTART=true
+  ZSH_TMUX_AUTOCONNECT=false
+fi
+
 case $OSTYPE in
   linux*)
   # Default color doesn't work well with my gnome-terminal settings
@@ -14,39 +34,10 @@ case $OSTYPE in
   ;;
 esac
 
-
-# setup customized powerlevel 9k
-if [ -f "${ZSH}/powerlevel9k.zsh" ]; then
-  . ${ZSH}/powerlevel9k.zsh
-fi
-
-# Setup pyenv/before plugins that require python
-if [ "-d ${HOME}/.pyenv" ]; then
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-    eval "$(pyenv init -)"
-fi
-
-# setup for goenv (requires goenv 2+)
-if [ "-d ${HOME}/.goenv" ]; then
-    export GOENV_GOPATH_PREFIX="${HOME}/Projects/go"
-    export GOENV_ROOT="${HOME}/.goenv"
-    export PATH="${GOENV_ROOT}/bin:${PATH}"
-    eval "$(goenv init -)"
-    if [ "-f ${HOME}/.goenv/completions/goenv.zsh" ]; then
-        . ${HOME}/.goenv/completions/goenv.zsh
-    fi
-    export PATH="${GOROOT}/bin:$PATH"
-    export PATH="${GOPATH}/bin:$PATH"
-fi
-
-# ZSH Plugins
-if [ -f "${ZSH}/zplug.zsh" ]; then
-    . ${ZSH}/zplug.zsh
-fi
-
-# Finish setting ZSH options that are not handled by zplug
+# load prompt, env tools, and antibody early
+. ${ZSH}/env_tools.zsh
+. ${ZSH}/powerlevel10k.zsh
+. ${ZSH}/antibody_setup.zsh
 
 # Set key binds
 bindkey -e
@@ -102,21 +93,21 @@ zstyle ":completion:*" matcher-list \
 
 zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
-# Add kubectl/minikube/helm completion
-for i in kubectl minikube helm; do
-    L=$(which ${i} | awk '{ print $NF }')
-    if ! [ -z "$L" ] && [ $L != "found" ]; then
-        source <(${L} completion zsh)
-    fi
-done
-
 # Source all of the other things
 for filename in aliases.zsh environment.zsh functions.zsh secrets.zsh do;
     if [ -f "${ZSH}/${filename}" ]; then
         . ${ZSH}/${filename}
 fi
 
-# Bring in dir colors
+# compile completions
+{
+  zcompdump="${HOME}/.zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
+
+# Set OS specific options, WSL shell sets linux options + is_windows options
 case $OSTYPE in
   darwin*)
     export CLICOLOR=1
@@ -131,16 +122,6 @@ case $OSTYPE in
   ;;
 esac
 
-# KREW (kubectl plugin manager)
-if which kubectl-krew >/dev/null 2>&1; then
-  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+if [ ${IS_WINDOWS} -eq 1 ]; then
+  alias z=_z
 fi
-
-# PYenv (python environment manager)
-if which pyenv > /dev/null 2>&1; then 
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && export PATH="$PATH:$HOME/.rvm/bin"
