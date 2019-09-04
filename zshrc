@@ -1,15 +1,21 @@
-# Set the base path
+# Set the base paths
+export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
+ZSH=${HOME}/.zsh
 
 # Load the ZSH profiler
 zmodload zsh/zprof
 
-export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
-alias compinit='compinit -u'
+# initialize completions early
+autoload -Uz compinit
+compinit
 
-ZSH=${HOME}/.zsh
 export ZSH_CACHE_DIR=${ZSH}/cache
-_Z_DATA=~/.zsh_dir_history
+if [ ! -d ${ZSH_CACHE_DIR} ]; then
+  mkdir -p ${ZSH_CACHE_DIR}
+fi
 
+
+_Z_DATA=~/.zsh_dir_history
 # Some tweaks if WSL (windows subsytem for linux) is in use
 if [ -f ${ZSH}/wsl ]; then
   IS_WINDOWS=1
@@ -92,6 +98,14 @@ for filename in aliases.zsh environment.zsh functions.zsh secrets.zsh do;
     if [ -f "${ZSH}/${filename}" ]; then
         . ${ZSH}/${filename}
 fi
+
+# compile completions
+{
+  zcompdump="${HOME}/.zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
 
 # Set OS specific options, WSL shell sets linux options + is_windows options
 case $OSTYPE in

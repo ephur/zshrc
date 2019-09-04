@@ -1,10 +1,10 @@
 # Setup pyenv/before plugins that require python
-if [ "-d ${HOME}/.pyenv" ]; then
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+ if [ "-d ${HOME}/.pyenv" ]; then
+  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+  export PYENV_ROOT="${HOME}/.pyenv"
+  export PATH="${PYENV_ROOT}/bin:${PATH}"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
 
 # setup for goenv (requires goenv 2+)
@@ -35,6 +35,7 @@ fi
 for i in kubectl minikube helm; do
     L=$(which ${i} | head -1 | awk '{ print $NF }')
     if ! [ -z "$L" ] && [ $L != "found" ]; then
-        source <(${L} completion zsh)
+        ${L} completion zsh > ${ZSH_CACHE_DIR}/${i}.completion
+        source ${ZSH_CACHE_DIR}/${i}.completion
     fi
 done

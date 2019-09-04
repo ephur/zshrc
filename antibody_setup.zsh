@@ -10,18 +10,19 @@ function update_zsh_plugins() {
       ;;
   esac
 
-  antibody bundle < ${APLUGIN_FILE} > ${ZSH}/antibody_plugins.zsh
+  antibody bundle < ${APLUGIN_FILE} > ${ZSH_CACHE_DIR}/antibody_plugins.zsh
 
   for i in `find ~/.cache/antibody -name '*.zsh' -print`; do
     zcompile ${i} >/dev/null 2>&1
   done
 
-  source ~/.zsh/antibody_plugins.zsh;
+  zcompile ${ZSH_CACHE_DIR}/antibody_plugins.zsh
+  source ${ZSH_CACHE_DIR}/antibody_plugins.zsh;
 }
 
 if which antibody >/dev/null 2>&1; then
-  if [ -f "${ZSH}/antibody_plugins.zsh" ]; then
-    . ${ZSH}/antibody_plugins.zsh
+  if [ -f "${ZSH_CACHE_DIR}/antibody_plugins.zsh" ]; then
+    . ${ZSH_CACHE_DIR}/antibody_plugins.zsh
   else
     update_zsh_plugins
   fi
