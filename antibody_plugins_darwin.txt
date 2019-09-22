@@ -15,7 +15,6 @@ robbyrussell/oh-my-zsh        path:plugins/sudo
 robbyrussell/oh-my-zsh        path:plugins/urltools
 robbyrussell/oh-my-zsh        path:plugins/web-search
 robbyrussell/oh-my-zsh        path:plugins/z
-robbyrussell/oh-my-zsh        path:plugins/tmux
 
 jimeh/zsh-peco-history
 supercrabtree/k
@@ -23,5 +22,6 @@ johanhaleby/kubetail
 romkatv/powerlevel10k 
 
 # OSX specific plugins
-robbyrussell/oh-my-zsh        path:plugins/osx
+# robbyrussell/oh-my-zsh        path:plugins/osx
 robbyrussell/oh-my-zsh        path:plugins/brew
+

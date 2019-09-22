@@ -87,28 +87,29 @@ zsh_wifi_signal(){
   echo -n "%F{$color}\uf1eb" # \uf1eb is 
 }
 
-zsh_go_version(){
+prompt_go_version(){
     # local goversion=`go version | awk ' { print $3}'`
     local goversion=`goenv version | cut -d\  -f1`
-    echo -n "\uE626 go: ${goversion/go/}"
+    #echo -n "\uE626 go: ${goversion/go/}"
+    p10k segment -i $'\uE626' -t "go: ${goversion/go/}"
 }
 
-zsh_python_version() {
+prompt_python_version() {
     local pyversion=`python --version 2>&1 | awk ' { print ($NF)}'`
-    echo -n "\uE73C python: ${pyversion} "
     if [[ -n "${PYENV_VERSION}" ]]; then
-        echo -n "(${PYENV_VERSION})"
+      pyversion=${PYENV_VERSION}
     fi
+    p10k segment -i $'\uE73C' -t "python: ${pyversion}"
 }
 
-zsh_kube_context() {
+prompt_kube_context() {
     # local context=`kubectl config current-context`
     local context=`grep current-context ~/.kube/config | cut -d\  -f2`
     local namespace=`kubectl config get-contexts --no-headers | awk '$2 == "${context}" { print $5 }'`
     if [ "${namespace}" = "" ]; then
         namespace='default'
     fi
-    echo -n "\uE7B2 k8s: ${context}/${namespace}"
+    p10k segment -i $'\uE7B2' -t "k8s: ${context}/${namespace}"
 }
 
 joblog() {
