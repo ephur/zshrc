@@ -104,12 +104,17 @@ prompt_python_version() {
 
 prompt_kube_context() {
     # local context=`kubectl config current-context`
+    CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
     local context=`grep current-context ~/.kube/config | cut -d\  -f2`
     local namespace=`kubectl config get-contexts --no-headers | awk '$2 == "${context}" { print $5 }'`
     if [ "${namespace}" = "" ]; then
         namespace='default'
     fi
-    p10k segment -i $'\uE7B2' -t "k8s: ${context}/${namespace}"
+    local env=$(grep ${context} ${CLUSTER_FILE} | cut -d\; -f1) 
+    if [ -z "${env}" ]; then
+      env="unknown"
+    fi
+    p10k segment -s ${env} -i $'\uE7B2' -t "k8s: ${context}/${namespace}"
 }
 
 joblog() {
@@ -149,3 +154,29 @@ wttr() {
 function codec() {
   ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
+
+update_cluster_map(){ 
+  CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
+  ## this is not a very portable function, relies on specific objectrocket stuff
+  if [ -f ${CLUSTER_FILE}.tmp ]; then
+    rm ${CLUSTER_FILE}.tmp
+  fi
+
+  eval dev
+  for i in `or-infra cluster get | jq --raw-output .name`; do 
+    echo "dev;$i" >> ${CLUSTER_FILE}.tmp
+  done
+
+  eval stage
+  for i in `or-infra cluster get | jq --raw-output .name`; do 
+    echo "stage;$i" >> ${CLUSTER_FILE}.tmp
+  done
+
+  eval prod
+  for i in `or-infra cluster get | jq --raw-output .name`; do 
+    echo "prod;$i" >> ${CLUSTER_FILE}.tmp
+  done
+
+  mv ${CLUSTER_FILE}.tmp ${CLUSTER_FILE}
+}
+ 
