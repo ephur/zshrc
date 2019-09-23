@@ -110,7 +110,7 @@ prompt_kube_context() {
     if [ "${namespace}" = "" ]; then
         namespace='default'
     fi
-    local env=$(grep ${context} ${CLUSTER_FILE} | cut -d\; -f1) 
+    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1) 
     if [ -z "${env}" ]; then
       env="unknown"
     fi
