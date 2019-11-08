@@ -14,6 +14,7 @@ alias grep='grep --color=auto'
 alias neofetch='neofetch --config ~/.nf.conf'
 alias neofetchu='neofetch --config ~/.nf.conf -su'
 alias i='or-infra'
+alias nfs='for i in /nfs/*; do mount $i; done'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
