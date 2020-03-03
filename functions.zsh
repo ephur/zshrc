@@ -103,13 +103,12 @@ prompt_python_version() {
 }
 
 prompt_kube_context() {
-    # local context=`kubectl config current-context`
     CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
     local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
     if [[ -z $context ]]; then
 	    context='unknown'
     fi
-    local namespace=`kubectl config get-contexts --no-headers | awk '$2 == "${context}" { print $5 }'`
+    local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
     if [ "${namespace}" = "" ]; then
         namespace='default'
     fi
