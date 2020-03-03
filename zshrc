@@ -1,5 +1,10 @@
 # Set the base paths
-export PATH=${PATH}:${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin
+unset PATH
+if [[ -f /etc/arch-release ]]; then
+  export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
+else 
+  export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin
+fi
 ZSH=${HOME}/.zsh
 
 # Load the ZSH profiler
@@ -124,4 +129,10 @@ esac
 
 if [ ${IS_WINDOWS} -eq 1 ]; then
   alias z=_z
+fi
+
+echo PATH=${PATH} > ~/.profile
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
 fi

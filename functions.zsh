@@ -45,9 +45,9 @@ function kubeme(){
     if [ $? -ne 0 ]; then
       case ${OSTYPE} in
         linux*)
-          minikube start --kubernetes-version v1.14.4 --vm-driver kvm2 \
-            --logtostderr \
-            --stderrthreshold 0 \
+            # --logtostderr \
+            # --stderrthreshold 0 \
+          minikube start --kubernetes-version v1.15.6 --vm-driver kvm2 \
             --cpus 6 \
             --memory 8192 \
             --extra-config=kubelet.authentication-token-webhook=true \
@@ -183,3 +183,13 @@ update_cluster_map(){
   mv ${CLUSTER_FILE}.tmp ${CLUSTER_FILE}
 }
  
+
+watch_nodes(){
+  if [[ -z $1 ]]; then
+    ctx_string=""
+  else
+    ctx_string="--context=$1"
+  fi
+
+  kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
+}
