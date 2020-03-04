@@ -1,9 +1,11 @@
 # Set the base paths
-unset PATH
 if [[ -f /etc/arch-release ]]; then
+  # for arch be very explicit about path
+  unset PATH
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
-else 
-  export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin
+else
+  oldpath=${PATH}
+  export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin:${oldpath}
 fi
 ZSH=${HOME}/.zsh
 
@@ -133,6 +135,23 @@ fi
 
 echo PATH=${PATH} > ~/.profile
 
+# Source VTE if session is using tilix
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
+fi
+
+# remove duplicates from path
+# thanks: https://unix.stackexchange.com/questions/40749/remove-duplicate-path-entries-with-awk-command
+if [ -n "$PATH" ]; then
+  old_PATH=$PATH:; PATH=
+  while [ -n "$old_PATH" ]; do
+    x=${old_PATH%%:*}       # the first remaining entry
+    case $PATH: in
+      *:"$x":*) ;;          # already there
+      *) PATH=$PATH:$x;;    # not there yet
+    esac
+    old_PATH=${old_PATH#*:}
+  done
+  PATH=${PATH#:}
+  unset old_PATH x
 fi
