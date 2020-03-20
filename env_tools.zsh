@@ -16,8 +16,8 @@ if [ "-d ${HOME}/.goenv" ]; then
     if [ "-f ${HOME}/.goenv/completions/goenv.zsh" ]; then
         . ${HOME}/.goenv/completions/goenv.zsh
     fi
-    export PATH="${GOROOT}/bin:$PATH"
-    export PATH="${GOPATH}/bin:$PATH"
+    #export PATH="${GOROOT}/bin:$PATH"
+    #export PATH="${GOPATH}/bin:$PATH"
 fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
@@ -30,12 +30,3 @@ fi
 if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
-
-# Add kubectl/minikube/helm completion
-for i in kubectl minikube helm; do
-    L=$(which ${i} | head -1 | awk '{ print $NF }')
-    if ! [ -z "$L" ] && [ $L != "found" ]; then
-        ${L} completion zsh > ${ZSH_CACHE_DIR}/${i}.completion
-        source ${ZSH_CACHE_DIR}/${i}.completion
-    fi
-done

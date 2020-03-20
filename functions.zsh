@@ -42,81 +42,31 @@ function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 
 function kubeme(){
     minikube status >/dev/null 2>&1
+    local minikube_version=${$1:"1.16.7"}
     if [ $? -ne 0 ]; then
       case ${OSTYPE} in
         linux*)
             # --logtostderr \
             # --stderrthreshold 0 \
-          minikube start --kubernetes-version v1.15.6 --vm-driver kvm2 \
-            --cpus 6 \
+          minikube start --kubernetes-version ${minikube_version} --vm-driver kvm2 \
+            --cpus 4 \
             --memory 8192 \
-            --extra-config=kubelet.authentication-token-webhook=true \
             --extra-config=kubelet.authorization-mode=Webhook \
             --extra-config=scheduler.address=0.0.0.0 \
             --extra-config=controller-manager.address=0.0.0.0
+            #--extra-config=kubelet.authentication-token-webhook=true \
+            #--extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy
         ;;
         darwin*)
-          minikube --kubernetes-version v1.14.4 start
+          minikube --kubernetes-version ${minikube_version} start
         ;;
       esac
     fi
-    # eval $(minikube docker-env)
     kubectl config use-context minikube >/dev/null 2>&1
 }
 
 function docker_kube(){
     eval $(minikube docker-env)
-}
-
-### These functions are for prompt customization
-zsh_wifi_signal(){
-  case ${OSTYPE} in
-    darwin*)
-      local signal=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep CtlRSSI | awk '{print $2}')
-      local color="yellow"
-      [[ $signal -gt -50 ]] && color="green"
-      [[ $signal -lt -75 ]] && color="red"
-    ;;
-    linux*)
-      local signal=$(nmcli -t device wifi 2>/dev/null | grep '^*' | awk -F':' '{print $6}')
-      local color="009"
-      [[ $signal -gt 75 ]] && color="green"
-      [[ $signal -lt 50 ]] && color="red"
-    ;;
-  esac
-  echo -n "%F{$color}\uf1eb" # \uf1eb is 
-}
-
-prompt_go_version(){
-    # local goversion=`go version | awk ' { print $3}'`
-    local goversion=`goenv version | cut -d\  -f1`
-    #echo -n "\uE626 go: ${goversion/go/}"
-    p10k segment -i $'\uE626' -t "go: ${goversion/go/}"
-}
-
-prompt_python_version() {
-    local pyversion=`python --version 2>&1 | awk ' { print ($NF)}'`
-    if [[ -n "${PYENV_VERSION}" ]]; then
-      pyversion=${PYENV_VERSION}
-    fi
-    p10k segment -i $'\uE73C' -t "python: ${pyversion}"
-}
-
-prompt_kube_context() {
-    CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
-    local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
-    if [[ -z $context ]]; then
-	    context='unknown'
-    fi
-    local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
-    if [ "${namespace}" = "" ]; then
-        namespace='default'
-    fi
-    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1) 
-    if [ -z "${env}" ]; then
-      env="unknown"
-    fi
-    p10k segment -s ${env} -i $'\uE7B2' -t "k8s: ${context}/${namespace}"
 }
 
 joblog() {
@@ -157,7 +107,27 @@ function codec() {
   ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
 
-update_cluster_map(){ 
+# powerlevel 10 custom kube_context segment
+prompt_kube_context() {
+    # powerlevel10 has a builtin context, but want some extra features
+    CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
+    local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
+    if [[ -z $context ]]; then
+	    context='unknown'
+    fi
+    local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
+    if [ "${namespace}" = "" ]; then
+        namespace='default'
+    fi
+    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
+    if [ -z "${env}" ]; then
+      env="unknown"
+    fi
+    p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
+}
+
+# used in conjunction with custom kube_context segment
+update_cluster_map(){
   CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
   ## this is not a very portable function, relies on specific objectrocket stuff
   if [ -f ${CLUSTER_FILE}.tmp ]; then
@@ -165,23 +135,22 @@ update_cluster_map(){
   fi
 
   eval dev
-  for i in `or-infra cluster get | jq --raw-output .name`; do 
+  for i in `or-infra cluster get | jq --raw-output .name`; do
     echo "dev;$i" >> ${CLUSTER_FILE}.tmp
   done
 
   eval stage
-  for i in `or-infra cluster get | jq --raw-output .name`; do 
+  for i in `or-infra cluster get | jq --raw-output .name`; do
     echo "stage;$i" >> ${CLUSTER_FILE}.tmp
   done
 
   eval prod
-  for i in `or-infra cluster get | jq --raw-output .name`; do 
+  for i in `or-infra cluster get | jq --raw-output .name`; do
     echo "prod;$i" >> ${CLUSTER_FILE}.tmp
   done
 
   mv ${CLUSTER_FILE}.tmp ${CLUSTER_FILE}
 }
- 
 
 watch_nodes(){
   if [[ -z $1 ]]; then
@@ -191,4 +160,17 @@ watch_nodes(){
   fi
 
   kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
+}
+
+function update_completions(){
+	# Add kubectl/minikube/helm completions, any argument sources existing caches only
+  # while running with no arguments will also generate new completions
+	local source_only=${1}
+	for i in kubectl minikube helm; do
+    local cfile="${ZSH_CACHE_DIR}/${i}.completion"
+		if ! [[ -z ${source_only} ]] && (which $i 2>/dev/null 1>/dev/null); then
+      ${i} completion zsh > ${cfile}
+    fi
+    [[ -f ${cfile} ]] && source ${cfile}
+  done
 }

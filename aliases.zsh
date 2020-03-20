@@ -1,20 +1,14 @@
 # Default params for common utils
-alias du='du -kh'
+(which dust > /dev/null 2>&1) && alias du='dust -bd 1'
 alias df='df -kTh'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 alias mkdir='mkdir -p'
 alias more='less'
-alias h='history'
-alias j='jobs -l'
-alias which='type -a'
-alias history='history 0'
 alias grep='grep --color=auto'
-alias neofetch='neofetch --config ~/.nf.conf'
-alias neofetchu='neofetch --config ~/.nf.conf -su'
 alias i='or-infra'
-alias nfs='for i in /nfs/*; do mount $i; done'
+alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
@@ -26,6 +20,18 @@ alias rmpyc='find . -name "*.pyc" -print -exec rm {} \;'
 alias lsaws='aws ec2 describe-instances | jq '"'"'.Reservations[].Instances[] | select(.State.Code != 48) | [.LaunchTime, .State.Name, .PrivateIpAddress, (.Tags[]|select(.Key=="Name")|.Value)]'"'"
 alias rootme='sudo -E /bin/zsh'
 
+# exa is a better ls
+if (which exa >/dev/null 2>&1); then
+  alias ls='exa'
+  alias ll='exa -al --git'
+  alias exanew='exa -al -s modified --git'
+  alias exaold='exa -al -s modified --git -r'
+fi
+
+alias tf9='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform9 ${HOME}/bin/terraform'
+alias tf11='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform11 ${HOME}/bin/terraform'
+alias tf12='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform12 ${HOME}/bin/terraform'
+
 # Some platform specific items
 case ${OSTYPE} in
   linux*)
@@ -33,14 +39,5 @@ case ${OSTYPE} in
       alias pbcopy='xsel --clipboard --input'
       alias pbpaste='xsel --clipboard --output'
     fi
-    alias tf9='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
-    alias tf11='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
-    alias tf12='sudo rm /usr/local/bin/terraform && sudo ln -s /usr/local/bin/terraform12 /usr/local/bin/terraform'
-    alias ls='ls -hF --color=auto'
-    ;;
-    darwin*)
-        alias tf9='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform9 /usr/local/bin/terraform'
-        alias tf11='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform11 /usr/local/bin/terraform'
-        alias tf12='rm -f /usr/local/bin/terraform && ln -s /usr/local/bin/terraform12 /usr/local/bin/terraform'
     ;;
 esac
