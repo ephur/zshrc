@@ -74,6 +74,9 @@ for filename in functions.zsh secrets.zsh aliases.zsh do;
         . ${ZSH}/${filename}
 fi
 
+# Use zoxide for dir history
+$(which zoxide >/dev/null 2>&1) && eval "$(zoxide init zsh)"
+
 # Source in the completions before compiling everything
 update_completions true
 
