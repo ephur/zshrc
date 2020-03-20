@@ -194,11 +194,12 @@ watch_nodes(){
 }
 
 function update_completions(){
-	# Add kubectl/minikube/helm completion
+	# Add kubectl/minikube/helm completions, any argument sources existing caches only
+  # while running with no arguments will also generate new completions
 	local source_only=${1}
 	for i in kubectl minikube helm; do
     local cfile="${ZSH_CACHE_DIR}/${i}.completion"
-		if ! [[ -z ${source_only} ]] && `which $i`; then
+		if ! [[ -z ${source_only} ]] && (which $i 2>/dev/null 1>/dev/null); then
       ${i} completion zsh > ${cfile}
     fi
     [[ -f ${cfile} ]] && source ${cfile}

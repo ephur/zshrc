@@ -94,4 +94,5 @@ if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsol
   done
 fi
 
+update_completions true
 echo PATH=${PATH} > ~/.profile
