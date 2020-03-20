@@ -30,15 +30,3 @@ fi
 if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
-
-function update_completions(){
-	# Add kubectl/minikube/helm completion
-	local source_only=${1}
-	for i in kubectl minikube helm; do
-    local cfile="${ZSH_CACHE_DIR}/${i}.completion"
-		if ! [[ -z ${source_only} ]] && `which $i`; then
-      ${i} completion zsh > ${cfile}
-    fi
-    [[ -f ${cfile} ]] && source ${cfile}
-  done
-}
