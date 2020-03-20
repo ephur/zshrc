@@ -8,36 +8,31 @@ else
 fi
 ZSH=${HOME}/.zsh
 
+# Set key binds
+export KEYTIMEOUT=1
+bindkey -v
+
 # Load the ZSH profiler
 zmodload zsh/zprof
-
-# initialize completions early
 autoload -Uz compinit
 compinit
 
-# load prompt, env tools, and antibody early
-. ${ZSH}/environment.zsh
-. ${ZSH}/env_tools.zsh
-. ${ZSH}/powerlevel10k.zsh
-. ${ZSH}/antibody_setup.zsh
+# Handle dircolors, must be done before applying zstyles that use them
+case $OSTYPE in
+  darwin*)
+    export CLICOLOR=1
+    export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+    export TERM="xterm-256color"
+    alias z=_z
+  ;;
+  linux*)
+    if [[ -f ${ZSH}/dircolors ]]; then
+      eval `dircolors ${ZSH}/dircolors`
+    fi
+  ;;
+esac
 
-# Set key binds
-bindkey -v
-
-# Set history behavior
-setopt append_history           # Dont overwrite history
-setopt extended_history         # Also record time and duration of commands.
-setopt share_history            # Share history between multiple shells
-setopt hist_expire_dups_first   # Clear duplicates when trimming internal hist.
-setopt hist_find_no_dups        # Dont display duplicates during searches.
-setopt hist_ignore_dups         # Ignore consecutive duplicates.
-setopt hist_ignore_space        # Ignore items that start with a space
-setopt hist_reduce_blanks       # Remove superfluous blanks.
-setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
-
-# Misc Options
-setopt extended_glob
-
+# initialize completions early
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' verbose yes
 zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
@@ -52,6 +47,26 @@ zstyle ":completion:*" matcher-list \
   "r:|[._-]=* r:|=*" \
   "l:|=* r:|=*"
 
+
+# load prompt, env tools, and antibody early
+. ${ZSH}/environment.zsh
+. ${ZSH}/env_tools.zsh
+. ${ZSH}/powerlevel10k.zsh
+. ${ZSH}/antibody_setup.zsh
+
+# Set history behavior
+setopt append_history           # Dont overwrite history
+setopt extended_history         # Also record time and duration of commands.
+setopt share_history            # Share history between multiple shells
+setopt hist_expire_dups_first   # Clear duplicates when trimming internal hist.
+setopt hist_find_no_dups        # Dont display duplicates during searches.
+setopt hist_ignore_dups         # Ignore consecutive duplicates.
+setopt hist_ignore_space        # Ignore items that start with a space
+setopt hist_reduce_blanks       # Remove superfluous blanks.
+setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
+
+# Misc Options
+setopt extended_glob
 
 # Source all of the other things
 for filename in functions.zsh secrets.zsh aliases.zsh do;
@@ -69,21 +84,6 @@ update_completions true
     zcompile "$zcompdump"
   fi
 } &!
-
-# Set OS specific options, WSL shell sets linux options + is_windows options
-case $OSTYPE in
-  darwin*)
-    export CLICOLOR=1
-    export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-    export TERM="xterm-256color"
-    alias z=_z
-  ;;
-  linux*)
-    if [[ -f ${ZSH}/dircolors ]]; then
-      eval `dircolors ${ZSH}/dircolors`
-    fi
-  ;;
-esac
 
 ### Some terminals need VTE sourced in
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
