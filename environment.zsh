@@ -24,12 +24,8 @@ fi
 # Some tweaks if WSL (windows subsytem for linux) is in use
 if [ -f ${ZSH}/wsl ]; then
   IS_WINDOWS=1
-  ZSH_TMUX_AUTOSTART=false
-  ZSH_TMUX_AUTOCONNECT=false
 else
   IS_WINDOWS=0
-  ZSH_TMUX_AUTOSTART=true
-  ZSH_TMUX_AUTOCONNECT=false
 fi
 
 # Add cuda to library path

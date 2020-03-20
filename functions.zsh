@@ -42,13 +42,14 @@ function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 
 function kubeme(){
     minikube status >/dev/null 2>&1
+    local minikube_version=${$1:"1.16.7"}
     if [ $? -ne 0 ]; then
       case ${OSTYPE} in
         linux*)
             # --logtostderr \
             # --stderrthreshold 0 \
-          minikube start --kubernetes-version v1.16.7 --vm-driver kvm2 \
-            --cpus 6 \
+          minikube start --kubernetes-version ${minikube_version} --vm-driver kvm2 \
+            --cpus 4 \
             --memory 8192 \
             --extra-config=kubelet.authorization-mode=Webhook \
             --extra-config=scheduler.address=0.0.0.0 \
@@ -57,11 +58,10 @@ function kubeme(){
             #--extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy
         ;;
         darwin*)
-          minikube --kubernetes-version v1.14.4 start
+          minikube --kubernetes-version ${minikube_version} start
         ;;
       esac
     fi
-    # eval $(minikube docker-env)
     kubectl config use-context minikube >/dev/null 2>&1
 }
 
