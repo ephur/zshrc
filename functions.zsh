@@ -47,13 +47,14 @@ function kubeme(){
         linux*)
             # --logtostderr \
             # --stderrthreshold 0 \
-          minikube start --kubernetes-version v1.15.6 --vm-driver kvm2 \
+          minikube start --kubernetes-version v1.16.7 --vm-driver kvm2 \
             --cpus 6 \
             --memory 8192 \
-            --extra-config=kubelet.authentication-token-webhook=true \
             --extra-config=kubelet.authorization-mode=Webhook \
             --extra-config=scheduler.address=0.0.0.0 \
             --extra-config=controller-manager.address=0.0.0.0
+            #--extra-config=kubelet.authentication-token-webhook=true \
+            #--extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy
         ;;
         darwin*)
           minikube --kubernetes-version v1.14.4 start
@@ -112,7 +113,7 @@ prompt_kube_context() {
     if [ "${namespace}" = "" ]; then
         namespace='default'
     fi
-    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1) 
+    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
     if [ -z "${env}" ]; then
       env="unknown"
     fi
@@ -157,7 +158,7 @@ function codec() {
   ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
 
-update_cluster_map(){ 
+update_cluster_map(){
   CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
   ## this is not a very portable function, relies on specific objectrocket stuff
   if [ -f ${CLUSTER_FILE}.tmp ]; then
@@ -165,23 +166,22 @@ update_cluster_map(){
   fi
 
   eval dev
-  for i in `or-infra cluster get | jq --raw-output .name`; do 
+  for i in `or-infra cluster get | jq --raw-output .name`; do
     echo "dev;$i" >> ${CLUSTER_FILE}.tmp
   done
 
   eval stage
-  for i in `or-infra cluster get | jq --raw-output .name`; do 
+  for i in `or-infra cluster get | jq --raw-output .name`; do
     echo "stage;$i" >> ${CLUSTER_FILE}.tmp
   done
 
   eval prod
-  for i in `or-infra cluster get | jq --raw-output .name`; do 
+  for i in `or-infra cluster get | jq --raw-output .name`; do
     echo "prod;$i" >> ${CLUSTER_FILE}.tmp
   done
 
   mv ${CLUSTER_FILE}.tmp ${CLUSTER_FILE}
 }
- 
 
 watch_nodes(){
   if [[ -z $1 ]]; then
@@ -191,4 +191,16 @@ watch_nodes(){
   fi
 
   kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
+}
+
+function update_completions(){
+	# Add kubectl/minikube/helm completion
+	local source_only=${1}
+	for i in kubectl minikube helm; do
+    local cfile="${ZSH_CACHE_DIR}/${i}.completion"
+		if ! [[ -z ${source_only} ]] && `which $i`; then
+      ${i} completion zsh > ${cfile}
+    fi
+    [[ -f ${cfile} ]] && source ${cfile}
+  done
 }

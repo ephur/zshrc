@@ -15,6 +15,7 @@ alias neofetch='neofetch --config ~/.nf.conf'
 alias neofetchu='neofetch --config ~/.nf.conf -su'
 alias i='or-infra'
 alias nfs='for i in /nfs/*; do mount $i; done'
+alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
@@ -25,6 +26,14 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias rmpyc='find . -name "*.pyc" -print -exec rm {} \;'
 alias lsaws='aws ec2 describe-instances | jq '"'"'.Reservations[].Instances[] | select(.State.Code != 48) | [.LaunchTime, .State.Name, .PrivateIpAddress, (.Tags[]|select(.Key=="Name")|.Value)]'"'"
 alias rootme='sudo -E /bin/zsh'
+
+# exa is a better ls
+if (which exa >/dev/null 2>&1); then
+  alias ls='exa'
+  alias ll='exa -al --git'
+  alias exanew='exa -al -s modified --git'
+  alias exaold='exa -al -s modified --git -r'
+fi
 
 # Some platform specific items
 case ${OSTYPE} in
