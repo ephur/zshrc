@@ -5,7 +5,7 @@ if [ ! -d ${ZSH_CACHE_DIR} ]; then
 fi
 
 # Set some useful environment vars
-(which nvim >/dev/null 2>1) && export EDITOR=nvim || export EDITOR=vi
+(which nvim >/dev/null 2>&1) && export EDITOR=nvim || export EDITOR=vi
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
 :stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
 export LESSCHARSET='latin1'

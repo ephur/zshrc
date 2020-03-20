@@ -6,7 +6,7 @@ typeset -g ALT_FOREGROUND=235
 
 # Set the font mode and default behaviors
 typeset -g POWERLEVEL9K_MODE="nerdfont-complete"
-typeset -g POWERLEVEL9K_{LEFT,RIGHT}_{LEFT,RIGHT}_WHITESPACE=" " 
+typeset -g POWERLEVEL9K_{LEFT,RIGHT}_{LEFT,RIGHT}_WHITESPACE=" "
 typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SEGMENT_SEPARATOR="\uE0C8"
 typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR=""
 typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=false
@@ -29,8 +29,9 @@ if [ -z "${SSH_CLIENT}" ]; then
     dir_writable
     dir
     root_indicator
+    prompt_char
   )
-else 
+else
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     os_icon
     time
@@ -46,6 +47,7 @@ else
     dir_writable
     dir
     root_indicator
+    prompt_char
   )
 
 fi

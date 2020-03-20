@@ -40,6 +40,7 @@ setopt extended_glob
 
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' verbose yes
+zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:messages' format '%d'
 zstyle ':completion:*:warnings' format 'No matches for: %d'
@@ -51,7 +52,6 @@ zstyle ":completion:*" matcher-list \
   "r:|[._-]=* r:|=*" \
   "l:|=* r:|=*"
 
-zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
 # Source all of the other things
 for filename in functions.zsh secrets.zsh aliases.zsh do;
@@ -97,4 +97,5 @@ if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsol
   done
 fi
 
+# some silly apps are using the path from .profile, nothing else is using it...
 echo PATH=${PATH} > ~/.profile
