@@ -59,6 +59,9 @@ for filename in functions.zsh secrets.zsh aliases.zsh do;
         . ${ZSH}/${filename}
 fi
 
+# Source in the completions before compiling everything
+update_completions true
+
 # compile completions
 {
   zcompdump="${HOME}/.zcompdump"
@@ -94,5 +97,4 @@ if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsol
   done
 fi
 
-update_completions true
 echo PATH=${PATH} > ~/.profile
