@@ -69,57 +69,6 @@ function docker_kube(){
     eval $(minikube docker-env)
 }
 
-### These functions are for prompt customization
-zsh_wifi_signal(){
-  case ${OSTYPE} in
-    darwin*)
-      local signal=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep CtlRSSI | awk '{print $2}')
-      local color="yellow"
-      [[ $signal -gt -50 ]] && color="green"
-      [[ $signal -lt -75 ]] && color="red"
-    ;;
-    linux*)
-      local signal=$(nmcli -t device wifi 2>/dev/null | grep '^*' | awk -F':' '{print $6}')
-      local color="009"
-      [[ $signal -gt 75 ]] && color="green"
-      [[ $signal -lt 50 ]] && color="red"
-    ;;
-  esac
-  echo -n "%F{$color}\uf1eb" # \uf1eb is 
-}
-
-prompt_go_version(){
-    # local goversion=`go version | awk ' { print $3}'`
-    local goversion=`goenv version | cut -d\  -f1`
-    #echo -n "\uE626 go: ${goversion/go/}"
-    p10k segment -i $'\uE626' -t "go: ${goversion/go/}"
-}
-
-prompt_python_version() {
-    local pyversion=`python --version 2>&1 | awk ' { print ($NF)}'`
-    if [[ -n "${PYENV_VERSION}" ]]; then
-      pyversion=${PYENV_VERSION}
-    fi
-    p10k segment -i $'\uE73C' -t "python: ${pyversion}"
-}
-
-prompt_kube_context() {
-    CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
-    local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
-    if [[ -z $context ]]; then
-	    context='unknown'
-    fi
-    local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
-    if [ "${namespace}" = "" ]; then
-        namespace='default'
-    fi
-    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
-    if [ -z "${env}" ]; then
-      env="unknown"
-    fi
-    p10k segment -s ${env} -i $'\uE7B2' -t "k8s: ${context}/${namespace}"
-}
-
 joblog() {
   if [ -z "${1}" ]; then
     echo "usage: joblog search-string [context]"
@@ -158,6 +107,26 @@ function codec() {
   ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
 
+# powerlevel 10 custom kube_context segment
+prompt_kube_context() {
+    # powerlevel10 has a builtin context, but want some extra features
+    CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
+    local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
+    if [[ -z $context ]]; then
+	    context='unknown'
+    fi
+    local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
+    if [ "${namespace}" = "" ]; then
+        namespace='default'
+    fi
+    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
+    if [ -z "${env}" ]; then
+      env="unknown"
+    fi
+    p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
+}
+
+# used in conjunction with custom kube_context segment
 update_cluster_map(){
   CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
   ## this is not a very portable function, relies on specific objectrocket stuff

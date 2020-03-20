@@ -19,6 +19,7 @@ junegunn/fzf                  path:shell/completion.zsh
 
 supercrabtree/k
 romkatv/powerlevel10k
+romkatv/zsh-prompt-benchmark
 
 # time to retire some things...
 # robbyrussell/oh-my-zsh        path:plugins/command-not-found
