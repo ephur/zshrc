@@ -1,5 +1,4 @@
 # Set the base paths
-unset PATH
 if [[ -f /etc/arch-release ]]; then
   # arch gets a slightly stripped down path
   export PATH=${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
@@ -100,5 +99,19 @@ if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsol
   done
 fi
 
-# some silly apps are using the path from .profile, nothing else is using it...
+# remove duplicates from path
+# thanks: https://unix.stackexchange.com/questions/40749/remove-duplicate-path-entries-with-awk-command
+if [ -n "$PATH" ]; then
+  old_PATH=$PATH:; PATH=
+  while [ -n "$old_PATH" ]; do
+    x=${old_PATH%%:*}       # the first remaining entry
+    case $PATH: in
+      *:"$x":*) ;;          # already there
+      *) PATH=$PATH:$x;;    # not there yet
+    esac
+    old_PATH=${old_PATH#*:}
+  done
+  PATH=${PATH#:}
+  unset old_PATH x
+fi
 echo PATH=${PATH} > ~/.profile
