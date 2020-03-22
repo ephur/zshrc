@@ -26,6 +26,11 @@ alias rmpyc='find . -name "*.pyc" -print -exec rm {} \;'
 alias lsaws='aws ec2 describe-instances | jq '"'"'.Reservations[].Instances[] | select(.State.Code != 48) | [.LaunchTime, .State.Name, .PrivateIpAddress, (.Tags[]|select(.Key=="Name")|.Value)]'"'"
 alias rootme='sudo -E /bin/zsh'
 
+# This creates aliases z, zi, za, zq, zr
+if which zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
 # Some platform specific items
 case ${OSTYPE} in
   linux*)

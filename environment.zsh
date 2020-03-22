@@ -7,3 +7,7 @@ export PAGER=less
 
 # Disable accessibility bridge features
 export NO_AT_BRIDGE=1
+
+if ! [ -z KDE_FULL_SESSION ]; then 
+  export SSH_ASKPASS=/usr/bin/ksshaskpass
+fi 

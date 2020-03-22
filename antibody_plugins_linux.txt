@@ -14,7 +14,8 @@ robbyrussell/oh-my-zsh        path:plugins/go
 robbyrussell/oh-my-zsh        path:plugins/sudo
 robbyrussell/oh-my-zsh        path:plugins/urltools
 robbyrussell/oh-my-zsh        path:plugins/web-search
-robbyrussell/oh-my-zsh        path:plugins/z
+# Testing replacement with zoxide
+# robbyrussell/oh-my-zsh        path:plugins/z
 robbyrussell/oh-my-zsh        path:plugins/tmux
 
 jimeh/zsh-peco-history

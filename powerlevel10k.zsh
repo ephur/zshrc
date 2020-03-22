@@ -16,6 +16,7 @@ typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 # set segments, don't include context unless SSH connected
 if [ -z "${SSH_CLIENT}" ]; then
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+    os_icon
     time
     load
     go_version
@@ -31,6 +32,7 @@ if [ -z "${SSH_CLIENT}" ]; then
   )
 else 
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+    os_icon
     time
     load
     go_version
@@ -109,3 +111,5 @@ typeset -g POWERLEVEL9K_KUBE_CONTEXT_FOREGROUND="${DEFAULT_FOREGROUND}"
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_DEV_FOREGROUND="28"
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_STAGE_FOREGROUND="3"
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_PROD_FOREGROUND="124"
+
+# typeset -g POWERLEVEL9K_KUBE_CONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc'

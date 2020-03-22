@@ -1,6 +1,6 @@
 # Set the base paths
-unset PATH
 if [[ -f /etc/arch-release ]]; then
+  unset PATH
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
 else 
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin

@@ -15,7 +15,7 @@ function update_zsh_plugins() {
   antibody bundle < ${APLUGIN_FILE} > ${ZSH_CACHE_DIR}/antibody_plugins.zsh
 
   for i in `find ${ACACHE_DIR}/antibody -name '*.zsh' -print`; do
-    zcompile ${i} >/dev/null 2>&1
+     zcompile ${i} >/dev/null 2>&1
   done
 
   zcompile ${ZSH_CACHE_DIR}/antibody_plugins.zsh

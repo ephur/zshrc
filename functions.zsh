@@ -47,13 +47,14 @@ function kubeme(){
         linux*)
             # --logtostderr \
             # --stderrthreshold 0 \
-          minikube start --kubernetes-version v1.15.6 --vm-driver kvm2 \
+          minikube start --kubernetes-version v1.16.7 --vm-driver kvm2 \
             --cpus 6 \
             --memory 8192 \
             --extra-config=kubelet.authentication-token-webhook=true \
             --extra-config=kubelet.authorization-mode=Webhook \
             --extra-config=scheduler.address=0.0.0.0 \
-            --extra-config=controller-manager.address=0.0.0.0
+            --extra-config=controller-manager.address=0.0.0.0 \
+            --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy
         ;;
         darwin*)
           minikube --kubernetes-version v1.14.4 start
