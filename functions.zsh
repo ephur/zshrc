@@ -41,8 +41,8 @@ function ff() { find . -type f -iname '*'$*'*' -ls ; }
 function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 
 function kubeme(){
+    local minikube_version=${1:="1.16.7"}
     minikube status >/dev/null 2>&1
-    local minikube_version=${$1:"1.16.7"}
     if [ $? -ne 0 ]; then
       case ${OSTYPE} in
         linux*)

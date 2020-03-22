@@ -1,5 +1,6 @@
 # Default params for common utils
 (which dust > /dev/null 2>&1) && alias du='dust -bd 1'
+(which nvim > /dev/null 2>&1) && alias vi='nvim'
 alias df='df -kTh'
 alias rm='rm -i'
 alias mv='mv -i'
