@@ -17,7 +17,7 @@ export NO_AT_BRIDGE=1
 
 ### konsole/yakuake don't handle blurring in KDE/Plasa 5 right, so work around
 ### this needs to happen early before tmux or antibody runs
-if [[ ${XDG_SESSION_DESKTOP} = "KDE" ]] && [[ -z ${SUSPECTED_TERM_PID} ]]; then
+if [[ ${XDG_SESSION_DESKTOP} = ("KDE"|"plasma") ]] && [[ -z ${SUSPECTED_TERM_PID} ]]; then
   SUSPECTED_TERM_PID=${PPID}
 fi
 
