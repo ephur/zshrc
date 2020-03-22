@@ -19,7 +19,6 @@ if [ -z "${SSH_CLIENT}" ]; then
     os_icon
     command_execution_time
     status
-    time
     goenv
     pyenv
     kube_context
