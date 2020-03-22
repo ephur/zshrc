@@ -28,15 +28,14 @@ else
   IS_WINDOWS=0
 fi
 
-# Add cuda to library path
-if [ -d /opt/cuda/lib64 ]; then
-  export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
-fi
+# Check some special paths to add/update env
+[ -d "/home/ephur/.gem/ruby/2.7.0/bin" ] && export PATH="/home/ephur/.gem/ruby/2.7.0/bin":${PATH}
+[ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
 
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in
   linux*)
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
   ;;
 esac
 
@@ -52,7 +51,7 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 
 # FZF Dracula colors
 export FZF_DEFAULT_OPTS='
-  --color fg:255,bg:236,hl:84,fg+:255,bg+:236,hl+:215
+  --color fg:255,bg:236,hl:84,fg+:8,bg+:6,hl+:9
   --color info:141,prompt:84,spinner:212,pointer:212,marker:212
   --height 100%
 '
