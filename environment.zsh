@@ -35,7 +35,7 @@ fi
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in
   linux*)
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=12'
   ;;
 esac
 
