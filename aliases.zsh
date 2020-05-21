@@ -29,6 +29,12 @@ if (which exa >/dev/null 2>&1); then
   alias exaold='exa -al -s modified --git -r'
 fi
 
+# but lsd is even better
+if (which lsd >/dev/null 2>&1); then
+  alias ls='lsd'
+  alias ll='lsd -Al'
+fi 
+
 alias tf9='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform9 ${HOME}/bin/terraform'
 alias tf11='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform11 ${HOME}/bin/terraform'
 alias tf12='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform12 ${HOME}/bin/terraform'
@@ -42,3 +48,15 @@ case ${OSTYPE} in
     fi
     ;;
 esac
+
+# copy some music formats from a file...
+if [ -f "~/formats.txt" ]; then 
+  alias va="cat ~/formats.txt| tail -1 | tr -d '\n' | pbcopy"
+  alias ca="cat ~/formats.txt| head -1 | tr -d '\n' | pbcopy"
+fi
+
+# Plexamp requires some silly handling on arch, even this doesn't allow it to bind media keys though :(
+if [ -f "/usr/lib64/libcrypto.so.1.0.0" ] && [ -f "/usr/bin/Plexamp.AppImage" ]; then
+  alias plexamp="LD_PRELOAD=/usr/lib64/libcrypto.so.1.0.0 /usr/bin/Plexamp.AppImage \
+                 --disable-seccomp-filter-sandbox >/dev/null 2>&1 &"
+fi 
