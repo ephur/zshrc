@@ -41,32 +41,32 @@ function ff() { find . -type f -iname '*'$*'*' -ls ; }
 function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 
 function kubeme(){
-    local minikube_version=${1:="1.16.7"}
-    minikube status >/dev/null 2>&1
-    if [ $? -ne 0 ]; then
-      case ${OSTYPE} in
-        linux*)
-            # --logtostderr \
-            # --stderrthreshold 0 \
-          minikube start --kubernetes-version ${minikube_version} --vm-driver kvm2 \
-            --cpus 4 \
-            --memory 8192 \
-            --extra-config=kubelet.authorization-mode=Webhook \
-            --extra-config=scheduler.address=0.0.0.0 \
-            --extra-config=controller-manager.address=0.0.0.0
-            #--extra-config=kubelet.authentication-token-webhook=true \
-            #--extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy
-        ;;
-        darwin*)
-          minikube --kubernetes-version ${minikube_version} start
-        ;;
-      esac
-    fi
-    kubectl config use-context minikube >/dev/null 2>&1
+  local minikube_version=${1:="v1.16.7"}
+  minikube status >/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    case ${OSTYPE} in
+      linux*)
+        # --logtostderr \
+        # --stderrthreshold 0 \
+        minikube start --kubernetes-version ${minikube_version} --vm-driver kvm2 \
+          --cpus 4 \
+          --memory 8192 \
+          --extra-config=kubelet.authorization-mode=Webhook \
+          --extra-config=scheduler.address=0.0.0.0 \
+          --extra-config=controller-manager.address=0.0.0.0
+          #--extra-config=kubelet.authentication-token-webhook=true \
+          #--extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy
+      ;;
+      darwin*)
+        minikube --kubernetes-version ${minikube_version} start
+      ;;
+    esac
+  fi
+  kubectl config use-context minikube >/dev/null 2>&1
 }
 
 function docker_kube(){
-    eval $(minikube docker-env)
+  eval $(minikube docker-env)
 }
 
 joblog() {
@@ -100,7 +100,7 @@ docker_auth(){
 }
 
 wttr() {
-    curl -H "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-San%20Antonio,TX}"
+  curl -H "Accept-Language: ${LANG%_*}" https://wttr.in/"${1:-San%20Antonio,TX}"
 }
 
 function codec() {
@@ -109,21 +109,21 @@ function codec() {
 
 # powerlevel 10 custom kube_context segment
 prompt_kube_context() {
-    # powerlevel10 has a builtin context, but want some extra features
-    CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
-    local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
-    if [[ -z $context ]]; then
-	    context='unknown'
-    fi
-    local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
-    if [ "${namespace}" = "" ]; then
-        namespace='default'
-    fi
-    local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
-    if [ -z "${env}" ]; then
-      env="unknown"
-    fi
-    p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
+  # powerlevel10 has a builtin context, but want some extra features
+  CLUSTER_FILE=${ZSH_CACHE_DIR}/or-clusters
+  local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
+  if [[ -z $context ]]; then
+   context='unknown'
+  fi
+  local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
+  if [ "${namespace}" = "" ]; then
+    namespace='default'
+  fi
+  local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
+  if [ -z "${env}" ]; then
+    env="unknown"
+  fi
+  p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
 }
 
 # used in conjunction with custom kube_context segment
@@ -159,7 +159,7 @@ watch_nodes(){
     ctx_string="--context=$1"
   fi
 
-  kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
+  watch -n1 kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
 }
 
 function update_completions(){

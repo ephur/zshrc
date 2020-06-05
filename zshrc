@@ -79,6 +79,9 @@ $(which zoxide >/dev/null 2>&1) && eval "$(zoxide init zsh)"
 # Source in the completions before compiling everything
 update_completions true
 
+# AzureCLI Auto Completions, if exists (via AUR)
+[ -f "/opt/azure-cli/az.completion" ] && source "/opt/azure-cli/az.completion"
+
 # compile completions
 {
   zcompdump="${HOME}/.zcompdump"
@@ -91,6 +94,9 @@ update_completions true
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   source /etc/profile.d/vte.sh
 fi
+
+### Use find-the-command if it's installed
+[[ -f "/usr/share/doc/find-the-command/ftc.zsh" ]] && source /usr/share/doc/find-the-command/ftc.zsh
 
 ### Check if suspected terminal is in a list we want to blur background of
 if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsole|alacritty)' ) ]]; then
