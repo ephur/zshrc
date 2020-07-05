@@ -174,3 +174,10 @@ function update_completions(){
     [[ -f ${cfile} ]] && source ${cfile}
   done
 }
+
+function nfs_mount(){
+  if [[ -f "/etc/nfstab" ]]; then 
+    sudo mount -aT /etc/nfstab
+  fi 
+  echo "/etc/nfstab doesn't exist"
+}

@@ -8,7 +8,7 @@ robbyrussell/oh-my-zsh        path:lib/git.zsh
 robbyrussell/oh-my-zsh        path:lib/termsupport.zsh
 robbyrussell/oh-my-zsh        path:plugins/colorize
 robbyrussell/oh-my-zsh        path:plugins/colored-man-pages
-robbyrussell/oh-my-zsh        path:plugins/go
+robbyrussell/oh-my-zsh        path:plugins/golang
 robbyrussell/oh-my-zsh        path:plugins/sudo
 robbyrussell/oh-my-zsh        path:plugins/docker
 robbyrussell/oh-my-zsh        path:plugins/gitfast
