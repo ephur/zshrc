@@ -10,6 +10,7 @@ alias more='less'
 alias grep='grep --color=auto'
 alias i='or-infra'
 alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
+alias ssh='TERM=xterm-256color ssh'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
