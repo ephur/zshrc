@@ -14,6 +14,7 @@ bindkey -v
 # Load the ZSH profiler
 zmodload zsh/zprof
 autoload -Uz compinit
+# autoload -U read-from-minibuffer
 compinit
 
 # Handle dircolors, must be done before applying zstyles that use them
@@ -73,6 +74,14 @@ for filename in functions.zsh secrets.zsh aliases.zsh do;
         . ${ZSH}/${filename}
 fi
 
+# Get 1password completions
+if which op >/dev/null 2>&1; then 
+  local op=$(which op | head -1)
+  local shl=$(echo ${SHELL} | awk -F/ '{print $NF}')
+  eval "$($op completion $shl)"
+  compdef _op op
+fi
+
 # Use zoxide for dir history
 $(which zoxide >/dev/null 2>&1) && eval "$(zoxide init zsh)"
 
@@ -89,6 +98,11 @@ update_completions true
     zcompile "$zcompdump"
   fi
 } &!
+
+# Enable VI editing for current command line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd '!' edit-command-line
 
 ### Some terminals need VTE sourced in
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then

@@ -11,6 +11,8 @@ alias grep='grep --color=auto'
 alias i='or-infra'
 alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
 alias ssh='TERM=xterm-256color ssh'
+alias ops='eval $(op signin my)'
+alias raxsso="op get item Rackspace\ SSO | jq --raw-output '.details.fields[] | select(.designation==\"password\").value' | pbcopy"
 
 # Extra handy things
 alias resrc="source ~/.zshrc"

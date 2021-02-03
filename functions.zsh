@@ -41,7 +41,7 @@ function ff() { find . -type f -iname '*'$*'*' -ls ; }
 function fe() { find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ; }
 
 function kubeme(){
-  local minikube_version=${1:="v1.16.7"}
+  local minikube_version=${1:="v1.17.4"}
   minikube status >/dev/null 2>&1
   if [ $? -ne 0 ]; then
     case ${OSTYPE} in
@@ -67,6 +67,27 @@ function kubeme(){
 
 function docker_kube(){
   eval $(minikube docker-env)
+}
+
+kflog() {
+  if [ -z "${1}" ]; then
+    echo "usage: joblog search-string [container]"
+  else
+    if [ ! -z "${2}" ]; then
+      export CONTAINER="-c ${2}"
+    else
+      export CONTAINER=""
+    fi
+    COUNT=$(kubectl -n kubeflow get pods | grep Running | grep ${1} | awk '{ print $1 }' | wc -l)
+    if [ $COUNT -lt 1 ]; then
+      echo "no Running pods matching ${1}"
+    elif [ $COUNT -gt 1 ]; then
+      echo "multiple matching running jobs found, be more specific with your search string"
+      kubectl -n kubeflow get pods | grep Running | grep ${1}
+    else
+      kubectl -n kubeflow get pods | grep Running | grep ${1} | awk '{ print $1 }' | head -1 | xargs kubectl -n kubeflow logs -f ${CONTAINER}
+    fi
+  fi
 }
 
 joblog() {
@@ -181,3 +202,4 @@ function nfs_mount(){
   fi 
   echo "/etc/nfstab doesn't exist"
 }
+

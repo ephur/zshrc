@@ -12,7 +12,8 @@ robbyrussell/oh-my-zsh        path:plugins/golang
 robbyrussell/oh-my-zsh        path:plugins/sudo
 robbyrussell/oh-my-zsh        path:plugins/docker
 robbyrussell/oh-my-zsh        path:plugins/gitfast
-robbyrussell/oh-my-zsh        path:plugins/vi-mode
+
+jeffreytse/zsh-vi-mode
 
 junegunn/fzf                  path:shell/key-bindings.zsh
 junegunn/fzf                  path:shell/completion.zsh
@@ -20,6 +21,7 @@ junegunn/fzf                  path:shell/completion.zsh
 supercrabtree/k
 romkatv/powerlevel10k
 romkatv/zsh-prompt-benchmark
+soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
 
 # time to retire some things...
 # robbyrussell/oh-my-zsh        path:plugins/command-not-found
