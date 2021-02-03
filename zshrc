@@ -2,6 +2,8 @@
 if [[ -f /etc/arch-release ]]; then
   # arch gets a slightly stripped down path
   export PATH=${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
+elif [[ -f ~/.zsh/wsl ]]; then 
+  export PATH=${PATH}:${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
 else
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin
 fi
@@ -113,10 +115,12 @@ fi
 [[ -f "/usr/share/doc/find-the-command/ftc.zsh" ]] && source /usr/share/doc/find-the-command/ftc.zsh
 
 ### Check if suspected terminal is in a list we want to blur background of
-if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsole|alacritty)' ) ]]; then
-  for wid in $(xdotool search --pid $PPID); do
-    xprop -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 -id $wid  >/dev/null 2>&1
-  done
+if ! [[ -z ${SUSPECTED_TERM_PID} ]]; then 
+  if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsole|alacritty)' ) ]]; then
+    for wid in $(xdotool search --pid $PPID); do
+      xprop -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 -id $wid  >/dev/null 2>&1
+    done
+  fi
 fi
 
 # remove duplicates from path
