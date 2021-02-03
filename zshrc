@@ -2,6 +2,8 @@
 if [[ -f /etc/arch-release ]]; then
   # arch gets a slightly stripped down path
   export PATH=${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
+elif [[ -f ~/.zsh/wsl ]]; then 
+  export PATH=${PATH}:${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
 else
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin
 fi
