@@ -4,6 +4,8 @@ zsh-users/zsh-autosuggestions
 
 ohmyzsh/ohmyzsh        path:lib/spectrum.zsh
 ohmyzsh/ohmyzsh        path:lib/termsupport.zsh
+ohmyzsh/ohmyzsh        path:lib/git.zsh
+ohmyzsh/ohmyzsh        path:plugins/gitfast
 ohmyzsh/ohmyzsh        path:plugins/colorize
 ohmyzsh/ohmyzsh        path:plugins/colored-man-pages
 ohmyzsh/ohmyzsh        path:plugins/golang
@@ -23,8 +25,6 @@ junegunn/fzf                  path:shell/completion.zsh
 
 # time to retire some things...
 # jeffreytse/zsh-vi-mode        <--- this breaks autosuggest colors, and fzf history search
-# ohmyzsh/ohmyzsh        path:lib/git.zsh
-# ohmyzsh/ohmyzsh        path:plugins/gitfast
 # ohmyzsh/ohmyzsh        path:plugins/command-not-found
 # ohmyzsh/ohmyzsh        path:plugins/z
 # ohmyzsh/ohmyzsh        path:plugins/git
