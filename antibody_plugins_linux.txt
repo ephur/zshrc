@@ -1,35 +1,36 @@
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
-zsh-users/zsh-syntax-highlighting
 
-robbyrussell/oh-my-zsh        path:lib/spectrum.zsh
-robbyrussell/oh-my-zsh        path:lib/git.zsh
-robbyrussell/oh-my-zsh        path:lib/termsupport.zsh
-robbyrussell/oh-my-zsh        path:plugins/colorize
-robbyrussell/oh-my-zsh        path:plugins/colored-man-pages
-robbyrussell/oh-my-zsh        path:plugins/golang
-robbyrussell/oh-my-zsh        path:plugins/sudo
-robbyrussell/oh-my-zsh        path:plugins/docker
-robbyrussell/oh-my-zsh        path:plugins/gitfast
+ohmyzsh/ohmyzsh        path:lib/spectrum.zsh
+ohmyzsh/ohmyzsh        path:lib/termsupport.zsh
+ohmyzsh/ohmyzsh        path:plugins/colorize
+ohmyzsh/ohmyzsh        path:plugins/colored-man-pages
+ohmyzsh/ohmyzsh        path:plugins/golang
+ohmyzsh/ohmyzsh        path:plugins/sudo
+ohmyzsh/ohmyzsh        path:plugins/docker
+ohmyzsh/ohmyzsh        path:plugins/fzf
 
-jeffreytse/zsh-vi-mode
 
-junegunn/fzf                  path:shell/key-bindings.zsh
-junegunn/fzf                  path:shell/completion.zsh
 
 supercrabtree/k
 romkatv/powerlevel10k
 romkatv/zsh-prompt-benchmark
 soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
 
+junegunn/fzf                  path:shell/key-bindings.zsh
+junegunn/fzf                  path:shell/completion.zsh
+
 # time to retire some things...
-# robbyrussell/oh-my-zsh        path:plugins/command-not-found
-# robbyrussell/oh-my-zsh        path:plugins/z
-# robbyrussell/oh-my-zsh        path:plugins/git
-# robbyrussell/oh-my-zsh        path:plugins/tmux
-# robbyrussell/oh-my-zsh        path:plugins/web-search
-# robbyrussell/oh-my-zsh        path:plugins/urltools
+# jeffreytse/zsh-vi-mode        <--- this breaks autosuggest colors, and fzf history search
+# ohmyzsh/ohmyzsh        path:lib/git.zsh
+# ohmyzsh/ohmyzsh        path:plugins/gitfast
+# ohmyzsh/ohmyzsh        path:plugins/command-not-found
+# ohmyzsh/ohmyzsh        path:plugins/z
+# ohmyzsh/ohmyzsh        path:plugins/git
+# ohmyzsh/ohmyzsh        path:plugins/tmux
+# ohmyzsh/ohmyzsh        path:plugins/web-search
+# ohmyzsh/ohmyzsh        path:plugins/urltools
 # jimeh/zsh-peco-history
-# robbyrussell/oh-my-zsh        path:plugins/fzf
+# ohmyzsh/ohmyzsh        path:plugins/fzf
 # johanhaleby/kubetail

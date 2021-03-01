@@ -13,6 +13,7 @@ function update_zsh_plugins() {
   esac
 
   antibody bundle < ${APLUGIN_FILE} > ${ZSH_CACHE_DIR}/antibody_plugins.zsh
+  antibody update
 
   for i in `find ${ACACHE_DIR}/antibody -name '*.zsh' -print`; do
     zcompile ${i} >/dev/null 2>&1

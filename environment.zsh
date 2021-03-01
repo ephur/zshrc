@@ -35,7 +35,7 @@ fi
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in
   linux*)
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=12'
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
   ;;
 esac
 
@@ -48,6 +48,9 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=${HISTSIZE}
 export XDG_CONFIG_HOME="${HOME}/.config"
+
+# environment for some plugins
+ZSH_COLORIZE_STYLE="dracula"
 
 # FZF Dracula colors
 export FZF_DEFAULT_OPTS='
