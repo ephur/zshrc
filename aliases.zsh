@@ -22,7 +22,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias rmpyc='find . -name "*.pyc" -print -exec rm {} \;'
 alias lsaws='aws ec2 describe-instances | jq '"'"'.Reservations[].Instances[] | select(.State.Code != 48) | [.LaunchTime, .State.Name, .PrivateIpAddress, (.Tags[]|select(.Key=="Name")|.Value)]'"'"
-alias rootme='sudo -E /bin/zsh'
+alias rootme='_ZO_DATA_DIR=/root/.local/share/zoxide/ sudo -E /bin/zsh'
 
 # exa is a better ls
 if (which exa >/dev/null 2>&1); then
