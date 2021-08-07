@@ -15,6 +15,9 @@ export PAGER=less
 # Disable accessibility bridge features
 export NO_AT_BRIDGE=1
 
+# setup SSH agent socket
+eval "$(ssh-agent -s)"
+
 ### konsole/yakuake don't handle blurring in KDE/Plasa 5 right, so work around
 ### this needs to happen early before tmux or antibody runs
 if [[ ${XDG_SESSION_DESKTOP} = ("KDE"|"plasma") ]] && [[ -z ${SUSPECTED_TERM_PID} ]]; then
