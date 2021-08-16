@@ -38,9 +38,13 @@ if (which lsd >/dev/null 2>&1); then
   alias ll='lsd -Al'
 fi 
 
+alias tf1='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform1 ${HOME}/bin/terraform'
 alias tf9='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform9 ${HOME}/bin/terraform'
 alias tf11='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform11 ${HOME}/bin/terraform'
 alias tf12='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform12 ${HOME}/bin/terraform'
+alias tf13='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform13 ${HOME}/bin/terraform'
+alias tf14='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform14 ${HOME}/bin/terraform'
+alias tf15='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform15 ${HOME}/bin/terraform'
 
 # Some platform specific items
 case ${OSTYPE} in

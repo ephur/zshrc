@@ -12,6 +12,8 @@ export LESSCHARSET='latin1'
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
 export PAGER=less
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 # Disable accessibility bridge features
 export NO_AT_BRIDGE=1
 

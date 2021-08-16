@@ -36,7 +36,6 @@ else
     command_execution_time
     status
     time
-    kube_context
     vcs
     newline
     context
