@@ -31,3 +31,8 @@ fi
 if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
+
+if [ -d "${HOME}/.cargo/" ]; then
+  source $HOME/.cargo/env
+fi 
+

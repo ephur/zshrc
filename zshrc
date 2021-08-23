@@ -107,9 +107,9 @@ zle -N edit-command-line
 bindkey -M vicmd '!' edit-command-line
 
 ### Some terminals need VTE sourced in
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-  source /etc/profile.d/vte.sh
-fi
+#if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+#  source /etc/profile.d/vte.sh
+#fi
 
 ### Use find-the-command if it's installed
 [[ -f "/usr/share/doc/find-the-command/ftc.zsh" ]] && source /usr/share/doc/find-the-command/ftc.zsh

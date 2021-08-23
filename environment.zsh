@@ -2,7 +2,16 @@
 export ZSH_CACHE_DIR=${ZSH}/cache
 if [ ! -d ${ZSH_CACHE_DIR} ]; then
   mkdir -p ${ZSH_CACHE_DIR}
+  mkdir ${ZSH_CACHE_DIR}/completions
 fi
+
+fpath+=${ZSH_CACHE_DIR}/completions
+
+if [ -d /var/lib/flatpak/exports/share ]; then 
+  XDG_DATA_DIRS=${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share
+fi
+
+
 
 # Set some useful environment vars
 (which nvim >/dev/null 2>&1) && export EDITOR=nvim || export EDITOR=vi
