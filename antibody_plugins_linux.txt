@@ -13,8 +13,6 @@ ohmyzsh/ohmyzsh        path:plugins/sudo
 ohmyzsh/ohmyzsh        path:plugins/docker
 ohmyzsh/ohmyzsh        path:plugins/fzf
 
-
-
 supercrabtree/k
 romkatv/powerlevel10k
 romkatv/zsh-prompt-benchmark
@@ -22,15 +20,3 @@ soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
 
 junegunn/fzf                  path:shell/key-bindings.zsh
 junegunn/fzf                  path:shell/completion.zsh
-
-# time to retire some things...
-# jeffreytse/zsh-vi-mode        <--- this breaks autosuggest colors, and fzf history search
-# ohmyzsh/ohmyzsh        path:plugins/command-not-found
-# ohmyzsh/ohmyzsh        path:plugins/z
-# ohmyzsh/ohmyzsh        path:plugins/git
-# ohmyzsh/ohmyzsh        path:plugins/tmux
-# ohmyzsh/ohmyzsh        path:plugins/web-search
-# ohmyzsh/ohmyzsh        path:plugins/urltools
-# jimeh/zsh-peco-history
-# ohmyzsh/ohmyzsh        path:plugins/fzf
-# johanhaleby/kubetail

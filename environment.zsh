@@ -34,7 +34,8 @@ else
 fi
 
 # Check some special paths to add/update env
-[ -d "/home/ephur/.gem/ruby/2.7.0/bin" ] && export PATH="/home/ephur/.gem/ruby/2.7.0/bin":${PATH}
+[ -d "${HOME}/.gem/ruby/2.7.0/bin" ] && export PATH="${HOME}/.gem/ruby/2.7.0/bin":${PATH}
+[ -d "${HOME}/.cargo/bin" ] && export PATH=${HOME}/.cargo/bin:$PATH
 [ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
 
 # Default color doesn't work well with my gnome-terminal settings
