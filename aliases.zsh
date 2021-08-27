@@ -11,8 +11,6 @@ alias grep='grep --color=auto'
 alias i='or-infra'
 alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
 alias ssh='TERM=xterm-256color ssh'
-alias ops='eval $(op signin my)'
-alias raxsso="op get item Rackspace\ SSO | jq --raw-output '.details.fields[] | select(.designation==\"password\").value' | pbcopy"
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
@@ -23,6 +21,12 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias rmpyc='find . -name "*.pyc" -print -exec rm {} \;'
 alias lsaws='aws ec2 describe-instances | jq '"'"'.Reservations[].Instances[] | select(.State.Code != 48) | [.LaunchTime, .State.Name, .PrivateIpAddress, (.Tags[]|select(.Key=="Name")|.Value)]'"'"
 alias rootme='_ZO_DATA_DIR=/root/.local/share/zoxide/ sudo -E /bin/zsh'
+
+if (which dnf >/dev/null 2>&1); then 
+  alias di='sudo dnf install'
+  alias dr='sudo dnf remove'
+  alias ds='dnf search'
+fi 
 
 # exa is a better ls
 if (which exa >/dev/null 2>&1); then

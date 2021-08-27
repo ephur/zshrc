@@ -209,3 +209,25 @@ function unset_aws(){
     unset $i
   done
 }
+
+function check_op() { 
+  if which op >/dev/null 2>&1; then 
+    return 0
+  else
+    echo "1password CLI tool not installed, get it at: https://support.1password.com/command-line-getting-started/"
+    return 1
+  fi
+}
+
+function ops() { 
+  check_op || return 1
+  eval $(op signin $1)
+}
+
+function opg() { 
+  check_op || return 1
+  op_account=$1
+  shift 
+  item="$@"
+  op --account ${op_account} get item ${item} --fields password | pbcopy
+}
