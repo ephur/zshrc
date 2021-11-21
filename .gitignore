@@ -7,3 +7,4 @@ wsl
 # cache directory and compiled zsh byte code
 cache/
 *.zwc
+.vscode/

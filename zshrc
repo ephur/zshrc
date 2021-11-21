@@ -2,7 +2,7 @@
 if [[ -f /etc/arch-release ]]; then
   # arch gets a slightly stripped down path
   export PATH=${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
-elif [[ -f ~/.zsh/wsl ]]; then 
+elif [[ -f ~/.zsh/wsl ]]; then
   export PATH=${PATH}:${HOME}/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/X11/bin
 else
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin
@@ -77,7 +77,7 @@ for filename in functions.zsh secrets.zsh aliases.zsh do;
 fi
 
 # Get 1password completions
-if which op >/dev/null 2>&1; then 
+if which op >/dev/null 2>&1; then
   local op=$(which op | head -1)
   local shl=$(echo ${SHELL} | awk -F/ '{print $NF}')
   eval "$($op completion $shl)"
@@ -115,7 +115,7 @@ fi
 [[ -f "/usr/share/doc/find-the-command/ftc.zsh" ]] && source /usr/share/doc/find-the-command/ftc.zsh
 
 ### Check if suspected terminal is in a list we want to blur background of
-if ! [[ -z ${SUSPECTED_TERM_PID} ]]; then 
+if ! [[ -z ${SUSPECTED_TERM_PID} ]]; then
   if [[ $(ps --no-header -p ${SUSPECTED_TERM_PID} -o comm | egrep '(yakuake|konsole|alacritty)' ) ]]; then
     for wid in $(xdotool search --pid $PPID); do
       xprop -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 -id $wid  >/dev/null 2>&1
@@ -126,6 +126,9 @@ fi
 # remove duplicates from path
 # thanks: https://unix.stackexchange.com/questions/40749/remove-duplicate-path-entries-with-awk-command
 if [ -n "$PATH" ]; then
+  if [ ${IS_WINDOWS} -eq 1 ]; then
+    [[ -f ${ZSH}/win_path.zsh ]] && source ${ZSH}/win_path.zsh
+  fi
   old_PATH=$PATH:; PATH=
   while [ -n "$old_PATH" ]; do
     x=${old_PATH%%:*}       # the first remaining entry
