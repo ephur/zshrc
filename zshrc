@@ -71,7 +71,7 @@ setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
 setopt extended_glob
 
 # Source all of the other things
-for filename in functions.zsh secrets.zsh aliases.zsh do;
+for filename in aliases.zsh functions.zsh secrets.zsh do;
     if [ -f "${ZSH}/${filename}" ]; then
         . ${ZSH}/${filename}
 fi
