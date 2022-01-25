@@ -8,6 +8,8 @@
   eval "$(pyenv virtualenv-init -)"
 fi
 
+[ -d "${HOME}/.composer/vendor/bin" ] && export PATH="${HOME}/.composer/vendor/bin:${PATH}"
+
 # setup for goenv (requires goenv 2+)
 if [ "-d ${HOME}/.goenv" ]; then
     export GOENV_GOPATH_PREFIX="${HOME}/Projects/go"
@@ -20,6 +22,12 @@ if [ "-d ${HOME}/.goenv" ]; then
     #export PATH="${GOROOT}/bin:$PATH"
     #export PATH="${GOPATH}/bin:$PATH"
 fi
+
+# setup for rbenv
+if [ "-d ${HOME}/.rbenv" ]; then 
+  export PATH="${HOME}/.rbenv/bin:${PATH}"
+  eval "$(rbenv init - zsh)"
+fi 
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 if [ -f "$HOME/.rvm/scripts/rvm" ]; then
