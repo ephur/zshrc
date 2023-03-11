@@ -37,10 +37,6 @@ fi
 [ -d "${HOME}/.gem/ruby/2.7.0/bin" ] && export PATH="${HOME}/.gem/ruby/2.7.0/bin":${PATH}
 [ -d "${HOME}/.cargo/bin" ] && export PATH=${HOME}/.cargo/bin:$PATH
 [ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
-# put phpstorm in path 
-for ps in ${HOME}/bin/PhpStorm-*/bin;
-  do PATH=${PATH}:${ps}
-done
 
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in
