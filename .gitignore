@@ -1,3 +1,7 @@
+# Ignore antibody git local install
+# git clone --depth=1 https://github.com/mattmc3/antidote.git .antidote
+.antidote
+
 # Don't commit anything sensitive
 secrets.zsh
 

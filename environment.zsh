@@ -1,9 +1,3 @@
-# Set the ZSH cache directory
-export ZSH_CACHE_DIR=${ZSH}/cache
-if [ ! -d ${ZSH_CACHE_DIR} ]; then
-  mkdir -p ${ZSH_CACHE_DIR}
-fi
-
 # Set some useful environment vars
 (which nvim >/dev/null 2>&1) && export EDITOR=nvim || export EDITOR=vi
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
@@ -12,13 +6,22 @@ export LESSCHARSET='latin1'
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
 export PAGER=less
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # Disable accessibility bridge features
 export NO_AT_BRIDGE=1
 
 # setup SSH agent socket
-eval "$(ssh-agent -s)"
+case $OSTYPE in
+  linux*)
+    export XDG_RUNTIME_DIR=/run/user/$(id -u)
+    ;;
+  darwin*)
+    export XDG_RUNTIME_DIR=${HOME}/Library/Caches/xdg
+    ;;
+esac
+
+# Setup SSH agent
+eval "$(ssh-agent -s)" >/dev/null 2>&1
 
 ### konsole/yakuake don't handle blurring in KDE/Plasa 5 right, so work around
 ### this needs to happen early before tmux or antibody runs
@@ -37,10 +40,10 @@ fi
 [ -d "${HOME}/.gem/ruby/2.7.0/bin" ] && export PATH="${HOME}/.gem/ruby/2.7.0/bin":${PATH}
 [ -d "${HOME}/.cargo/bin" ] && export PATH=${HOME}/.cargo/bin:$PATH
 [ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
-# put phpstorm in path 
-for ps in ${HOME}/bin/PhpStorm-*/bin;
-  do PATH=${PATH}:${ps}
-done
+# put phpstorm in path
+#for ps in ${HOME}/bin/PhpStorm-*/bin;
+#  do PATH=${PATH}:${ps}
+#done
 
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in
@@ -57,6 +60,7 @@ _ZO_DATA=~/.zo
 export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=${HISTSIZE}
+export DIRSTACKSIZE=32
 export XDG_CONFIG_HOME="${HOME}/.config"
 
 # environment for some plugins
