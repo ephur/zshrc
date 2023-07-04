@@ -1,7 +1,4 @@
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-completions
-zsh-users/zsh-autosuggestions
-
+ohmyzsh/ohmyzsh        path:lib/functions.zsh
 ohmyzsh/ohmyzsh        path:lib/spectrum.zsh
 ohmyzsh/ohmyzsh        path:lib/termsupport.zsh
 ohmyzsh/ohmyzsh        path:lib/git.zsh
@@ -12,6 +9,10 @@ ohmyzsh/ohmyzsh        path:plugins/golang
 ohmyzsh/ohmyzsh        path:plugins/sudo
 ohmyzsh/ohmyzsh        path:plugins/docker
 ohmyzsh/ohmyzsh        path:plugins/fzf
+
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
 
 supercrabtree/k
 romkatv/powerlevel10k

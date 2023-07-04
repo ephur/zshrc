@@ -11,10 +11,12 @@ alias grep='grep --color=auto'
 alias i='or-infra'
 alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
 alias ssh='TERM=xterm-256color ssh'
+alias dirs='dirs -v'
 
 # Extra handy things
 alias resrc="source ~/.zshrc"
 alias gpthis='git push origin HEAD:$(git_current_branch)'
+alias gpthisdown='git push downstream HEAD:$(git_current_branch)'
 alias gpfthis='git push --force origin HEAD:$(git_current_branch)'
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'

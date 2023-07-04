@@ -1,0 +1,27 @@
+# Load ordering matters since ohmyzsh is diassembled
+
+ohmyzsh/ohmyzsh        path:lib/functions.zsh
+ohmyzsh/ohmyzsh        path:lib/spectrum.zsh
+ohmyzsh/ohmyzsh        path:lib/termsupport.zsh
+ohmyzsh/ohmyzsh        path:lib/git.zsh
+ohmyzsh/ohmyzsh        path:plugins/urltools
+ohmyzsh/ohmyzsh        path:plugins/gitfast
+ohmyzsh/ohmyzsh        path:plugins/colorize
+ohmyzsh/ohmyzsh        path:plugins/colored-man-pages
+ohmyzsh/ohmyzsh        path:plugins/golang
+ohmyzsh/ohmyzsh        path:plugins/sudo
+ohmyzsh/ohmyzsh        path:plugins/docker
+ohmyzsh/ohmyzsh        path:plugins/fzf
+
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+
+supercrabtree/k
+agkozak/zsh-z
+romkatv/powerlevel10k
+romkatv/zsh-prompt-benchmark
+soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
+
+junegunn/fzf                  path:shell/key-bindings.zsh
+junegunn/fzf                  path:shell/completion.zsh
