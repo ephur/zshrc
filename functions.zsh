@@ -67,7 +67,7 @@ prompt_kube_context() {
   fi
   if [[ "$context" =~ "arn:aws*" ]]; then
     context=${context#*/}
-  fi 
+  fi
   local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
   if [ "${namespace}" = "" ]; then
     namespace='default'
@@ -103,9 +103,9 @@ function update_completions(){
 }
 
 function nfs_mount(){
-  if [[ -f "/etc/nfstab" ]]; then 
+  if [[ -f "/etc/nfstab" ]]; then
     sudo mount -aT /etc/nfstab
-  fi 
+  fi
   echo "/etc/nfstab doesn't exist"
 }
 
@@ -116,8 +116,8 @@ function unset_aws(){
   done
 }
 
-function check_op() { 
-  if which op >/dev/null 2>&1; then 
+function check_op() {
+  if which op >/dev/null 2>&1; then
     return 0
   else
     echo "1password CLI tool not installed, get it at: https://support.1password.com/command-line-getting-started/"
@@ -125,15 +125,38 @@ function check_op() {
   fi
 }
 
-function ops() { 
+function ops() {
   check_op || return 1
   eval $(op signin $1)
 }
 
-function opg() { 
+function opg() {
   check_op || return 1
   op_account=$1
-  shift 
+  shift
   item="$@"
   op --account ${op_account} get item ${item} --fields password | pbcopy
+}
+
+function dq() {
+  [[ -z "$1" ]] && echo "dq <domain>" && exit 1
+
+  g=$(dig +noall +answer +short @8.8.8.8 $1)
+  c=$(dig +noall +answer +short @1.1.1.1 $1)
+  o=$(dig +noall +answer +short @208.67.222.222 $1)
+  d=$(dig +noall +answer +short +identify $1)
+
+  echo "Various Results for $1"
+  echo ""
+  echo "${d}"
+  echo ""
+  echo "${g} via google/8.8.8.8"
+  echo "${c} via cloudflare/1.1.1.1"
+  echo "${o} via opendns/208.67.222.222"
+}
+
+function tdl() {
+  # a terraform dev deploy
+  limit=$1; shift;
+  ./terraform-deploy -d ${PROJECTS} -l $limit $@
 }
