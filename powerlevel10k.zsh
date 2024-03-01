@@ -20,6 +20,7 @@ if [ -z "${SSH_CLIENT}" ]; then
     os_icon
     command_execution_time
     status
+    aws
     goenv
     pyenv
     kube_context
@@ -96,7 +97,7 @@ typeset -g POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="magenta"
 typeset -g POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="${DEFAULT_BACKGROUND}"
 typeset -g POWERLEVEL9K_USER_ROOT_ICON=$'\uF198'  # 
 
-# Prompt char 
+# Prompt char
 typeset -g POWERLEVEL9K_PROMPT_CHAR_FOREGROUND="${ALT_FOREGROUND}"
 typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND="${ALT_BACKGROUND}"
 
@@ -115,9 +116,8 @@ typeset -g POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW=true
 # custom segments setup
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_BACKGROUND="${DEFAULT_BACKGROUND}"
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_FOREGROUND="${DEFAULT_FOREGROUND}"
+
 # DEV/STAGE/PROD refers to the context of k8s context segments
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_DEV_FOREGROUND="10"
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_STAGE_FOREGROUND="11"
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_PROD_FOREGROUND="9"
-# show k8s context only when typing kube related commands?
-# typeset -g POWERLEVEL9K_KUBE_CONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc'
