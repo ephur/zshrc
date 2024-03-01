@@ -4,6 +4,7 @@
 
 # Don't commit anything sensitive
 secrets.zsh
+work.zsh
 
 # Some settings to control things in WSL, if using a shell in WSL, `touch ${ZSH}/wsl`
 wsl

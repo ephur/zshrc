@@ -91,7 +91,7 @@ setopt pushdtohome
 setopt extended_glob
 
 # final loading extra resources
-for filename in aliases.zsh functions.zsh secrets.zsh do;
+for filename in aliases.zsh functions.zsh secrets.zsh work.zsh do;
     if [ -f "${ZSH}/${filename}" ]; then
         . ${ZSH}/${filename}
 fi

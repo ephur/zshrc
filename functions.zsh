@@ -144,11 +144,8 @@ function dq() {
   g=$(dig +noall +answer +short @8.8.8.8 $1)
   c=$(dig +noall +answer +short @1.1.1.1 $1)
   o=$(dig +noall +answer +short @208.67.222.222 $1)
-  d=$(dig +noall +answer +short +identify $1)
 
   echo "Various Results for $1"
-  echo ""
-  echo "${d}"
   echo ""
   echo "${g} via google/8.8.8.8"
   echo "${c} via cloudflare/1.1.1.1"
@@ -158,5 +155,5 @@ function dq() {
 function tdl() {
   # a terraform dev deploy
   limit=$1; shift;
-  ./terraform-deploy -d ${PROJECTS} -l $limit $@
+  ./deploy -d ${PROJECTS} -l $limit $@
 }
