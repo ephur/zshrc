@@ -37,13 +37,11 @@ else
 fi
 
 # Check some special paths to add/update env
-[ -d "${HOME}/.gem/ruby/2.7.0/bin" ] && export PATH="${HOME}/.gem/ruby/2.7.0/bin":${PATH}
 [ -d "${HOME}/.cargo/bin" ] && export PATH=${HOME}/.cargo/bin:$PATH
 [ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
-# put phpstorm in path
-#for ps in ${HOME}/bin/PhpStorm-*/bin;
-#  do PATH=${PATH}:${ps}
-#done
+# WSL Cuda
+[ -d /usr/local/cuda/ ] && export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+[ -d /usr/local/cuda/ ] && export PATH=/usr/local/cuda/bin:${PATH}
 
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in

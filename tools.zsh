@@ -1,3 +1,5 @@
+REFRESH_CACHE=${REFRESH_CACH:-0}
+
 # If Homebrew is installed, use its completions and add it to the path
 [[ -f /opt/homebrew/bin/brew ]] && export PATH=${PATH}:/opt/homebrew/bin && FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
@@ -10,6 +12,11 @@
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
+
+# setup for nvm
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # setup for goenv (requires goenv 2+)
 if [ "-d ${HOME}/.goenv" ]; then
@@ -43,7 +50,12 @@ fi
 
 # CircleCI CLI
 if which circleci > /dev/null 2>&1; then
-  eval $(circleci completion zsh)
+  [[ -f ${ZSH_CACHE_DIR}/circleci_completion.zwc ]] || {
+    circleci completion zsh > ${ZSH_CACHE_DIR}/circleci_completion
+    zcompile ${ZSH_CACHE_DIR}/circleci_completion
+  }
+
+  source ${ZSH_CACHE_DIR}/circleci_completion.zwc
   compdef circleci
 fi
 
