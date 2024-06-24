@@ -38,8 +38,10 @@ fi
 
 # Check some special paths to add/update env
 [ -d "${HOME}/.cargo/bin" ] && export PATH=${HOME}/.cargo/bin:$PATH
-[ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
-# WSL Cuda
+
+# Check for CUDA and add to path
+[ -d /opt/cuda/ ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
+[ -d /opt/cuda ] && export PATH=/opt/cuda/bin:${PATH}
 [ -d /usr/local/cuda/ ] && export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 [ -d /usr/local/cuda/ ] && export PATH=/usr/local/cuda/bin:${PATH}
 
@@ -59,6 +61,8 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=${HISTSIZE}
 export DIRSTACKSIZE=32
+
+# ensure a consistent XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="${HOME}/.config"
 
 # environment for some plugins

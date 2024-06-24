@@ -1,5 +1,3 @@
-REFRESH_CACHE=${REFRESH_CACH:-0}
-
 # If Homebrew is installed, use its completions and add it to the path
 [[ -f /opt/homebrew/bin/brew ]] && export PATH=${PATH}:/opt/homebrew/bin && FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
@@ -8,15 +6,17 @@ REFRESH_CACHE=${REFRESH_CACH:-0}
   export PYENV_VIRTUALENV_DISABLE_PROMPT=1
   export PYENV_ROOT="${HOME}/.pyenv"
   export PATH="${PYENV_ROOT}/bin:${PATH}"
-  eval "$(pyenv init --path)"
+  # Don't think this is needed anymore, it just creates
+  # the shims, but pyenv init - does that too
+  # eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
 # setup for nvm
 export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # setup for goenv (requires goenv 2+)
 if [ "-d ${HOME}/.goenv" ]; then
@@ -25,10 +25,8 @@ if [ "-d ${HOME}/.goenv" ]; then
     export PATH="${GOENV_ROOT}/bin:${PATH}"
     eval "$(goenv init -)"
     if [ "-f ${HOME}/.goenv/completions/goenv.zsh" ]; then
-        . ${HOME}/.goenv/completions/goenv.zsh
+        source ${HOME}/.goenv/completions/goenv.zsh
     fi
-    #export PATH="${GOROOT}/bin:$PATH"
-    #export PATH="${GOPATH}/bin:$PATH"
 fi
 
 # setup for rbenv
@@ -48,7 +46,7 @@ if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
 
-
+# CircleCI CLI tool
 if which circleci > /dev/null 2>&1; then
   export CIRCLECI_CLI_SKIP_UPDATE_CHECK=1
 
