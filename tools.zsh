@@ -49,12 +49,11 @@ fi
 # CircleCI CLI tool
 if which circleci > /dev/null 2>&1; then
   export CIRCLECI_CLI_SKIP_UPDATE_CHECK=1
-
-  if ! [[ -f "${ZSH_CACHE_DIR}/circleci_completion.zsh" ]] || find "${ZSH_CACHE_DIR}/circleci_completion.zsh" -mtime +30 | grep -q .; then
-    circleci completion zsh > "${ZSH_CACHE_DIR}/circleci.completion"
+  circle_file="${ZSH_CACHE_DIR}/circleci_completion.zsh"
+  if ! [[ -f "${circle_file}" ]] || find "${circle_file}" -mtime +30 | grep -q .; then
+    circleci completion zsh > ${circle_file}
   fi
-
-  source "${ZSH_CACHE_DIR}/circleci_completion.zsh"
+  source "${circle_file}"
 fi
 
 # Get 1password completions
