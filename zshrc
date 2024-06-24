@@ -151,4 +151,5 @@ compinit
   fi
 } &!
 
-test -e /Users/rmaynard/.iterm2_shell_integration.zsh && source /Users/rmaynard/.iterm2_shell_integration.zsh || true
+# dump this pig
+# test -e /Users/rmaynard/.iterm2_shell_integration.zsh && source /Users/rmaynard/.iterm2_shell_integration.zsh || true
