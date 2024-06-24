@@ -30,9 +30,13 @@ bindkey -v
 # Handle dircolors, must be done before applying zstyles that use them
 case $OSTYPE in
   darwin*)
-    export CLICOLOR=1
-    export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-    export TERM="xterm-256color"
+    if [[ -f /opt/homebrew/bin/gdircolors && -f ${ZSH}/dircolors ]]  ; then
+      eval $(/opt/homebrew/bin/gdircolors -b ${ZSH}/dircolors)
+    else
+      export CLICOLOR=1
+      export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+      export TERM="xterm-256color"
+    fi
   ;;
   linux*)
     if [[ -f ${ZSH}/dircolors ]]; then
@@ -91,15 +95,15 @@ setopt pushdtohome
 setopt extended_glob
 
 # final loading extra resources
-for filename in aliases.zsh functions.zsh secrets.zsh do;
+for filename in aliases.zsh functions.zsh secrets.zsh work.zsh do;
     if [ -f "${ZSH}/${filename}" ]; then
         . ${ZSH}/${filename}
 fi
 
 # Enable VI editing for current command line
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd '!' edit-command-line
+# autoload -Uz edit-command-line
+# zle -N edit-command-line
+# bindkey -M vicmd '!' edit-command-line
 
 ### Some terminals need VTE sourced in
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
@@ -146,3 +150,5 @@ compinit
     zcompile "$zcompdump"
   fi
 } &!
+
+test -e /Users/rmaynard/.iterm2_shell_integration.zsh && source /Users/rmaynard/.iterm2_shell_integration.zsh || true
