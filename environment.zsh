@@ -21,7 +21,7 @@ case $OSTYPE in
 esac
 
 # Setup SSH agent
-eval "$(ssh-agent -s)" >/dev/null 2>&1
+# eval "$(ssh-agent -s)" >/dev/null 2>&1
 
 ### konsole/yakuake don't handle blurring in KDE/Plasa 5 right, so work around
 ### this needs to happen early before tmux or antibody runs

@@ -79,16 +79,6 @@ prompt_kube_context() {
   p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
 }
 
-#watch_nodes(){
-#  if [[ -z $1 ]]; then
-#    ctx_string=""
-#  else
-#    ctx_string="--context=$1"
-#  fi
-#
-#  watch -n1 kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
-#}
-
 function update_completions(){
 	# Add kubectl/minikube/helm completions, any argument sources existing caches only
   # while running with no arguments will also generate new completions
@@ -150,10 +140,4 @@ function dq() {
   echo "${g} via google/8.8.8.8"
   echo "${c} via cloudflare/1.1.1.1"
   echo "${o} via opendns/208.67.222.222"
-}
-
-function tdl() {
-  # a terraform dev deploy
-  limit=$1; shift;
-  ./deploy -d ${PROJECTS} -l $limit $@
 }

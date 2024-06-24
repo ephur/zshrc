@@ -43,6 +43,7 @@ fi
 
 # CircleCI CLI
 if which circleci > /dev/null 2>&1; then
+  export CIRCLECI_CLI_SKIP_UPDATE_CHECK=1
   if ! [[ -f "${ZSH_CACHE_DIR}/circleci_completion.zsh" ]]; then
     circleci completion zsh > "${ZSH_CACHE_DIR}/circleci_completion.zsh"
   fi
