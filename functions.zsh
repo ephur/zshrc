@@ -81,7 +81,7 @@ prompt_kube_context() {
 
 function update_completions(){
 	# Add kubectl/minikube/helm completions, any argument sources existing caches only
-  # while running with no arguments will also generate new completions
+    # while running with no arguments will also generate new completions
 	local source_only=${1}
 	for i in kubectl minikube helm; do
     local cfile="${ZSH_CACHE_DIR}/${i}.completion"

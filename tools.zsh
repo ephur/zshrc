@@ -48,16 +48,15 @@ if which kubectl-krew >/dev/null 2>&1; then
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
 
-# CircleCI CLI
+
 if which circleci > /dev/null 2>&1; then
   export CIRCLECI_CLI_SKIP_UPDATE_CHECK=1
-  if ! [[ -f "${ZSH_CACHE_DIR}/circleci_completion.zsh" ]]; then
-    circleci completion zsh > "${ZSH_CACHE_DIR}/circleci_completion.zsh"
-    zcompile ${ZSH_CACHE_DIR}/circleci_completion
+
+  if ! [[ -f "${ZSH_CACHE_DIR}/circleci_completion.zsh" ]] || find "${ZSH_CACHE_DIR}/circleci_completion.zsh" -mtime +30 | grep -q .; then
+    circleci completion zsh > "${ZSH_CACHE_DIR}/circleci.completion"
   fi
 
-  source ${ZSH_CACHE_DIR}/circleci_completion.zwc
-  compdef circleci
+  source "${ZSH_CACHE_DIR}/circleci_completion.zsh"
 fi
 
 # Get 1password completions
@@ -69,14 +68,14 @@ if which op >/dev/null 2>&1; then
 fi
 
 # Use zoxide for dir history if it's available
-# if which zoxide >/dev/null 2>&1; then
-#   # export _ZO_DATA_DIR="${HOME}/.zoxide_data_dir}"
-#   export _ZO_ECHO=1
-#   export _ZO_FZF_OPTS=${FZF_DEFAULT_OPTS}
-#   eval "$(zoxide init zsh)"
-# else
-# echo "zoxide not found, consider installing it!"
-# fi
+if which zoxide >/dev/null 2>&1; then
+  # export _ZO_DATA_DIR="${HOME}/.zoxide_data_dir}"
+  export _ZO_ECHO=1
+  export _ZO_FZF_OPTS=${FZF_DEFAULT_OPTS}
+  eval "$(zoxide init zsh)"
+else
+    echo "zoxide not found, consider installing it!"
+fi
 
 # AzureCLI Auto Completions, if exists (via AUR)
 [ -f "/opt/azure-cli/az.completion" ] && source "/opt/azure-cli/az.completion"
