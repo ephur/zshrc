@@ -21,7 +21,7 @@ case $OSTYPE in
 esac
 
 # Setup SSH agent
-eval "$(ssh-agent -s)" >/dev/null 2>&1
+# eval "$(ssh-agent -s)" >/dev/null 2>&1
 
 ### konsole/yakuake don't handle blurring in KDE/Plasa 5 right, so work around
 ### this needs to happen early before tmux or antibody runs
@@ -37,13 +37,13 @@ else
 fi
 
 # Check some special paths to add/update env
-[ -d "${HOME}/.gem/ruby/2.7.0/bin" ] && export PATH="${HOME}/.gem/ruby/2.7.0/bin":${PATH}
 [ -d "${HOME}/.cargo/bin" ] && export PATH=${HOME}/.cargo/bin:$PATH
-[ -d /opt/cuda/lib64 ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
-# put phpstorm in path
-#for ps in ${HOME}/bin/PhpStorm-*/bin;
-#  do PATH=${PATH}:${ps}
-#done
+
+# Check for CUDA and add to path
+[ -d /opt/cuda/ ] && export LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
+[ -d /opt/cuda ] && export PATH=/opt/cuda/bin:${PATH}
+[ -d /usr/local/cuda/ ] && export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+[ -d /usr/local/cuda/ ] && export PATH=/usr/local/cuda/bin:${PATH}
 
 # Default color doesn't work well with my gnome-terminal settings
 case $OSTYPE in
@@ -61,6 +61,8 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=${HISTSIZE}
 export DIRSTACKSIZE=32
+
+# ensure a consistent XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="${HOME}/.config"
 
 # environment for some plugins

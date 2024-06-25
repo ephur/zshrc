@@ -25,8 +25,10 @@ function update_zsh_plugins() {
 
 if which antidote >/dev/null 2>&1; then
   if [ -f "${ZSH_CACHE_DIR}/antidote_plugins.zsh" ]; then
+    # echo "Sourcing Cache Plugins"
     . ${ZSH_CACHE_DIR}/antidote_plugins.zsh
   else
+    # echo "Updating Plugins"
     update_zsh_plugins
   fi
 else

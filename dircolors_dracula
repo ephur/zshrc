@@ -98,7 +98,7 @@ TERM xterm-termite
 NORMAL 00;38;5;15 # no color code at all
 #FILE 00 # regular file: use no color at all
 RESET 0 # reset to "normal" color
-DIR 00;38;5;6 # directory 01;34
+DIR 01;04;38;5;6 # directory 01;34
 LINK 00;38;5;2 # symbolic link. (If you set this to 'target' instead of a
  # numerical value, the color is as for the file pointed to.)
 MULTIHARDLINK 00 # regular file with more than one link
@@ -181,41 +181,47 @@ EXEC 00;38;5;2
 .ico    00;38;5;3
 
 # Files of special interest (base1)
-.tex             00;38;5;7
-.rdf             00;38;5;7
-.owl             00;38;5;7
-.n3              00;38;5;7
-.ttl             00;38;5;7
-.nt              00;38;5;7
-.torrent         00;38;5;7
-.xml             00;38;5;7
-*Makefile        00;38;5;7
-*Rakefile        00;38;5;7
-*Dockerfile      00;38;5;7
-*build.xml       00;38;5;7
-*rc              00;38;5;7
-*1               00;38;5;7
-.nfo             00;38;5;7
-*README          00;38;5;7
-*README.txt      00;38;5;7
-*readme.txt      00;38;5;7
-.md              00;38;5;7
-*README.markdown 00;38;5;7
-.ini             00;38;5;7
-.yml             00;38;5;7
-.cfg             00;38;5;7
-.conf            00;38;5;7
-.h               00;38;5;7
-.hpp             00;38;5;7
-.c               00;38;5;7
-.cpp             00;38;5;7
-.cxx             00;38;5;7
-.cc              00;38;5;7
-.objc            00;38;5;7
-.sqlite          00;38;5;7
-.go              00;38;5;7
-.sql             00;38;5;7
-.csv             00;38;5;7
+.tex             00;38;5;157
+.rdf             00;38;5;157
+.owl             00;38;5;157
+.n3              00;38;5;157
+.ttl             00;38;5;157
+.nt              00;38;5;157
+.torrent         00;38;5;157
+.xml             00;38;5;157
+*Makefile        00;38;5;157
+*Rakefile        00;38;5;157
+*Dockerfile      00;38;5;157
+*build.xml       00;38;5;157
+*rc              00;38;5;157
+*1               00;38;5;157
+.nfo             00;38;5;157
+*README          00;38;5;157
+*README.txt      00;38;5;157
+*readme.txt      00;38;5;157
+.md              00;38;5;157
+*README.markdown 00;38;5;157
+.h               00;38;5;157
+.hpp             00;38;5;157
+.c               00;38;5;157
+.cpp             00;38;5;157
+.cxx             00;38;5;157
+.cc              00;38;5;157
+.objc            00;38;5;157
+.sqlite          00;38;5;157
+.go              00;38;5;157
+.sql             00;38;5;157
+.csv             00;38;5;157
+.py              00;38;5;157
+.sh              00;38;5;157
+.tf              00;38;5;157
+.j2              00;38;5;157
+
+# Structured text files
+.json       00;38;5;81
+.yaml       00;38;5;81
+.yml        00;38;5;81
+
 
 # "unimportant" files as logs and backups (base01)
 .log        00;38;5;8
@@ -239,6 +245,9 @@ EXEC 00;38;5;2
 .pyc        00;38;5;8
 .class      00;38;5;8
 .cache      00;38;5;8
+.pyo        00;38;5;8
+.DS_Store   00;38;5;8
+
 
 # Audio formats (orange)
 .aac    00;38;5;1
@@ -254,11 +263,17 @@ EXEC 00;38;5;2
 .ra     00;38;5;1
 .wav    00;38;5;1
 .m4a    00;38;5;1
-# http://wiki.xiph.org/index.php/MIME_Types_and_File_Extensions
 .axa    00;38;5;1
 .oga    00;38;5;1
 .spx    00;38;5;1
 .xspf   00;38;5;1
+
+# Variables and configuration files
+.env            00;38;5;13
+.tfvars         00;38;5;13
+.ini            00;38;5;13
+.cfg            00;38;5;13
+.conf           00;38;5;13
 
 # Video formats (as audio + bold)
 .mov    00;38;5;1
@@ -291,6 +306,3 @@ EXEC 00;38;5;2
 .anx 00;38;5;1
 .ogv 00;38;5;1
 .ogx 00;38;5;1
-
-
-

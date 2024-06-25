@@ -67,7 +67,7 @@ prompt_kube_context() {
   fi
   if [[ "$context" =~ "arn:aws*" ]]; then
     context=${context#*/}
-  fi 
+  fi
   local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
   if [ "${namespace}" = "" ]; then
     namespace='default'
@@ -79,19 +79,9 @@ prompt_kube_context() {
   p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
 }
 
-#watch_nodes(){
-#  if [[ -z $1 ]]; then
-#    ctx_string=""
-#  else
-#    ctx_string="--context=$1"
-#  fi
-#
-#  watch -n1 kubectl $ctx_string get nodes --sort-by='.metadata.labels.node-role\.objectrocket\.cloud'
-#}
-
 function update_completions(){
 	# Add kubectl/minikube/helm completions, any argument sources existing caches only
-  # while running with no arguments will also generate new completions
+    # while running with no arguments will also generate new completions
 	local source_only=${1}
 	for i in kubectl minikube helm; do
     local cfile="${ZSH_CACHE_DIR}/${i}.completion"
@@ -103,9 +93,9 @@ function update_completions(){
 }
 
 function nfs_mount(){
-  if [[ -f "/etc/nfstab" ]]; then 
+  if [[ -f "/etc/nfstab" ]]; then
     sudo mount -aT /etc/nfstab
-  fi 
+  fi
   echo "/etc/nfstab doesn't exist"
 }
 
@@ -116,8 +106,8 @@ function unset_aws(){
   done
 }
 
-function check_op() { 
-  if which op >/dev/null 2>&1; then 
+function check_op() {
+  if which op >/dev/null 2>&1; then
     return 0
   else
     echo "1password CLI tool not installed, get it at: https://support.1password.com/command-line-getting-started/"
@@ -125,15 +115,29 @@ function check_op() {
   fi
 }
 
-function ops() { 
+function ops() {
   check_op || return 1
   eval $(op signin $1)
 }
 
-function opg() { 
+function opg() {
   check_op || return 1
   op_account=$1
-  shift 
+  shift
   item="$@"
   op --account ${op_account} get item ${item} --fields password | pbcopy
+}
+
+function dq() {
+  [[ -z "$1" ]] && echo "dq <domain>" && exit 1
+
+  g=$(dig +noall +answer +short @8.8.8.8 $1)
+  c=$(dig +noall +answer +short @1.1.1.1 $1)
+  o=$(dig +noall +answer +short @208.67.222.222 $1)
+
+  echo "Various Results for $1"
+  echo ""
+  echo "${g} via google/8.8.8.8"
+  echo "${c} via cloudflare/1.1.1.1"
+  echo "${o} via opendns/208.67.222.222"
 }

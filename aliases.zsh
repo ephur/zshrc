@@ -8,7 +8,6 @@ alias cp='cp -i'
 alias mkdir='mkdir -p'
 alias more='less'
 alias grep='grep --color=auto'
-alias i='or-infra'
 alias plasma_save_session='qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.saveCurrentSession'
 alias ssh='TERM=xterm-256color ssh'
 alias dirs='dirs -v'
@@ -23,14 +22,15 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias rmpyc='find . -name "*.pyc" -print -exec rm {} \;'
 alias lsaws='aws ec2 describe-instances | jq '"'"'.Reservations[].Instances[] | select(.State.Code != 48) | [.LaunchTime, .State.Name, .PrivateIpAddress, (.Tags[]|select(.Key=="Name")|.Value)]'"'"
 alias sudo='sudo '
+alias ipsort='sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n'
 [ -f /bin/zsh ] && alias rootme='_ZO_DATA_DIR=/root/.local/share/zoxide/ sudo -E /bin/zsh'
 [ -f /usr/bin/zsh ] && alias rootme='_ZO_DATA_DIR=/root/.local/share/zoxide/ sudo -E /usr/bin/zsh'
 
-if (which dnf >/dev/null 2>&1); then 
+if (which dnf >/dev/null 2>&1); then
   alias di='sudo dnf install'
   alias dr='sudo dnf remove'
   alias ds='dnf search'
-fi 
+fi
 
 # exa is a better ls
 if (which exa >/dev/null 2>&1); then
@@ -44,7 +44,7 @@ fi
 if (which lsd >/dev/null 2>&1); then
   alias ls='lsd'
   alias ll='lsd -Al'
-fi 
+fi
 
 alias tf1='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform1 ${HOME}/bin/terraform'
 alias tf9='rm -f ${HOME}/bin/terraform && ln -s ${HOME}/bin/terraform9 ${HOME}/bin/terraform'
@@ -65,7 +65,7 @@ case ${OSTYPE} in
 esac
 
 # copy some music formats from a file...
-if [ -f "~/formats.txt" ]; then 
+if [ -f "~/formats.txt" ]; then
   alias va="cat ~/formats.txt| tail -1 | tr -d '\n' | pbcopy"
   alias ca="cat ~/formats.txt| head -1 | tr -d '\n' | pbcopy"
 fi
@@ -74,4 +74,4 @@ fi
 if [ -f "/usr/lib64/libcrypto.so.1.0.0" ] && [ -f "/usr/bin/Plexamp.AppImage" ]; then
   alias plexamp="LD_PRELOAD=/usr/lib64/libcrypto.so.1.0.0 /usr/bin/Plexamp.AppImage \
                  --disable-seccomp-filter-sandbox >/dev/null 2>&1 &"
-fi 
+fi

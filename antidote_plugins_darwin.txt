@@ -21,7 +21,7 @@ supercrabtree/k
 agkozak/zsh-z
 romkatv/powerlevel10k
 romkatv/zsh-prompt-benchmark
-soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
+# soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
 
 junegunn/fzf                  path:shell/key-bindings.zsh
 junegunn/fzf                  path:shell/completion.zsh
