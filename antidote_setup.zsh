@@ -23,6 +23,11 @@ function update_zsh_plugins() {
   source ${ZSH_CACHE_DIR}/antidote_plugins.zsh;
 }
 
+function install_antidote() {
+  cd ~
+  git clone --depth=1 https://github.com/mattmc3/antidote.git .antidote
+}
+
 if which antidote >/dev/null 2>&1; then
   if [ -f "${ZSH_CACHE_DIR}/antidote_plugins.zsh" ]; then
     # echo "Sourcing Cache Plugins"

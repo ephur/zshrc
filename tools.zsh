@@ -1,8 +1,10 @@
 # If Homebrew is installed, use its completions and add it to the path
 [[ -f /opt/homebrew/bin/brew ]] && export PATH=${PATH}:/opt/homebrew/bin && FPATH=/opt/homebrew/share/zsh/site-functions:$FPATH
 
+# @TODO: check deps on ubuntu:
+# sudo apt install build-essential zlib1g zlib1g-dev libssl-dev libffi-dev
 # Setup pyenv/before plugins that require python
- if [ "-d ${HOME}/.pyenv" ]; then
+ if [ -d "${HOME}/.pyenv" ]; then
   export PYENV_VIRTUALENV_DISABLE_PROMPT=1
   export PYENV_ROOT="${HOME}/.pyenv"
   export PATH="${PYENV_ROOT}/bin:${PATH}"
@@ -31,6 +33,10 @@
     $(pyenv virtualenv-init - > ${pyenv_virtualenv_init_cache})
   done
   source ${pyenv_virtualenv_init_cache}
+else
+  echo "pyEnv not present, consider installing it: "
+  echo "cd ~; git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
+  echo "mkdir ~/.pyenv/plugins; git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv"
 fi
 
 # setup for nvm
@@ -115,6 +121,7 @@ if which zoxide >/dev/null 2>&1; then
   source ${zoxide_init_cache}
 else
     echo "zoxide not found, consider installing it!"
+    echo "get releases from: https://github.com/ajeetdsouza/zoxide/releases"
 fi
 
 # AzureCLI Auto Completions, if exists (via AUR)

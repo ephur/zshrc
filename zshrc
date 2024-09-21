@@ -24,6 +24,18 @@ else
   export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/bin:/usr/X11/bin:/var/lib/snapd/snap/bin
 fi
 
+# Add antidote to path
+# if [[ -d "${HOME}/.antidote" ]]; then
+#   echo "Loading antidote"
+#   PATH=${PATH}:/${HOME}/.antidote
+#   source ${HOME}/.antidote/antidote.zsh
+# fi
+
+# Check for fzf
+if ! `which fzf >/dev/null 2>&1`; then
+  echo "Install fzf from https://github.com/junegunn/fzf/releases"
+fi
+
 # Set the base .zsh directory and cache
 ZSH=${HOME}/.zsh
 export ZSH_CACHE_DIR=${ZSH}/cache
@@ -32,7 +44,12 @@ if [ ! -d ${ZSH_CACHE_DIR} ]; then
 fi
 
 # setup antidote, compile plugins, etc...
-source ${ZSH}/.antidote/antidote.zsh
+if [ -d "${ZSH}/.antidote" ]; then
+  source ${ZSH}/.antidote/antidote.zsh
+elif [ -d "${HOME}/.antidote" ]; then
+  source ${HOME}/.antidote/antidote.zsh
+fi
+
 
 # Set key binds
 export KEYTIMEOUT=1
