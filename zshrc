@@ -122,9 +122,9 @@ for filename in aliases.zsh functions.zsh secrets.zsh work.zsh do;
 fi
 
 # Enable VI editing for current command line
-# autoload -Uz edit-command-line
-# zle -N edit-command-line
-# bindkey -M vicmd '!' edit-command-line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd '!' edit-command-line
 
 ### Some terminals need VTE sourced in
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then

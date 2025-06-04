@@ -1,4 +1,4 @@
-import re
+#!/usr/bin/env python
 import sys
 from datetime import datetime
 from collections import defaultdict
@@ -40,40 +40,11 @@ def parse_log_file(file_path):
             entry = parse_log_line(line)
             if entry:
                 if logs.entries:
-                    # print(logs.entries[-1].time)
-                    # print(entry.time)
                     delta = entry.time - logs.entries[-1].time
                     logs.entries[-1].elapsed_time = delta.total_seconds() * 1000
                 logs.entries.append(entry)
     logs.entries[-1].elapsed_time = 0
     return logs
-
-def find_long_sections(log_entries, threshold_ms):
-    # Group log entries by source
-    source_entries = defaultdict(list)
-    for entry in log_entries.entries:
-        source_entries[entry.source].append(entry)
-
-    # Find long sections
-    for source, entries in source_entries.items():
-        long_sections = []
-        current_section = []
-        for entry in entries:
-            if entry.elapsed_time > threshold_ms:
-                if current_section:
-                    long_sections.append(current_section)
-                current_section = [entry]
-            else:
-                current_section.append(entry)
-        if current_section:
-            long_sections.append(current_section)
-
-        # Print long sections
-        for section in long_sections:
-            print(f"Long section in {source}:")
-            for entry in section:
-                print(f"{entry.time} {entry.command} {entry.elapsed_time:.2f} ms")
-            print()
 
 
 def setup():
@@ -108,7 +79,7 @@ if __name__ == "__main__":
     log_file_path = sys.argv[1]
     threshold_ms = 7  # Update with your desired threshold in milliseconds
     log_entries = parse_log_file(log_file_path)
-    # find_long_sections(log_entries, threshold_ms)
+
     for entry in log_entries.entries:
         if entry.elapsed_time > threshold_ms:
             print(f"{entry.elapsed_time} {entry.source}:{entry.line_number} {entry.command}")

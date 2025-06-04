@@ -15,7 +15,8 @@ zsh-users/zsh-autosuggestions
 
 supercrabtree/k
 romkatv/powerlevel10k
-romkatv/zsh-prompt-benchmark
+# romkatv/zsh-prompt-benchmark
+jeffreytse/zsh-vi-mode
 soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
 
 junegunn/fzf                  path:shell/key-bindings.zsh
