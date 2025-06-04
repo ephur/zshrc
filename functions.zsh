@@ -130,14 +130,94 @@ function opg() {
 
 function dq() {
   [[ -z "$1" ]] && echo "dq <domain>" && exit 1
+  [[ -n "$2" ]] && type="$2"
+  [[ -z "$type" ]] && type="A"
 
-  g=$(dig +noall +answer +short @8.8.8.8 $1)
-  c=$(dig +noall +answer +short @1.1.1.1 $1)
-  o=$(dig +noall +answer +short @208.67.222.222 $1)
+  g=$(dig +noall +answer +short @8.8.8.8 $1 $type)
+  c=$(dig +noall +answer +short @1.1.1.1 $1 $type)
+  o=$(dig +noall +answer +short @208.67.222.222 $1 $type)
 
   echo "Various Results for $1"
   echo ""
   echo "${g} via google/8.8.8.8"
   echo "${c} via cloudflare/1.1.1.1"
   echo "${o} via opendns/208.67.222.222"
+}
+
+# Some functions to allow for better control of display and power management
+# Validation function: Validates the duration and ensures required commands are available
+validate_caffeinate_and_duration() {
+  local duration=$1
+
+  # Check if `caffeinate` is available
+  if ! command -v caffeinate >/dev/null 2>&1; then
+    echo "Error: 'caffeinate' is not installed or not in your PATH."
+    return 1
+  fi
+
+  # Check if `cmatrix` is available
+  if ! command -v cmatrix >/dev/null 2>&1; then
+    echo "Error: 'cmatrix' is not installed or not in your PATH."
+    return 1
+  fi
+
+  # Check if Alacritty is available
+  if ! command -v alacritty >/dev/null 2>&1; then
+    echo "Error: 'alacritty' is not installed or not in your PATH."
+    return 1
+  fi
+
+  # Validate duration as a positive integer
+  if ! [[ "$duration" =~ ^[0-9]+$ ]]; then
+    echo "Error: Invalid duration '$duration'. Please provide a positive integer in minutes."
+    return 1
+  fi
+
+  return 0
+}
+
+# General function to run cmatrix with specified sleep prevention
+run_with_cmatrix() {
+  local mode=$1 # "nosleep" or "nolock"
+  local duration=${2:-60} # Default to 60 minutes
+
+  # Validate inputs
+  validate_caffeinate_and_duration "$duration" || return 1
+
+  # Convert duration to seconds
+  local duration_in_seconds=$((duration * 60))
+
+  # Determine caffeinate flags as an array
+  local caffeinate_flags=()
+  if [[ "$mode" == "nosleep" ]]; then
+    caffeinate_flags=(-d -i) # Prevent system and display sleep
+  elif [[ "$mode" == "nolock" ]]; then
+    caffeinate_flags=(-i) # Prevent lock screen but allow display sleep
+  else
+    echo "Invalid mode: $mode. Use 'nosleep' or 'nolock'."
+    return 1
+  fi
+
+  # Launch cmatrix in Alacritty fullscreen
+  echo "Running '$mode' mode with fullscreen cmatrix for $duration minutes..."
+  alacritty --config-file ~/.config/alacritty/alacritty.toml \
+            --class cmatrix \
+            --option "window.startup_mode=\"Fullscreen\"" \
+            --command sh -c "cmatrix -b; sleep $duration_in_seconds" &
+
+  # Keep the system awake
+  caffeinate "${caffeinate_flags[@]}" -t "$duration_in_seconds"
+
+  # Kill the Alacritty window after duration
+  pkill -f "cmatrix"
+}
+
+# Prevent sleep and display sleep with fullscreen cmatrix
+nosleep() {
+  run_with_cmatrix "nosleep" "$1"
+}
+
+# Prevent lock screen with fullscreen cmatrix
+nolock() {
+  run_with_cmatrix "nolock" "$1"
 }

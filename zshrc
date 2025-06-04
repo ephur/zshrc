@@ -1,17 +1,17 @@
 # Profile this...
 # thanks to: https://www.dribin.org/dave/blog/archives/2024/01/01/zsh-performance/
-: "${PROFILE_STARTUP:=false}"
-: "${PROFILE_ALL:=false}"
+#: "${PROFILE_STARTUP:=false}"
+#: "${PROFILE_ALL:=false}"
 # Run this to get a profile trace and exit: time zsh -i -c echo
 # Or: time PROFILE_STARTUP=true /bin/zsh -i --login -c echo
-if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
-    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-    PS4=$'%D{%H:%M:%S.%.} %N:%i> '
-    #zmodload zsh/datetime
-    #PS4='+$EPOCHREALTIME %N:%i> '
-    exec 3>&2 2>/tmp/zsh_profile.$$
-    setopt xtrace prompt_subst
-fi
+#if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
+#    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+#    PS4=$'%D{%H:%M:%S.%.} %N:%i> '
+#    #zmodload zsh/datetime
+#    #PS4='+$EPOCHREALTIME %N:%i> '
+#    exec 3>&2 2>/tmp/zsh_profile.$$
+#    setopt xtrace prompt_subst
+#fi
 
 # Set the base paths
 if [[ -f /etc/arch-release ]]; then
@@ -172,8 +172,16 @@ compinit -C
   fi
 } &!
 
+# use completions from kubectl for kubecolor if it is present
+if (which kubecolor >/dev/null 2>&1); then
+  compdef kubecolor=kubectl
+fi
+
 # dump this pig
 # test -e /Users/rmaynard/.iterm2_shell_integration.zsh && source /Users/rmaynard/.iterm2_shell_integration.zsh || true
 if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
     unsetopt xtrace
 fi
+
+# Randomly...
+export PATH="/opt/homebrew/opt/mysql/bin:$PATH"
