@@ -128,16 +128,20 @@ function opg() {
   op --account ${op_account} get item ${item} --fields password | pbcopy
 }
 
-function dq() {
-  [[ -z "$1" ]] && echo "dq <domain>" && exit 1
+dq () {
+  if [[ -z "$1" ]]; then
+    echo "Usage: dq <domain> [record_type]"
+    return 1
+  fi
+  local domain="$1"
+  local type="${2:-ANY}"
+  local g=$(dig +noall +answer +short @8.8.8.8 "$domain" "$type")
+  local c=$(dig +noall +answer +short @1.1.1.1 "$domain" "$type")
+  local o=$(dig +noall +answer +short @208.67.222.222 "$domain" "$type")
 
-  g=$(dig +noall +answer +short @8.8.8.8 $1)
-  c=$(dig +noall +answer +short @1.1.1.1 $1)
-  o=$(dig +noall +answer +short @208.67.222.222 $1)
-
-  echo "Various Results for $1"
+  echo "Various Results for $domain ($type)"
   echo ""
-  echo "${g} via google/8.8.8.8"
-  echo "${c} via cloudflare/1.1.1.1"
-  echo "${o} via opendns/208.67.222.222"
+  echo "$g via google/8.8.8.8"
+  echo "$c via cloudflare/1.1.1.1"
+  echo "$o via opendns/208.67.222.222"
 }
