@@ -1,10 +1,9 @@
 # Enable startup trace profiling if env var is set
-if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
-  PS4=$'%D{%H:%M:%S.%.} + '
-  exec 3>&2 2>/tmp/zsh_profile.$$
-  setopt xtrace
-fi
-
+# if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
+#   PS4=$'%D{%H:%M:%S.%.} + '
+#   exec 3>&2 2>/tmp/zsh_profile.$$
+#   setopt xtrace
+# fi
 
 # Bootstrap core paths
 export ZSH="${HOME}/.zsh"
@@ -16,11 +15,12 @@ export ZSH_INCLUDES="${ZSH}/includes"
   command mkdir -p "${ZSH_CACHE_DIR}"
 }
 
-# First Init
+# Load core functions
 ZSH_INIT_FILE="${ZSH_INCLUDES}/init.zsh"
 [[ ! -f "${ZSH_INIT_FILE}.zwc" || "${ZSH_INIT_FILE}" -nt "${ZSH_INIT_FILE}.zwc" ]] && zcompile "${ZSH_INIT_FILE}"
 source "${ZSH_INIT_FILE}"
 
+# Combine, and compile all includes
 ALL_COMBINED="${ZSH_CACHE_DIR}/includes_combined.zsh"
 if [[ ! -f "$ALL_COMBINED" ]]; then
   should_rebuild=true
@@ -35,14 +35,13 @@ if [[ "$should_rebuild" == true ]]; then
 fi
 source_compiled "$ALL_COMBINED"
 
-
+# Bring in non-repository source files
 [[ -f "${ZSH}/secrets.zsh" ]] && source_compiled "${ZSH}/secrets.zsh"
 [[ -f "${ZSH}/work.zsh" ]] && source_compiled "${ZSH}/work.zsh"
 
-
-# Stop trace profiling if it was started
-if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
-  unsetopt xtrace
-  exec 2>&3 3>&-
-  echo "Profile written to /tmp/zsh_profile.$$"
-fi
+# End tracing if enabled
+# if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
+#   unsetopt xtrace
+#   exec 2>&3 3>&-
+#   echo "Profile written to /tmp/zsh_profile.$$"
+# fi

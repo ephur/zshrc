@@ -1,15 +1,14 @@
 # Set some useful environment vars
-(which nvim >/dev/null 2>&1) && export EDITOR=nvim || export EDITOR=vi
+export EDITOR=$(command -v nvim || echo vi)
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
 :stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
 export LESSCHARSET='latin1'
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
 export PAGER=less
-export KEYTIMEOUT=1
 
+export KEYTIMEOUT=1     # Set the key timeout to 1/100th of a second
+export NO_AT_BRIDGE=1   # Disable accessibility bridge features
 
-# Disable accessibility bridge features
-export NO_AT_BRIDGE=1
 
 # setup SSH agent socket
 case $OSTYPE in
@@ -28,13 +27,6 @@ esac
 ### this needs to happen early before tmux or antibody runs
 if [[ ${XDG_SESSION_DESKTOP} = ("KDE"|"plasma") ]] && [[ -z ${SUSPECTED_TERM_PID} ]]; then
   SUSPECTED_TERM_PID=${PPID}
-fi
-
-# Some tweaks if WSL (windows subsytem for linux) is in use
-if [ -f ${ZSH}/wsl ]; then
-  IS_WINDOWS=1
-else
-  IS_WINDOWS=0
 fi
 
 # Check some special paths to add/update env
