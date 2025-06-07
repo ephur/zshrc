@@ -1,9 +1,9 @@
 # Enable startup trace profiling if env var is set
-# if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
-#   PS4=$'%D{%H:%M:%S.%.} + '
-#   exec 3>&2 2>/tmp/zsh_profile.$$
-#   setopt xtrace
-# fi
+if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
+  PS4=$'%D{%H:%M:%S.%.} + '
+  exec 3>&2 2>/tmp/zsh_profile.$$
+  setopt xtrace
+fi
 
 # Bootstrap core paths
 export ZSH="${HOME}/.zsh"
@@ -40,8 +40,8 @@ source_compiled "$ALL_COMBINED"
 [[ -f "${ZSH}/work.zsh" ]] && source_compiled "${ZSH}/work.zsh"
 
 # End tracing if enabled
-# if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
-#   unsetopt xtrace
-#   exec 2>&3 3>&-
-#   echo "Profile written to /tmp/zsh_profile.$$"
-# fi
+if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
+  unsetopt xtrace
+  exec 2>&3 3>&-
+  echo "Profile written to /tmp/zsh_profile.$$"
+fi

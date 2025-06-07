@@ -102,9 +102,8 @@ if [ -z "${SSH_CLIENT}" ]; then
     command_execution_time
     status
     aws
-    # goenv
-    # goenv_version
-    # pyenv_version
+    goenv_version
+    pyenv_version
     vcs
     newline
     dir_writable
