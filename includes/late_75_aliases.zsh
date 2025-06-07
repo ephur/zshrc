@@ -13,7 +13,7 @@ alias ssh='TERM=xterm-256color ssh'
 alias dirs='dirs -v'
 
 # Extra handy things
-alias resrc='rm -rf "${ZSH_CACHE_DIR:?}/"* "${ZSH_CACHE_DIR:?}/".* 2>/dev/null; exec zsh'
+alias resrc='find "$ZSH_CACHE_DIR" -mindepth 1 -delete && exec zsh'
 alias gpthis='git push origin HEAD:$(git_current_branch)'
 alias gpthisdown='git push downstream HEAD:$(git_current_branch)'
 alias gpfthis='git push --force origin HEAD:$(git_current_branch)'

@@ -10,7 +10,11 @@ ohmyzsh/ohmyzsh        path:plugins/colorize
 ohmyzsh/ohmyzsh        path:plugins/colored-man-pages
 ohmyzsh/ohmyzsh        path:plugins/golang
 ohmyzsh/ohmyzsh        path:plugins/sudo
+
+# Fuzzee Finding
 ohmyzsh/ohmyzsh        path:plugins/fzf
+junegunn/fzf                  path:shell/key-bindings.zsh
+junegunn/fzf                  path:shell/completion.zsh
 
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-completions
@@ -22,6 +26,3 @@ romkatv/powerlevel10k
 # romkatv/zsh-prompt-benchmark
 jeffreytse/zsh-vi-mode
 soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
-
-junegunn/fzf                  path:shell/key-bindings.zsh
-junegunn/fzf                  path:shell/completion.zsh
