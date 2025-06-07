@@ -1,23 +1,24 @@
 # improve over typical "antidote load" ; cache and compile everything
 function update_zsh_plugins() {
-  local aplugin_file acache_dir
+  local aplugin_file
   case "${OSTYPE}" in
     linux*)
       aplugin_file="${ZSH}/antidote_plugins_linux.txt"
-      acache_dir="${HOME}/.cache"
       ;;
     darwin*)
       aplugin_file="${ZSH}/antidote_plugins_darwin.txt"
-      acache_dir="${HOME}/Library/Caches"
       ;;
   esac
 
   antidote bundle < "${aplugin_file}" > "${ZSH_CACHE_DIR}/antidote_plugins.zsh"
   antidote update
 
-  find "${acache_dir}/antidote" -name '*.zsh' -print0 | xargs -0 zcompile >/dev/null 2>&1
+  find "${ZSH_CACHE_DIR}/antidote" -name '*.zsh' -print0 | xargs -0 zcompile >/dev/null 2>&1
   source_compiled "${ZSH_CACHE_DIR}/antidote_plugins.zsh"
 }
+
+zstyle ':antidote:bundle' use-cache true
+zstyle ':antidote:bundle' cache-dir "${ZSH_CACHE_DIR}/antidote"
 
 if ! source_compiled "${ZSH}/.antidote/antidote.zsh"; then
   echo "Antidote plugin manager not available. Get it at: https://getantidote.github.io/ (run from source mode!)"

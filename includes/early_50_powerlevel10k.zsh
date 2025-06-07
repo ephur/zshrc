@@ -1,3 +1,84 @@
+# Custom Prompt Segments
+function prompt_pyenv_version() {
+  local version
+
+  # 1. Check PYENV_VERSION (env override or shell override)
+  if [[ -n "$PYENV_VERSION" ]]; then
+    version="$PYENV_VERSION"
+  fi
+
+  # 2. Walk upward for .python-version
+  if [[ -z "$version" ]]; then
+    local dir=$PWD
+    while [[ "$dir" != "/" ]]; do
+      if [[ -f "$dir/.python-version" ]]; then
+        version=$(<"$dir/.python-version")
+        break
+      fi
+      dir="${dir:h}"
+    done
+  fi
+
+  # 3. Fallback to global version file
+  if [[ -z "$version" && -f "${PYENV_ROOT:-$HOME/.pyenv}/version" ]]; then
+    version=$(<"${PYENV_ROOT:-$HOME/.pyenv}/version")
+  fi
+
+  [[ -n "$version" ]] && p10k segment -i $'\uE235' -t " ${version}"
+}
+
+# Custom goenv prompt segment, matches pyenv logic for speed and accuracy
+function prompt_goenv_version() {
+  local version
+
+  # 1. Check GOENV_VERSION if explicitly set
+  if [[ -n "$GOENV_VERSION" ]]; then
+    version="$GOENV_VERSION"
+  fi
+
+  # 2. Walk upward for .go-version (used by goenv)
+  if [[ -z "$version" ]]; then
+    local dir=$PWD
+    while [[ "$dir" != "/" ]]; do
+      if [[ -f "$dir/.go-version" ]]; then
+        version=$(<"$dir/.go-version")
+        break
+      fi
+      dir="${dir:h}"
+    done
+  fi
+
+  # 3. Fallback to global goenv version file
+  if [[ -z "$version" && -f "${GOENV_ROOT:-$HOME/.goenv}/version" ]]; then
+    version=$(<"${GOENV_ROOT:-$HOME/.goenv}/version")
+  fi
+
+  [[ -z "$version" ]] && version="system"
+  p10k segment -i $'\uE626' -t " ${version}"
+}
+
+# powerlevel 10 custom kube_context segment
+prompt_kube_context() {
+  # powerlevel10 has a builtin context, but want some extra features
+  CLUSTER_FILE=${ZSH_CACHE_DIR}/k8s-clusters
+  local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
+  if [[ -z $context ]]; then
+    context='unknown'
+  fi
+  if [[ "$context" =~ "arn:aws*" ]]; then
+    context=${context#*/}
+  fi
+  local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
+  if [ "${namespace}" = "" ]; then
+    namespace='default'
+  fi
+  local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
+  if [ -z "${env}" ]; then
+    env="unknown"
+  fi
+  p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
+}
+
 # Easily switch primary foreground/background colors
 typeset -g DEFAULT_BACKGROUND=237
 typeset -g ALT_BACKGROUND=6
@@ -22,8 +103,8 @@ if [ -z "${SSH_CLIENT}" ]; then
     status
     aws
     goenv
-    pyenv
-    kube_context
+    goenv_version
+    pyenv_version
     vcs
     newline
     dir_writable
@@ -106,12 +187,12 @@ typeset -g POWERLEVEL9K_LOAD_VISUAL_IDENTIFIER_EXPANSION=''
 typeset -g POWERLEVEL9K_LOAD_WHICH=1
 
 # pyenv/goenv setup
-typeset -g POWERLEVEL9K_GOENV_FOREGROUND="${DEFAULT_FOREGROUND}"
-typeset -g POWERLEVEL9K_GOENV_BACKGROUND="${DEFAULT_BACKGROUND}"
-typeset -g POWERLEVEL9K_GOENV_PROMPT_ALWAYS_SHOW=true
-typeset -g POWERLEVEL9K_PYENV_FOREGROUND="${ALT_FOREGROUND}"
-typeset -g POWERLEVEL9K_PYENV_BACKGROUND="${ALT_BACKGROUND}"
-typeset -g POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW=true
+typeset -g POWERLEVEL9K_GOENV_VERSION_FOREGROUND="${DEFAULT_FOREGROUND}"
+typeset -g POWERLEVEL9K_GOENV_VERSION_BACKGROUND="${DEFAULT_BACKGROUND}"
+typeset -g POWERLEVEL9K_GOENV_VERSION_PROMPT_ALWAYS_SHOW=true
+typeset -g POWERLEVEL9K_PYENV_VERSION_FOREGROUND="${ALT_FOREGROUND}"
+typeset -g POWERLEVEL9K_PYENV_VERSION_BACKGROUND="${ALT_BACKGROUND}"
+typeset -g POWERLEVEL9K_PYENV_VERSION_PROMPT_ALWAYS_SHOW=true
 
 # custom segments setup
 typeset -g POWERLEVEL9K_KUBE_CONTEXT_BACKGROUND="${DEFAULT_BACKGROUND}"
