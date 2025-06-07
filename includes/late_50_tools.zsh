@@ -127,7 +127,6 @@ if which op >/dev/null 2>&1; then
     op completion zsh > ${op_completions}
   fi
   source_compiled "${op_completions}"
-  compdef _op op
 fi
 
 # Use zoxide for dir history if it's available

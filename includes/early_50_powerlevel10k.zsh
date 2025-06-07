@@ -102,7 +102,6 @@ if [ -z "${SSH_CLIENT}" ]; then
     command_execution_time
     status
     aws
-    goenv
     goenv_version
     pyenv_version
     vcs
@@ -182,7 +181,7 @@ typeset -g POWERLEVEL9K_USER_ROOT_ICON=$'\uF198'  # 
 typeset -g POWERLEVEL9K_PROMPT_CHAR_FOREGROUND="${ALT_FOREGROUND}"
 typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND="${ALT_BACKGROUND}"
 
-#load segment setup
+# load segment setup
 typeset -g POWERLEVEL9K_LOAD_VISUAL_IDENTIFIER_EXPANSION=''
 typeset -g POWERLEVEL9K_LOAD_WHICH=1
 

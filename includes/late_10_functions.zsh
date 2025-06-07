@@ -57,41 +57,6 @@ function codec() {
   ffmpeg -i "$1" 2>&1 | grep Stream | grep -Eo '(Audio|Video)\: [^ ,]+'
 }
 
-# powerlevel 10 custom kube_context segment
-prompt_kube_context() {
-  # powerlevel10 has a builtin context, but want some extra features
-  CLUSTER_FILE=${ZSH_CACHE_DIR}/k8s-clusters
-  local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
-  if [[ -z $context ]]; then
-   context='unknown'
-  fi
-  if [[ "$context" =~ "arn:aws*" ]]; then
-    context=${context#*/}
-  fi
-  local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
-  if [ "${namespace}" = "" ]; then
-    namespace='default'
-  fi
-  local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
-  if [ -z "${env}" ]; then
-    env="unknown"
-  fi
-  p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
-}
-
-function update_completions(){
-	# Add kubectl/minikube/helm completions, any argument sources existing caches only
-    # while running with no arguments will also generate new completions
-	local source_only=${1}
-	for i in kubectl minikube helm; do
-    local cfile="${ZSH_CACHE_DIR}/${i}.completion"
-		if ! [[ -z ${source_only} ]] && (which $i 2>/dev/null 1>/dev/null); then
-      ${i} completion zsh > ${cfile}
-    fi
-    [[ -f ${cfile} ]] && source ${cfile}
-  done
-}
-
 function nfs_mount(){
   if [[ -f "/etc/nfstab" ]]; then
     sudo mount -aT /etc/nfstab
@@ -222,4 +187,13 @@ nosleep() {
 # Prevent lock screen with fullscreen cmatrix
 nolock() {
   run_with_cmatrix "nolock" "$1"
+}
+
+resrc() {
+  if [[ "$1" == "plugins" ]]; then
+    find "$ZSH_CACHE_DIR" -mindepth 1 -delete
+  else
+    find "$ZSH_CACHE_DIR" -mindepth 1 ! -type d -maxdepth 1 -delete
+  fi
+  exec zsh
 }

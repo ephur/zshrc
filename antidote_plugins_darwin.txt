@@ -1,27 +1,27 @@
 # Load ordering matters since ohmyzsh is diassembled
 
-ohmyzsh/ohmyzsh        path:lib/functions.zsh
-ohmyzsh/ohmyzsh        path:lib/spectrum.zsh
-ohmyzsh/ohmyzsh        path:lib/termsupport.zsh
-ohmyzsh/ohmyzsh        path:lib/git.zsh
-ohmyzsh/ohmyzsh        path:plugins/urltools
-ohmyzsh/ohmyzsh        path:plugins/gitfast
-ohmyzsh/ohmyzsh        path:plugins/colorize
-ohmyzsh/ohmyzsh        path:plugins/colored-man-pages
-ohmyzsh/ohmyzsh        path:plugins/golang
-ohmyzsh/ohmyzsh        path:plugins/sudo
+ohmyzsh/ohmyzsh        path:lib/functions.zsh             # Core Oh My Zsh helper functions
+ohmyzsh/ohmyzsh        path:lib/spectrum.zsh              # Terminal color rendering helpers
+ohmyzsh/ohmyzsh        path:lib/termsupport.zsh           # Terminal behavior enhancements
+ohmyzsh/ohmyzsh        path:lib/git.zsh                   # Git prompt helpers and aliases
+# ohmyzsh/ohmyzsh        path:plugins/urltools            # URL encode/decode functions
+ohmyzsh/ohmyzsh        path:plugins/gitfast               # Faster Git completions
+# ohmyzsh/ohmyzsh        path:plugins/colorize            # Syntax highlight file content
+# ohmyzsh/ohmyzsh        path:plugins/colored-man-pages   # Adds color to man pages
+# ohmyzsh/ohmyzsh        path:plugins/golang              # Go-specific aliases and setup
+# ohmyzsh/ohmyzsh        path:plugins/sudo                # Sudo re-run shortcut with Esc-Esc
 
-ohmyzsh/ohmyzsh        path:plugins/fzf
-junegunn/fzf           path:shell/key-bindings.zsh
-junegunn/fzf           path:shell/completion.zsh
+zsh-users/zsh-syntax-highlighting                         # Syntax highlights typed commands
+zsh-users/zsh-completions                                 # Extra completions for many tools
+zsh-users/zsh-autosuggestions                             # History-based command suggestions
 
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-completions
-zsh-users/zsh-autosuggestions
+# supercrabtree/k                                         # Colorful `ls` + tree alternative
+agkozak/zsh-z                                             # Jump to frequently used directories
+romkatv/powerlevel10k                                     # Fast, feature-rich Zsh prompt
+# romkatv/zsh-prompt-benchmark                            # Measure prompt rendering time
+# jeffreytse/zsh-vi-mode                                  # Vi-mode keybindings with indicators
+# soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh  # Fuzzy vi-mode history search
 
-supercrabtree/k
-agkozak/zsh-z
-romkatv/powerlevel10k
-# romkatv/zsh-prompt-benchmark
-jeffreytse/zsh-vi-mode
-soheilpro/zsh-vi-search         path:src/zsh-vi-search.zsh
+junegunn/fzf           path:shell/key-bindings.zsh        # fzf keybindings (Ctrl-R, etc)
+junegunn/fzf           path:shell/completion.zsh          # fzf-enhanced completions
+ohmyzsh/ohmyzsh        path:plugins/fzf                   # fzf env setup and integration
