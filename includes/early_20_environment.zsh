@@ -5,6 +5,7 @@ export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
 export LESSCHARSET='latin1'
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
 export PAGER=less
+export KEYTIMEOUT=1
 
 
 # Disable accessibility bridge features
