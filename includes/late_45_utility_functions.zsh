@@ -28,7 +28,7 @@ function ff() {
     echo "Example: ff config"
     return 1
   fi
-  find . -type f -iname '*'$*'*' -ls
+  find . -type f -iname '*'"$*"'*' -ls
 }
 
 # Find files with pattern and execute command on them
@@ -42,7 +42,7 @@ function fe() {
     echo "Example: fe config file"
     return 1
   fi
-  find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;
+  find . -type f -iname '*'"${1:-}"'*' -exec "${2:-file}" {} \;
 }
 
 # Get weather from wttr.in
@@ -138,7 +138,7 @@ function up() {
   for ((i=0; i<levels; i++)); do
     path="../$path"
   done
-  cd "$path"
+  cd "$path" || return
 }
 
 # Find largest files/dirs in current directory
@@ -156,7 +156,8 @@ function pkill-fzf() {
     echo "Error: fzf not installed"
     return 1
   fi
-  local pid=$(ps aux | fzf | awk '{print $2}')
+  local pid
+  pid=$(ps aux | fzf | awk '{print $2}')
   if [[ -n "$pid" ]]; then
     echo "Killing process $pid..."
     kill "$pid"
@@ -172,7 +173,8 @@ function portproc() {
     echo "Example: portproc 8080"
     return 1
   fi
-  local pids=$(lsof -ti ":$1")
+  local pids
+  pids=$(lsof -ti ":$1")
   if [[ -n "$pids" ]]; then
     echo "$pids" | xargs ps -p
   else

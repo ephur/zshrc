@@ -1,0 +1,55 @@
+name: Zsh Config Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: Run Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install zsh
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
+      - name: Install shellcheck
+        run: |
+          sudo apt-get install -y shellcheck
+
+      - name: Verify installations
+        run: |
+          zsh --version
+          shellcheck --version
+
+      - name: Run full test suite
+        run: |
+          ./tools/test_config.zsh
+
+  test-macos:
+    name: Run Test Suite (macOS)
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: |
+          brew install shellcheck
+
+      - name: Verify installations
+        run: |
+          zsh --version
+          shellcheck --version
+
+      - name: Run tests
+        run: |
+          ./tools/test_config.zsh

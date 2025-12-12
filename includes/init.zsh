@@ -37,11 +37,11 @@ append_path() {
 
 remove_path() {
   local dir="$1"
-  PATH=$(print -r -- $PATH | tr ':' '\n' | grep -vFx "$dir" | paste -sd:)
+  PATH=$(print -r -- "$PATH" | tr ':' '\n' | grep -vFx "$dir" | paste -sd:)
 }
 
 clean_path() {
-  PATH=$(print -r -- $PATH | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
+  PATH=$(print -r -- "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
 }
 
 source_compiled() {

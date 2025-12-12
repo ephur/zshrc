@@ -14,3 +14,4 @@ cache/
 **/*.zwc
 .vscode/
 CLAUDE.md
+.claude/settings.local.json

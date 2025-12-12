@@ -21,9 +21,12 @@ function dq() {
   fi
   local domain="$1"
   local type="${2:-ANY}"
-  local g=$(dig +noall +answer +short @8.8.8.8 "$domain" "$type")
-  local c=$(dig +noall +answer +short @1.1.1.1 "$domain" "$type")
-  local o=$(dig +noall +answer +short @208.67.222.222 "$domain" "$type")
+  local g
+  local c
+  local o
+  g=$(dig +noall +answer +short @8.8.8.8 "$domain" "$type")
+  c=$(dig +noall +answer +short @1.1.1.1 "$domain" "$type")
+  o=$(dig +noall +answer +short @208.67.222.222 "$domain" "$type")
 
   echo "Various Results for $domain ($type)"
   echo ""

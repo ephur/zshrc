@@ -76,11 +76,14 @@ if command -v shellcheck &>/dev/null && [[ "$QUICK_MODE" != true ]]; then
   # SC2148: Tips depend on target shell (we're zsh, not bash)
   # SC2296: Parameter expansions can't start with ( (zsh-specific syntax)
   # SC1091: Not following sourced files
-  SHELLCHECK_IGNORE="-e SC1090 -e SC2148 -e SC2296 -e SC1091"
+  # SC2034: Variables used by child processes/exports (zsh-specific)
+  # SC2168: local outside functions is valid in zsh
+  local -a shellcheck_ignore
+  shellcheck_ignore=(-e SC1090 -e SC2148 -e SC2296 -e SC1091 -e SC2034 -e SC2168)
 
   SHELLCHECK_ERRORS=0
   for file in zshrc includes/*.zsh; do
-    if ! shellcheck -s bash $SHELLCHECK_IGNORE "$file" 2>/dev/null; then
+    if ! shellcheck -s bash "${shellcheck_ignore[@]}" "$file" 2>/dev/null; then
       echo "${YELLOW}⚠${NC} Shellcheck warnings in $file (may be false positives for zsh)"
       ((WARNINGS++)) || true
     fi

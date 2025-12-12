@@ -19,10 +19,10 @@ function retag() {
     echo "Example: retag v1.0.0"
     return 1
   fi
-  git tag -d ${1}
-  git tag ${1}
-  git push origin :${1}
-  git push origin ${1}
+  git tag -d "${1}"
+  git tag "${1}"
+  git push origin :"${1}"
+  git push origin "${1}"
 }
 
 # Interactive branch switcher using fzf
@@ -32,8 +32,12 @@ function gb() {
     echo "Error: fzf not installed"
     return 1
   fi
-  local branch=$(git branch | fzf)
-  [[ -n "$branch" ]] && git checkout $(echo "$branch" | sed 's/^[* ]*//')
+  local branch
+  branch=$(git branch | fzf)
+  if [[ -n "$branch" ]]; then
+    branch="${branch##*( |\*)}"  # Remove leading spaces and asterisk
+    git checkout "$branch"
+  fi
 }
 
 # Quick commit amend without editing message

@@ -27,7 +27,7 @@ function ops() {
     return 1
   fi
   check_op || return 1
-  eval $(op signin $1)
+  eval "$(op signin "$1")"
 }
 
 # Get password from 1Password and copy to clipboard
@@ -42,6 +42,6 @@ function opg() {
   check_op || return 1
   op_account=$1
   shift
-  item="$@"
-  op --account ${op_account} get item ${item} --fields password | pbcopy
+  item="$*"
+  op --account "${op_account}" get item "${item}" --fields password | pbcopy
 }

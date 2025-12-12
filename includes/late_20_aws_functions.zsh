@@ -25,8 +25,8 @@ function awsregion() {
 # Clear all AWS environment variables
 # Usage: unset_aws
 function unset_aws() {
-  for i in `env | grep '^AWS' | cut -d= -f1`; do
-    unset $i
+  for i in $(env | grep '^AWS' | cut -d= -f1); do
+    unset "$i"
   done
   echo "All AWS_* environment variables cleared"
 }
@@ -37,7 +37,8 @@ function unset_aws() {
 function awsp() {
   if [[ -z "$1" ]]; then
     if command -v fzf &>/dev/null && [[ -f ~/.aws/config ]]; then
-      local profile=$(grep '^\[profile' ~/.aws/config | sed 's/\[profile \(.*\)\]/\1/' | fzf)
+      local profile
+      profile=$(grep '^\[profile' ~/.aws/config | sed 's/\[profile \(.*\)\]/\1/' | fzf)
       if [[ -n "$profile" ]]; then
         export AWS_PROFILE="$profile"
         echo "Switched to profile: $AWS_PROFILE"

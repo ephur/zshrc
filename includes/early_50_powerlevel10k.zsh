@@ -71,22 +71,25 @@ function prompt_goenv_version() {
 prompt_kube_context() {
   # powerlevel10 has a builtin context, but want some extra features
   CLUSTER_FILE=${ZSH_DIR}/k8s-clusters
-  local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
+  local context
+  context=$(test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2)
   if [[ -z $context ]]; then
     context='unknown'
   fi
-  if [[ "$context" =~ "arn:aws*" ]]; then
+  if [[ "$context" =~ arn:aws* ]]; then
     context=${context#*/}
   fi
-  local namespace=`kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }'`
+  local namespace
+  namespace=$(kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }')
   if [ "${namespace}" = "" ]; then
     namespace='default'
   fi
-  local env=$(test -f ${CLUSTER_FILE} && grep ${context} ${CLUSTER_FILE} | cut -d\; -f1)
+  local env
+  env=$(test -f "${CLUSTER_FILE}" && grep "${context}" "${CLUSTER_FILE}" | cut -d\; -f1)
   if [ -z "${env}" ]; then
     env="unknown"
   fi
-  p10k segment -s ${env} -i $'\uE7B2' -t "${context}/${namespace}"
+  p10k segment -s "${env}" -i $'\uE7B2' -t "${context}/${namespace}"
 }
 
 # Easily switch primary foreground/background colors

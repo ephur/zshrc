@@ -27,7 +27,8 @@ function dexec() {
     return 1
   fi
   local shell="${1:-/bin/sh}"
-  local container=$(docker ps --format '{{.Names}}' | fzf)
+  local container
+  container=$(docker ps --format '{{.Names}}' | fzf)
   [[ -n "$container" ]] && docker exec -it "$container" "$shell"
 }
 
@@ -39,14 +40,16 @@ function dlogs() {
     docker ps --format '{{.Names}}'
     return 1
   fi
-  local container=$(docker ps --format '{{.Names}}' | fzf)
+  local container
+  container=$(docker ps --format '{{.Names}}' | fzf)
   [[ -n "$container" ]] && docker logs -f "$container"
 }
 
 # Stop all running containers
 # Usage: dstop
 function dstop() {
-  local containers=$(docker ps -q)
+  local containers
+  containers=$(docker ps -q)
   if [[ -z "$containers" ]]; then
     echo "No running containers to stop"
   else

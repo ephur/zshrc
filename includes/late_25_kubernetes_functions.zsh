@@ -16,11 +16,10 @@
 # Example: kubeme v1.19.6
 function kubeme() {
   local minikube_version=${1:="v1.19.6"}
-  minikube status >/dev/null 2>&1
-  if [ $? -ne 0 ]; then
+  if ! minikube status >/dev/null 2>&1; then
     case ${OSTYPE} in
       linux*)
-        minikube start --kubernetes-version ${minikube_version} --vm-driver kvm2 \
+        minikube start --kubernetes-version "${minikube_version}" --vm-driver kvm2 \
           --cpus 4 \
           --memory 8192 \
           --extra-config=kubelet.authorization-mode=Webhook \
@@ -29,7 +28,7 @@ function kubeme() {
           --addons ingress
       ;;
       darwin*)
-        minikube --kubernetes-version ${minikube_version} start
+        minikube --kubernetes-version "${minikube_version}" start
       ;;
     esac
   fi
@@ -39,7 +38,7 @@ function kubeme() {
 # Configure docker to use minikube's docker daemon
 # Usage: docker_kube
 function docker_kube() {
-  eval $(minikube docker-env)
+  eval "$(minikube docker-env)"
 }
 
 # Quick context switch using fzf
@@ -58,12 +57,14 @@ function kctx() {
       kubectl config use-context "$1"
     else
       # Use $1 as a filter for fzf
-      local context=$(kubectl config get-contexts -o name | fzf --query="$1" --select-1)
+      local context
+      context=$(kubectl config get-contexts -o name | fzf --query="$1" --select-1)
       [[ -n "$context" ]] && kubectl config use-context "$context"
     fi
   else
     # No argument, show all contexts
-    local context=$(kubectl config get-contexts -o name | fzf)
+    local context
+    context=$(kubectl config get-contexts -o name | fzf)
     [[ -n "$context" ]] && kubectl config use-context "$context"
   fi
 }
@@ -85,12 +86,14 @@ function kns() {
       kubectl config set-context --current --namespace="$1"
     else
       # Use $1 as a filter for fzf
-      local namespace=$(kubectl get namespaces -o name | cut -d/ -f2 | fzf --query="$1" --select-1)
+      local namespace
+      namespace=$(kubectl get namespaces -o name | cut -d/ -f2 | fzf --query="$1" --select-1)
       [[ -n "$namespace" ]] && kubectl config set-context --current --namespace="$namespace"
     fi
   else
     # No argument, show all namespaces
-    local namespace=$(kubectl get namespaces -o name | cut -d/ -f2 | fzf)
+    local namespace
+    namespace=$(kubectl get namespaces -o name | cut -d/ -f2 | fzf)
     [[ -n "$namespace" ]] && kubectl config set-context --current --namespace="$namespace"
   fi
 }
@@ -103,7 +106,8 @@ function klogs() {
     echo "Error: fzf not installed"
     return 1
   fi
-  local pod=$(kubectl get pods -o name | fzf)
+  local pod
+  pod=$(kubectl get pods -o name | fzf)
   [[ -n "$pod" ]] && kubectl logs -f "$pod"
 }
 
@@ -116,7 +120,8 @@ function kexec() {
     return 1
   fi
   local shell="${1:-/bin/sh}"
-  local pod=$(kubectl get pods -o name | fzf)
+  local pod
+  pod=$(kubectl get pods -o name | fzf)
   [[ -n "$pod" ]] && kubectl exec -it "$pod" -- "$shell"
 }
 
@@ -130,6 +135,7 @@ function kpf() {
     return 1
   fi
   local port="${1:-8080}"
-  local pod=$(kubectl get pods -o name | fzf)
+  local pod
+  pod=$(kubectl get pods -o name | fzf)
   [[ -n "$pod" ]] && kubectl port-forward "$pod" "$port"
 }
