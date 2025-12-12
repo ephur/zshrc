@@ -86,6 +86,18 @@ This file is also **not included** in the repo.
 - `includes/late_*.zsh` — sourced after completion setup
 - `cache/` — holds precompiled and generated artifacts
 
+## 📖 Quick Reference
+
+For a complete list of available functions, aliases, and commands, see the **[CHEATSHEET.md](CHEATSHEET.md)** or run:
+
+```bash
+zhelp           # Display full cheatsheet
+zhelp git       # Show git functions only
+zhelp aws       # Show AWS functions only
+```
+
+---
+
 ## 🧠 Philosophy
 
 > Fast. Modular. Predictable. Built for terminal-first productivity.

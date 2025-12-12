@@ -1,3 +1,15 @@
+########################################
+# Environment Variables
+#
+# Core environment setup including:
+# - Editor and pager configuration (nvim/vi, less)
+# - History settings (file location, size)
+# - XDG paths and SSH agent socket
+# - FZF configuration with Dracula theme
+# - Special paths (cargo, CUDA, projects)
+# - Plugin-specific settings (zoxide, colorize)
+########################################
+
 # Set some useful environment vars
 export EDITOR=$(command -v nvim || echo vi)
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \

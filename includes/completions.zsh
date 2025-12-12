@@ -1,3 +1,14 @@
+########################################
+# Completion System Configuration
+#
+# Sets up zsh completion system with aggressive caching.
+# Features:
+# - Menu selection with colors matching LS_COLORS
+# - Case-insensitive, partial-word, and substring matching
+# - Cached completions for performance
+# - Groups and formats completion output
+########################################
+
 autoload -Uz compinit;
 # use zcompdump if available and less than 1 day old
 zcompdump="${ZSH_CACHE_DIR}/.zcompdump"

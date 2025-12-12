@@ -1,3 +1,15 @@
+########################################
+# Aliases
+#
+# Smart aliases that adapt to available tools:
+# - Modern alternatives: lsd/exa for ls, bat for cat, nvim for vi
+# - Git shortcuts: gpthis, gpfthis, gpthisdown
+# - Safe defaults: rm -i, mv -i, cp -i
+# - Platform-specific: pbcopy/pbpaste on Linux (via xsel)
+# - Package management: di/dr/ds (dnf)
+# - Tmux session management
+########################################
+
 # Default params for common utils
 command -v dust &>/dev/null && alias du='dust -bd 1'
 command -v nvim &>/dev/null && alias vi='nvim'

@@ -1,3 +1,11 @@
+########################################
+# Shell Options and Behavior
+#
+# Configures history behavior, directory stack, and VI editing mode.
+# History: shared across shells, deduplicated, persistent
+# VI mode: enabled with '!' binding for command line editing
+########################################
+
 # Set history behavior
 setopt append_history           # Dont overwrite history
 setopt extended_history         # Also record time and duration of commands.
