@@ -35,7 +35,7 @@ function gb() {
   local branch
   branch=$(git branch | fzf)
   if [[ -n "$branch" ]]; then
-    branch="${branch##*( |\*)}"  # Remove leading spaces and asterisk
+    branch=$(echo "$branch" | sed 's/^[* ]*//')  # Remove leading spaces and asterisk
     git checkout "$branch"
   fi
 }
