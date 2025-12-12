@@ -24,4 +24,4 @@ romkatv/powerlevel10k                                     # Fast, feature-rich Z
 
 junegunn/fzf           path:shell/key-bindings.zsh        # fzf keybindings (Ctrl-R, etc)
 junegunn/fzf           path:shell/completion.zsh          # fzf-enhanced completions
-ohmyzsh/ohmyzsh        path:plugins/fzf                   # fzf env setup and integration
+# ohmyzsh/ohmyzsh        path:plugins/fzf                 # fzf env setup (disabled: runs fzf --version, FZF_DEFAULT_COMMAND now set in early_20_environment.zsh)

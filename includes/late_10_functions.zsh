@@ -197,3 +197,17 @@ resrc() {
   fi
   exec zsh
 }
+
+# Custom tmux attach or new session function
+t() {
+    if tmux has-session -t default 2>/dev/null; then
+        tmux attach-session -t default
+    else
+        tmux new-session -d -s default -n TerraformDeploy
+        tmux new-window -t default -n LegacyDeploy
+        tmux new-window -t default -n TFModules
+        tmux new-window -t default -n General
+        tmux select-window -t default:0
+        tmux attach-session -t default
+    fi
+}

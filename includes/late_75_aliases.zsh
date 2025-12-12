@@ -33,13 +33,13 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 # tmux alias
 if command -v tmux &>/dev/null && [[ -z ${TMUX} ]]; then
   alias tmux='tmux -2'
-  alias t='tmux attach-session -t default || tmux new-session -s default'
+  # alias t='tmux attach-session -t default || tmux new-session -s default'
+  # Note: function t() is defined in late_10_functions.zsh, don't create alias here
   alias tnew='tmux new-session -s default'
   alias tlist='tmux list-sessions'
   alias tk='tmux kill-session -t default'
-else
-  alias t='echo "tmux not found or already in a session"'
 fi
+# Note: removed 'else' clause that defined alias t, as it conflicts with function t()
 
 # Package management aliases
 if command -v dnf &>/dev/null; then

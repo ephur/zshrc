@@ -138,7 +138,8 @@ if which zoxide >/dev/null 2>&1; then
   export _ZO_FZF_OPTS=${FZF_DEFAULT_OPTS}
   zoxide_init_cache="${ZSH_CACHE_DIR}/zoxide_init.zsh"
   is_stale_file "${zoxide_init_cache}" && zoxide init zsh > "${zoxide_init_cache}"
-  eval "$(cat "${zoxide_init_cache}")"
+  # Use source_compiled instead of eval with cat for better performance (~10ms saved)
+  source_compiled "${zoxide_init_cache}"
 else
   echo "zoxide not found, consider installing it!"
 fi

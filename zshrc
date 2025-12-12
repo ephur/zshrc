@@ -39,6 +39,9 @@ source_compiled "$ALL_COMBINED"
 [[ -f "${ZSH}/secrets.zsh" ]] && source_compiled "${ZSH}/secrets.zsh"
 [[ -f "${ZSH}/work.zsh" ]] && source_compiled "${ZSH}/work.zsh"
 
+# Clear stale file check cache (used during startup to avoid repeated date calls)
+unset _STALE_CHECK_NOW
+
 # End tracing if enabled
 if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
   unsetopt xtrace
