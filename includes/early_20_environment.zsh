@@ -37,8 +37,9 @@ esac
 
 ### konsole/yakuake don't handle blurring in KDE/Plasa 5 right, so work around
 ### this needs to happen early before tmux or antibody runs
-if [[ ${XDG_SESSION_DESKTOP} = ("KDE"|"plasma") ]] && [[ -z ${SUSPECTED_TERM_PID} ]]; then
-  SUSPECTED_TERM_PID=${PPID}
+# shellcheck disable=SC1073,SC1072,SC1027,SC1036,SC1009
+if [[ ${XDG_SESSION_DESKTOP} = ("KDE"|"plasma") ]] && [[ -z "${SUSPECTED_TERM_PID}" ]]; then
+  SUSPECTED_TERM_PID="${PPID}"
 fi
 
 # Check some special paths to add/update env

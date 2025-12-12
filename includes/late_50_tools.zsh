@@ -54,8 +54,9 @@ if [ -d "${HOME}/.pyenv" ]; then
   pyenv_init_cache="${ZSH_CACHE_DIR}/pyenv_init.zsh"
 
   # Refresh init cache in background if stale
+  # shellcheck disable=SC1073,SC1072,SC1035,SC1009
   if is_stale_file "${pyenv_init_cache}"; then
-    (pyenv init - > "${pyenv_init_cache}") &!
+    (pyenv init - > "${pyenv_init_cache}") &!  # zsh-specific &! syntax
   fi
 
   # Lazy load pyenv init on first use

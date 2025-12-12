@@ -1,12 +1,14 @@
 # ⚡ ephur's Zsh Configuration
 
+[![Zsh Config Tests](https://github.com/ephur/zshrc/actions/workflows/test.yml/badge.svg)](https://github.com/ephur/zshrc/actions/workflows/test.yml)
+
 A highly optimized, purpose-built Zsh configuration focused on **startup speed**, **modular organization**, and a clean, reproducible shell experience across multiple platforms (macOS, WSL, Linux distros).
 
 ---
 
 ## 🚀 Features
 
-- 🧠 **Sub-100ms startup time** (measured consistently with benchmarking)
+- 🧠 **Sub-150ms startup time** (measured consistently with benchmarking)
 - 🔌 **Antidote plugin manager** (compiled + cached for maximum speed)
 - 📦 **Modular `includes/` directory structure**
   - Early/late phase loading for ordered control
@@ -50,7 +52,7 @@ Run this to benchmark shell startup:
 time zsh -i --login -c echo
 ```
 
-You should see results well below **100ms** real time.
+You should see results well below **150ms** real time.
 
 ---
 

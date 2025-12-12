@@ -86,7 +86,7 @@ alias cless='less -R'
 # Some platform specific items
 case ${OSTYPE} in
   linux*)
-    if [ ${IS_WSL} -eq 0 ]; then
+    if [ "${IS_WSL}" -eq 0 ]; then
       alias pbcopy='xsel --clipboard --input'
       alias pbpaste='xsel --clipboard --output'
     fi

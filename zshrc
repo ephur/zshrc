@@ -9,11 +9,15 @@ fi
 export ZSH="${HOME}/.zsh"
 export ZSH_CACHE_DIR="${ZSH}/cache"
 export ZSH_INCLUDES="${ZSH}/includes"
-[ -d "${ZSH_CACHE_DIR}" ] || {
-  [ -x /bin/mkdir ] && /bin/mkdir -p "${ZSH_CACHE_DIR}" || \
-  [ -x /usr/bin/mkdir ] && /usr/bin/mkdir -p "${ZSH_CACHE_DIR}" || \
-  command mkdir -p "${ZSH_CACHE_DIR}"
-}
+if [ ! -d "${ZSH_CACHE_DIR}" ]; then
+  if [ -x /bin/mkdir ]; then
+    /bin/mkdir -p "${ZSH_CACHE_DIR}"
+  elif [ -x /usr/bin/mkdir ]; then
+    /usr/bin/mkdir -p "${ZSH_CACHE_DIR}"
+  else
+    command mkdir -p "${ZSH_CACHE_DIR}"
+  fi
+fi
 
 # Load core functions
 ZSH_INIT_FILE="${ZSH_INCLUDES}/init.zsh"
