@@ -60,7 +60,7 @@ function prompt_goenv_version() {
 # powerlevel 10 custom kube_context segment
 prompt_kube_context() {
   # powerlevel10 has a builtin context, but want some extra features
-  CLUSTER_FILE=${ZSH_CACHE_DIR}/k8s-clusters
+  CLUSTER_FILE=${ZSH_DIR}/k8s-clusters
   local context=`test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2`
   if [[ -z $context ]]; then
     context='unknown'
@@ -104,6 +104,7 @@ if [ -z "${SSH_CLIENT}" ]; then
     aws
     goenv_version
     pyenv_version
+    kube_context
     vcs
     newline
     dir_writable

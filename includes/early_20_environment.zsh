@@ -68,3 +68,14 @@ export FZF_DEFAULT_OPTS='
   --color info:141,prompt:84,spinner:212,pointer:212,marker:212
   --height 100%
 '
+
+# FZF default command setup (replaces ohmyzsh/ohmyzsh fzf plugin to save ~9ms)
+if [[ -z "$FZF_DEFAULT_COMMAND" ]]; then
+  if (( $+commands[fd] )); then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+  elif (( $+commands[rg] )); then
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
+  elif (( $+commands[ag] )); then
+    export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git'
+  fi
+fi

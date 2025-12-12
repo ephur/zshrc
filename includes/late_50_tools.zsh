@@ -56,9 +56,10 @@ if [ -d "${HOME}/.pyenv" ]; then
 fi
 
 # setup for nvm
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && source_compiled "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# @TODO: Optimize
+# export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && source_compiled "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # setup for goenv (requires goenv 2+)
 if [ -d "${HOME}/.goenv" ]; then
@@ -83,29 +84,31 @@ if [ -d "${HOME}/.goenv" ]; then
   }
 fi
 
+# @TODO: Optimize
 # setup for rbenv
-if [ -d "${HOME}/.rbenv" ]; then
-  export PATH="${HOME}/.rbenv/bin:${PATH}"
-  rbenv_init_cache="${ZSH_CACHE_DIR}/rbenv_init.zsh"
-  if [[ ! -f "${rbenv_init_cache}" ]]; then
-    $(rbenv init - zsh > ${rbenv_init_cache})
-  fi
-  for f in ${rbenv_init_cache}(N.mh+24); do
-    $(rbenv init - zsh > ${rbenv_init_cache})
-  done
-  source_compiled ${rbenv_init_cache}
-fi
+# if [ -d "${HOME}/.rbenv" ]; then
+#   export PATH="${HOME}/.rbenv/bin:${PATH}"
+#   rbenv_init_cache="${ZSH_CACHE_DIR}/rbenv_init.zsh"
+#   if [[ ! -f "${rbenv_init_cache}" ]]; then
+#     $(rbenv init - zsh > ${rbenv_init_cache})
+#   fi
+#   for f in ${rbenv_init_cache}(N.mh+24); do
+#     $(rbenv init - zsh > ${rbenv_init_cache})
+#   done
+#   source_compiled ${rbenv_init_cache}
+# fi
 
+# @TODO: Optimize
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-if [ -f "$HOME/.rvm/scripts/rvm" ]; then
-  source_compiled "$HOME/.rvm/scripts/rvm"
-  export PATH="$PATH:$HOME/.rvm/bin"
-fi
+# if [ -f "$HOME/.rvm/scripts/rvm" ]; then
+#   source_compiled "$HOME/.rvm/scripts/rvm"
+#   export PATH="$PATH:$HOME/.rvm/bin"
+# fi
 
 # KREW (kubectl plugin manager)
-if which kubectl-krew >/dev/null 2>&1; then
-  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-fi
+# if which kubectl-krew >/dev/null 2>&1; then
+#   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# fi
 
 # CircleCI CLI tool
 if which circleci > /dev/null 2>&1; then
@@ -135,7 +138,8 @@ if which zoxide >/dev/null 2>&1; then
   export _ZO_FZF_OPTS=${FZF_DEFAULT_OPTS}
   zoxide_init_cache="${ZSH_CACHE_DIR}/zoxide_init.zsh"
   is_stale_file "${zoxide_init_cache}" && zoxide init zsh > "${zoxide_init_cache}"
-  eval "$(cat "${zoxide_init_cache}")"
+  # Use source_compiled instead of eval with cat for better performance (~10ms saved)
+  source_compiled "${zoxide_init_cache}"
 else
   echo "zoxide not found, consider installing it!"
 fi

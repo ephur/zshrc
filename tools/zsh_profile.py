@@ -73,13 +73,13 @@ unsetopt xtrace prompt_subst
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python script.py <log_file_path>")
+        print("Usage: python script.py <log_file_path> [threshold_ms]")
         sys.exit(1)
 
     log_file_path = sys.argv[1]
-    threshold_ms = 7  # Update with your desired threshold in milliseconds
+    threshold_ms = float(sys.argv[2]) if len(sys.argv) > 2 else 5  # Default to 5ms for aggressive optimization
     log_entries = parse_log_file(log_file_path)
 
     for entry in log_entries.entries:
         if entry.elapsed_time > threshold_ms:
-            print(f"{entry.elapsed_time} {entry.source}:{entry.line_number} {entry.command}")
+            print(f"{entry.elapsed_time:.1f}ms {entry.source}:{entry.line_number} {entry.command}")

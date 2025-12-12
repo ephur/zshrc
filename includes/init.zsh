@@ -9,11 +9,18 @@ is_stale_file() {
     return 0  # Treat missing files as stale
   fi
 
-  local now epoch
-  now=$(date +%s)
-  epoch=$(stat -f %m "$file" 2>/dev/null)
+  # Cache the current time to avoid repeated calls
+  # Use zsh's builtin EPOCHSECONDS instead of external date command (~10ms faster)
+  if [[ -z "$_STALE_CHECK_NOW" ]]; then
+    _STALE_CHECK_NOW=$EPOCHSECONDS
+  fi
 
-  (( (now - epoch) > max_age_seconds ))
+  # Use zsh's builtin zstat module for fast file stat (much faster than external stat command)
+  zmodload -F zsh/stat b:zstat 2>/dev/null
+  local epoch
+  epoch=$(zstat +mtime "$file" 2>/dev/null)
+
+  (( (_STALE_CHECK_NOW - epoch) > max_age_seconds ))
 }
 
 prepend_path() {

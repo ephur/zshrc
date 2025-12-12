@@ -13,3 +13,4 @@ wsl
 cache/
 **/*.zwc
 .vscode/
+CLAUDE.md
