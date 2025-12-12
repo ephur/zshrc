@@ -21,7 +21,9 @@ fi
 
 # Load core functions
 ZSH_INIT_FILE="${ZSH_INCLUDES}/init.zsh"
-[[ ! -f "${ZSH_INIT_FILE}.zwc" || "${ZSH_INIT_FILE}" -nt "${ZSH_INIT_FILE}.zwc" ]] && zcompile "${ZSH_INIT_FILE}"
+ZSH_INIT_COMPILED="${ZSH_CACHE_DIR}/compiled/includes_init.zsh.zwc"
+[[ -d "${ZSH_CACHE_DIR}/compiled" ]] || mkdir -p "${ZSH_CACHE_DIR}/compiled"
+[[ ! -f "${ZSH_INIT_COMPILED}" || "${ZSH_INIT_FILE}" -nt "${ZSH_INIT_COMPILED}" ]] && zcompile "${ZSH_INIT_COMPILED}" "${ZSH_INIT_FILE}"
 source "${ZSH_INIT_FILE}"
 
 # Combine, and compile all includes

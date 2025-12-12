@@ -47,7 +47,25 @@ clean_path() {
 source_compiled() {
   local file="$1"
   [[ -f "$file" ]] || return 1
-  [[ ! -f "${file}.zwc" || "$file" -nt "${file}.zwc" ]] && zcompile "$file"
+
+  local zwc_file
+  # If file is in cache directory, compile alongside it
+  # Otherwise, compile to cache/compiled/ directory
+  if [[ "$file" == ${ZSH_CACHE_DIR}/* ]]; then
+    zwc_file="${file}.zwc"
+  else
+    # Create compiled subdirectory in cache
+    local compiled_dir="${ZSH_CACHE_DIR}/compiled"
+    [[ -d "$compiled_dir" ]] || mkdir -p "$compiled_dir"
+
+    # Generate cache filename from source path (replace / with _)
+    local rel_path="${file#${ZSH}/}"
+    local cache_name="${rel_path//\//_}"
+    zwc_file="${compiled_dir}/${cache_name}.zwc"
+  fi
+
+  # Compile if missing or stale
+  [[ ! -f "$zwc_file" || "$file" -nt "$zwc_file" ]] && zcompile "$zwc_file" "$file"
   source "$file"
 }
 
