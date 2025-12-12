@@ -214,7 +214,7 @@ if [[ "$QUICK_MODE" != true ]]; then
   # Use -i --login -c echo like normal usage
   local sum=0
   local count=5
-  for i in {1..$count}; do
+  for ((i=1; i<=count; i++)); do
     local iter_time=$( { TIMEFMT='%*E'; time zsh -i --login -c echo } 2>&1 )
     # Parse the time value
     if [[ "$iter_time" =~ ([0-9]+):([0-9]+)\.([0-9]+) ]]; then
