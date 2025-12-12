@@ -3,7 +3,6 @@
 #
 # Functions for common git operations:
 # - retag: Delete and recreate a git tag, then force push to origin
-# - gcm: Clean up merged branches
 # - gb: Interactive branch switcher (fzf)
 # - gca: Quick commit amend without editing message
 # - glo: Git log with fzf preview

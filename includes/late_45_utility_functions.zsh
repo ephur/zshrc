@@ -10,7 +10,6 @@
 # - uuid: Generate UUID
 # - b64e / b64d: Base64 encode/decode
 # - ts: Timestamp conversion
-# - mkcd: Create directory and cd into it
 # - up: Go up N directories
 # - large: Find largest files/dirs in current directory
 # - pkill-fzf: Kill process by name with fzf
