@@ -76,7 +76,7 @@ prompt_kube_context() {
   if [[ -z $context ]]; then
     context='unknown'
   fi
-  if [[ "$context" =~ arn:aws* ]]; then
+  if [[ "$context" =~ '^arn:aws' ]]; then
     context=${context#*/}
   fi
   local namespace
