@@ -5,8 +5,6 @@
 # - awsregion: Get or set AWS_DEFAULT_REGION
 # - unset_aws: Clear all AWS_* environment variables
 # - awsp: List and switch AWS profiles
-# - ssm: Get SSM parameter value
-# - secret: Get secret from Secrets Manager
 # - whoami-aws: Show current AWS identity
 ########################################
 
