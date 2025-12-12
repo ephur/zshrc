@@ -1,4 +1,15 @@
-# improve over typical "antidote load" ; cache and compile everything
+########################################
+# Antidote Plugin Manager Setup
+#
+# Optimized plugin loading that avoids slow "antidote load" at runtime.
+# Plugins are bundled to a cache file and precompiled to .zwc bytecode.
+# Auto-updates if cache is missing or stale (> 24 hours).
+#
+# Functions:
+# - update_zsh_plugins: Manually update and recompile all plugins
+########################################
+
+# Update plugins: bundle, update, and precompile everything
 function update_zsh_plugins() {
   # This function can be manually run to update the plugins, it will also be run automatically
   # if the antidote_plugins.zsh file is stale (over 1 day old) or missing.

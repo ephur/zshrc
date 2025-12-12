@@ -1,3 +1,13 @@
+########################################
+# PowerLevel10k Prompt Configuration
+#
+# Custom prompt segments and PowerLevel10k setup.
+# Features:
+# - Fast pyenv version detection (without calling pyenv)
+# - Fast goenv version detection (without calling goenv)
+# - Optimized to avoid slow subprocess calls during prompt rendering
+########################################
+
 # Custom Prompt Segments
 function prompt_pyenv_version() {
   local version

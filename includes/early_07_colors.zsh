@@ -1,3 +1,11 @@
+########################################
+# Color Configuration
+#
+# Sets up dircolors for ls and completion system colors.
+# Uses cached dircolors output for performance (~10ms saved).
+# Platform-specific: gdircolors on macOS, dircolors on Linux.
+########################################
+
 # Handle dircolors, must be done before applying zstyles that use them
 case $OSTYPE in
   darwin*)

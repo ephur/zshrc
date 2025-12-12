@@ -1,3 +1,18 @@
+########################################
+# Development Tools Setup
+#
+# Lazy-loading and initialization for development tools:
+# - Homebrew (macOS)
+# - pyenv (Python version management) - lazy loaded
+# - goenv (Go version management) - lazy loaded
+# - zoxide (smart directory jumping) - immediate
+# - CircleCI CLI completions
+# - 1Password CLI completions
+# - kubectl/kubecolor integration
+#
+# Lazy loading saves ~50ms on startup by deferring full init until first use.
+########################################
+
 # Setup homebrew paths
 if $IS_OSX && [[ -d /opt/homebrew/bin ]]; then
   export PATH="/opt/homebrew/bin:${PATH}"

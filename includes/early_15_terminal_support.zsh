@@ -1,3 +1,11 @@
+########################################
+# Terminal-Specific Support
+#
+# Handles terminal-specific configurations:
+# - VTE integration for Tilix and compatible terminals
+# - Window blur effects for KDE Plasma terminals (yakuake, konsole, alacritty)
+########################################
+
 ### Some terminals need VTE sourced in
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   source /etc/profile.d/vte.sh
