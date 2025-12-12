@@ -1,5 +1,7 @@
 # ⚡ ephur's Zsh Configuration
 
+[![Zsh Config Tests](https://github.com/ephur/zshrc/actions/workflows/test.yml/badge.svg)](https://github.com/ephur/zshrc/actions/workflows/test.yml)
+
 A highly optimized, purpose-built Zsh configuration focused on **startup speed**, **modular organization**, and a clean, reproducible shell experience across multiple platforms (macOS, WSL, Linux distros).
 
 ---
