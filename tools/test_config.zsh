@@ -135,13 +135,42 @@ REQUIRED_FUNCTIONS=(
   "zhelp"
 )
 
-MISSING_FUNCTIONS=0
-for func in "${REQUIRED_FUNCTIONS[@]}"; do
-  if ! zsh -i -c "type $func" &>/dev/null; then
-    echo "${RED}✗${NC} Function not found: $func"
-    ((MISSING_FUNCTIONS++)) || true
-  fi
-done
+# Check if running in CI or minimal environment
+if [[ -n "$CI" ]] || [[ ! -f "${HOME}/.zshrc" ]]; then
+  # CI mode: Source files directly
+  # Set up minimal environment
+  export ZSH="${ZSH_ROOT}"
+  export ZSH_CACHE_DIR="${ZSH}/cache"
+
+  # Create cache dir if needed
+  mkdir -p "${ZSH_CACHE_DIR}"
+
+  # Source init.zsh first (has core functions)
+  source "${ZSH_ROOT}/includes/init.zsh" 2>/dev/null || true
+
+  # Source all function files
+  for file in "${ZSH_ROOT}"/includes/late_*.zsh; do
+    [[ -f "$file" ]] && source "$file" 2>/dev/null || true
+  done
+
+  # Check functions in current shell
+  MISSING_FUNCTIONS=0
+  for func in "${REQUIRED_FUNCTIONS[@]}"; do
+    if ! type "$func" &>/dev/null; then
+      echo "${RED}✗${NC} Function not found: $func"
+      ((MISSING_FUNCTIONS++)) || true
+    fi
+  done
+else
+  # Normal mode: Use interactive shell
+  MISSING_FUNCTIONS=0
+  for func in "${REQUIRED_FUNCTIONS[@]}"; do
+    if ! zsh -i -c "type $func" &>/dev/null; then
+      echo "${RED}✗${NC} Function not found: $func"
+      ((MISSING_FUNCTIONS++)) || true
+    fi
+  done
+fi
 
 if [[ $MISSING_FUNCTIONS -eq 0 ]]; then
   echo "${GREEN}✓${NC} All required functions exist"
