@@ -196,8 +196,11 @@ if [[ $COMPILE_ERRORS -eq 0 ]]; then
   echo "${GREEN}✓${NC} All files compile to .zwc"
 
   if [[ "$FIX_MODE" == false ]]; then
-    # Clean up test compilation artifacts
-    find . -name "*.zwc" -newer zshrc -delete 2>/dev/null
+    # Clean up test compilation artifacts (they belong in cache/, not source dirs)
+    # Use (N) glob qualifier to make pattern null if no matches (zsh-specific)
+    local -a cleanup_files
+    cleanup_files=(zshrc.zwc includes/*.zwc(N) .antidote/*.zwc(N))
+    [[ ${#cleanup_files[@]} -gt 0 ]] && rm -f "${cleanup_files[@]}"
   fi
 else
   ERRORS=$((ERRORS + COMPILE_ERRORS))
