@@ -5,6 +5,13 @@ if [[ "$PROFILE_STARTUP" == true || "$PROFILE_ALL" == true ]]; then
   setopt xtrace
 fi
 
+# Powerlevel10k instant prompt: paints a cached prompt immediately while the
+# rest of init runs behind it. Keep near the top; anything that prints to the
+# console during startup must run before this block (or be silenced).
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Bootstrap core paths
 export ZSH="${HOME}/.zsh"
 export ZSH_CACHE_DIR="${ZSH}/cache"

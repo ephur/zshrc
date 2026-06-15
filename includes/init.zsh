@@ -87,6 +87,7 @@ esac
 
 all_paths=(
   "${HOME}/bin"
+  "${HOME}/.local/bin"
   "/usr/local/bin"
   "/usr/local/sbin"
   "/usr/bin"
@@ -101,6 +102,7 @@ all_paths=(
   "/mnt/c/Program Files/Kubernetes/Minikube"
   "/var/lib/snapd/snap/bin"
   "/opt/homebrew/opt/mysql/bin"
+  "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 )
 
 for dir in "${all_paths[@]}"; do

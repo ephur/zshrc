@@ -143,7 +143,7 @@ fi
 if which op >/dev/null 2>&1; then
   op_completions="${ZSH_CACHE_DIR}/op_completions.zsh"
   if is_stale_file "${op_completions}"; then
-    op completion zsh > ${op_completions}
+    op completion zsh > ${op_completions} 2>/dev/null
   fi
   source_compiled "${op_completions}"
 fi
@@ -158,6 +158,35 @@ if which zoxide >/dev/null 2>&1; then
   source_compiled "${zoxide_init_cache}"
 else
   echo "zoxide not found, consider installing it!"
+fi
+
+# Configure uv (fast Python package manager)
+if (( $+commands[uv] )); then
+  if [[ -z "${UV_CACHE_DIR}" ]]; then
+    if [[ -n "${XDG_CACHE_HOME}" ]]; then
+      export UV_CACHE_DIR="${XDG_CACHE_HOME}/uv"
+    elif (( IS_MACOS )); then
+      export UV_CACHE_DIR="${HOME}/Library/Caches/uv"
+    else
+      export UV_CACHE_DIR="${HOME}/.cache/uv"
+    fi
+  fi
+
+  if [[ -z "${UV_PYTHON_INSTALL_DIR}" ]]; then
+    if [[ -n "${XDG_DATA_HOME}" ]]; then
+      export UV_PYTHON_INSTALL_DIR="${XDG_DATA_HOME}/uv/python"
+    elif (( IS_MACOS )); then
+      export UV_PYTHON_INSTALL_DIR="${HOME}/Library/Application Support/uv/python"
+    else
+      export UV_PYTHON_INSTALL_DIR="${HOME}/.local/share/uv/python"
+    fi
+  fi
+
+  uv_completion_cache="${ZSH_CACHE_DIR}/uv_completion.zsh"
+  if is_stale_file "${uv_completion_cache}"; then
+    uv generate-shell-completion zsh > "${uv_completion_cache}"
+  fi
+  source_compiled "${uv_completion_cache}"
 fi
 
 # if PHP composer is installed, add it to the path
