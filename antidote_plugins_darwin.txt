@@ -11,12 +11,11 @@ ohmyzsh/ohmyzsh        path:plugins/gitfast               # Faster Git completio
 # ohmyzsh/ohmyzsh        path:plugins/golang              # Go-specific aliases and setup
 # ohmyzsh/ohmyzsh        path:plugins/sudo                # Sudo re-run shortcut with Esc-Esc
 
-zsh-users/zsh-syntax-highlighting                         # Syntax highlights typed commands
 zsh-users/zsh-completions                                 # Extra completions for many tools
 zsh-users/zsh-autosuggestions                             # History-based command suggestions
 
 # supercrabtree/k                                         # Colorful `ls` + tree alternative
-agkozak/zsh-z                                             # Jump to frequently used directories
+# agkozak/zsh-z removed: zoxide (late_50_tools.zsh) overwrote its `z` anyway
 romkatv/powerlevel10k                                     # Fast, feature-rich Zsh prompt
 # romkatv/zsh-prompt-benchmark                            # Measure prompt rendering time
 # jeffreytse/zsh-vi-mode                                  # Vi-mode keybindings with indicators
@@ -24,4 +23,7 @@ romkatv/powerlevel10k                                     # Fast, feature-rich Z
 
 junegunn/fzf           path:shell/key-bindings.zsh        # fzf keybindings (Ctrl-R, etc)
 junegunn/fzf           path:shell/completion.zsh          # fzf-enhanced completions
+
+# Keep syntax highlighting last: it wraps ZLE widgets defined by other plugins
+zsh-users/zsh-syntax-highlighting                         # Syntax highlights typed commands
 # ohmyzsh/ohmyzsh        path:plugins/fzf                 # fzf env setup (disabled: runs fzf --version, FZF_DEFAULT_COMMAND now set in early_20_environment.zsh)

@@ -143,7 +143,7 @@ fi
 if which op >/dev/null 2>&1; then
   op_completions="${ZSH_CACHE_DIR}/op_completions.zsh"
   if is_stale_file "${op_completions}"; then
-    op completion zsh > ${op_completions}
+    op completion zsh > ${op_completions} 2>/dev/null
   fi
   source_compiled "${op_completions}"
 fi

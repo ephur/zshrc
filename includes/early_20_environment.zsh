@@ -14,8 +14,8 @@
 export EDITOR=$(command -v nvim || echo vi)
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
 :stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
-export LESSCHARSET='latin1'
-export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
+# LESSCHARSET removed: forcing latin1 garbled UTF-8 (nerd fonts, box drawing)
+[ -x /usr/bin/lesspipe.sh ] && export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
 export PAGER=less
 
 export KEYTIMEOUT=1     # Set the key timeout to 1/100th of a second
@@ -59,8 +59,7 @@ case $OSTYPE in
   ;;
 esac
 
-# z/zoxide paths
-_Z_DATA=~/.zsh_dir_history
+# zoxide paths (_Z_DATA removed along with the zsh-z plugin; zoxide owns `z` now)
 _ZO_DATA=~/.zo
 
 # control history

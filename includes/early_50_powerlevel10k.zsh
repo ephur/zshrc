@@ -69,21 +69,35 @@ function prompt_goenv_version() {
 
 # powerlevel 10 custom kube_context segment
 prompt_kube_context() {
-  # powerlevel10 has a builtin context, but want some extra features
-  CLUSTER_FILE=${ZSH_DIR}/k8s-clusters
-  local context
-  context=$(test -f ~/.kube/config && grep current-context ~/.kube/config | cut -d\  -f2)
-  if [[ -z $context ]]; then
-    context='unknown'
+  # powerlevel10 has a builtin context, but want some extra features.
+  # Context AND namespace are parsed straight from the kubeconfig file in one
+  # awk pass; the previous `kubectl config get-contexts` call cost ~110ms on
+  # every prompt render.
+  local CLUSTER_FILE="${ZSH}/k8s-clusters"
+  local kubeconfig="${KUBECONFIG%%:*}"
+  [[ -z "$kubeconfig" ]] && kubeconfig="${HOME}/.kube/config"
+
+  local context namespace
+  if [[ -r "$kubeconfig" ]]; then
+    local parsed
+    parsed=$(awk '
+      function dq(s) { gsub(/"/, "", s); return s }
+      /^current-context:/       { ctx = dq($2) }
+      /^- context:/             { ns = "" }
+      /^[[:space:]]+namespace:/ { ns = dq($2) }
+      /^[[:space:]]+name:/      { map[dq($2)] = ns }
+      END { print ctx; print map[ctx] }
+    ' "$kubeconfig")
+    local -a lines=("${(f)parsed}")
+    context="${lines[1]}"
+    namespace="${lines[2]}"
   fi
+  [[ -z "$context" ]] && context='unknown'
+  [[ -z "$namespace" ]] && namespace='default'
   if [[ "$context" =~ '^arn:aws' ]]; then
     context=${context#*/}
   fi
-  local namespace
-  namespace=$(kubectl config get-contexts --no-headers | grep '^\*' | awk '{ print $5 }')
-  if [ "${namespace}" = "" ]; then
-    namespace='default'
-  fi
+
   local env
   env=$(test -f "${CLUSTER_FILE}" && grep "${context}" "${CLUSTER_FILE}" | cut -d\; -f1)
   if [ -z "${env}" ]; then
@@ -91,6 +105,10 @@ prompt_kube_context() {
   fi
   p10k segment -s "${env}" -i $'\uE7B2' -t "${context}/${namespace}"
 }
+
+# Optional: render the kube segment only while typing kube-related commands
+# (hides it the rest of the time). Uncomment to enable.
+# typeset -g POWERLEVEL9K_KUBE_CONTEXT_SHOW_ON_COMMAND='kubectl|kubecolor|helm|k9s|stern'
 
 # Easily switch primary foreground/background colors
 typeset -g DEFAULT_BACKGROUND=237
